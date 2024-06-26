@@ -5,6 +5,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+/// <summary>
+/// ボタンのテキストで画面遷移 > 文字ボタンオブジェクト
+/// </summary>
 public class ChangeSceneByButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private TextMeshProUGUI buttonText;

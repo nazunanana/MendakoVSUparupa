@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// gridオブジェクトクラス > OneGridプレハブ
+/// </summary>
 public class BoardGrid : MonoBehaviour {
     private Vector2 posID;
     private int type; // マスの種類

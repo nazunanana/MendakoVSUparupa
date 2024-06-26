@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// イラストアイコンのクリックをsprite名で判別して画面遷移 > アイコンボタンオブジェクト
+/// </summary>
 public class GameIconClick : MonoBehaviour
 {
     private Button buttonComponent;

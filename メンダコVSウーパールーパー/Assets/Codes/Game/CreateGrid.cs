@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 強調表示, マスカーソル選択用オブジェクトの生成 > gridCreater
+/// </summary>
 public class CreateGrid : MonoBehaviour
 {
     public GameObject gridObject;

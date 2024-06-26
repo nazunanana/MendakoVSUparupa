@@ -35,8 +35,8 @@ public class PieceState : MonoBehaviour
         return isReal;
     }
 
-    public position{
+    public Vector2 getsetPosition{
         get{ return position; }
-        set{ position = valse; }
+        set{ position = value; }
     }
 }

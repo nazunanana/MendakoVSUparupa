@@ -15,7 +15,7 @@ C:/Users/smile/Box/SUMIRE_coding/MendakoVSUparupa/メンダコVSウーパール�
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-50024
+52089
 Successfully changed project path to: C:/Users/smile/Box/SUMIRE_coding/MendakoVSUparupa/メンダコVSウーパールーパー
 C:/Users/smile/Box/SUMIRE_coding/MendakoVSUparupa/メンダコVSウーパールーパー
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -47,11 +47,11 @@ C:/Users/smile/Box/SUMIRE_coding/MendakoVSUparupa/メンダコVSウーパール�
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [53068] Host "[IP] 192.168.1.100 [Port] 0 [Flags] 2 [Guid] 551890112 [EditorId] 551890112 [Version] 1048832 [Id] WindowsEditor(7,Muya_PC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+Player connection [40344] Host "[IP] 192.168.1.100 [Port] 0 [Flags] 2 [Guid] 1775348337 [EditorId] 1775348337 [Version] 1048832 [Id] WindowsEditor(7,Muya_PC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
 
-Player connection [53068] Host "[IP] 192.168.1.100 [Port] 0 [Flags] 2 [Guid] 551890112 [EditorId] 551890112 [Version] 1048832 [Id] WindowsEditor(7,Muya_PC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [40344] Host "[IP] 192.168.1.100 [Port] 0 [Flags] 2 [Guid] 1775348337 [EditorId] 1775348337 [Version] 1048832 [Id] WindowsEditor(7,Muya_PC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
 
-Refreshing native plugins compatible for Editor in 582.88 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 240.56 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2021.3.24f1 (cf10dcf7010d)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.3.24f1/Editor/Data/Resources/UnitySubsystems
@@ -67,43 +67,241 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.3.24f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.3.24f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.3.24f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56652
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56928
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.24f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.004923 seconds.
+Registered in 0.004704 seconds.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 45.29 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 42.93 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  0.422 seconds
+- Completed reload, in  0.379 seconds
 Domain Reload Profiling:
-	ReloadAssembly (423ms)
+	ReloadAssembly (379ms)
 		BeginReloadAssembly (51ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (0ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
 			CreateAndSetChildDomain (0ms)
-		EndReloadAssembly (306ms)
-			LoadAssemblies (50ms)
+		EndReloadAssembly (268ms)
+			LoadAssemblies (49ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (68ms)
+			SetupTypeCache (60ms)
 			ReleaseScriptCaches (0ms)
-			RebuildScriptCaches (17ms)
-			SetupLoadedEditorAssemblies (179ms)
+			RebuildScriptCaches (16ms)
+			SetupLoadedEditorAssemblies (155ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (14ms)
+				InitializePlatformSupportModulesInManaged (6ms)
 				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (46ms)
+				RefreshPlugins (43ms)
 				BeforeProcessingInitializeOnLoad (1ms)
-				ProcessInitializeOnLoadAttributes (80ms)
-				ProcessInitializeOnLoadMethodAttributes (38ms)
+				ProcessInitializeOnLoadAttributes (71ms)
+				ProcessInitializeOnLoadMethodAttributes (33ms)
 				AfterProcessingInitializeOnLoad (0ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (0ms)
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 5.209433 seconds.
+Registered in 3.972687 seconds.
 Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image C:\Users\smile\Box\SUMIRE_coding\MendakoVSUparupa\メンダコVSウーパールーパー\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+Symbol file LoadedFromMemory doesn't match image C:\Users\smile\Box\SUMIRE_coding\MendakoVSUparupa\メンダコVSウーパールーパー\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 43.41 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  5.881 seconds
+Domain Reload Profiling:
+	ReloadAssembly (5884ms)
+		BeginReloadAssembly (75ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (4ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (12ms)
+		EndReloadAssembly (5543ms)
+			LoadAssemblies (4693ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (177ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (29ms)
+			SetupLoadedEditorAssemblies (346ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (4ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (44ms)
+				BeforeProcessingInitializeOnLoad (63ms)
+				ProcessInitializeOnLoadAttributes (220ms)
+				ProcessInitializeOnLoadMethodAttributes (10ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (3ms)
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Refreshing native plugins compatible for Editor in 0.43 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3132 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 54 unused Assets / (115.4 KB). Loaded Objects now: 3588.
+Memory consumption went from 119.0 MB to 118.9 MB.
+Total: 2.567600 ms (FindLiveObjects: 0.155300 ms CreateObjectMapping: 0.061100 ms MarkObjects: 2.274000 ms  DeleteObjects: 0.076700 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 8106.802031 seconds.
+  path: Assets/UIs/StartCanvas_入力Variant.prefab
+  artifactKey: Guid(80884a613207b0b4589f68b69cf8d917) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UIs/StartCanvas_入力Variant.prefab using Guid(80884a613207b0b4589f68b69cf8d917) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'acd24fbeb3e3b8b41f2abbf5ed8234ec') in 0.121112 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000018 seconds.
+  path: Assets/TextMesh Pro/Fonts/03スマートフォントUI SDF.asset
+  artifactKey: Guid(c475b07d7e53bc94cb59e3306c5d4211) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TextMesh Pro/Fonts/03スマートフォントUI SDF.asset using Guid(c475b07d7e53bc94cb59e3306c5d4211) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b0f468e7b61f38d0c5ff7575697291b6') in 0.126566 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000020 seconds.
+  path: Assets/TextMesh Pro/Fonts/Kaisotai-Next-UP-B SDF 1.asset
+  artifactKey: Guid(218d5340aec6f9749971ba9ab4b22d30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TextMesh Pro/Fonts/Kaisotai-Next-UP-B SDF 1.asset using Guid(218d5340aec6f9749971ba9ab4b22d30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '665645386db840340dffb7636a46d4ff') in 0.096313 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000020 seconds.
+  path: Assets/TextMesh Pro/Fonts/komorebi-gothic-P SDF.asset
+  artifactKey: Guid(cd8d9ab72731d3346aa8e6a644ffbb2a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TextMesh Pro/Fonts/komorebi-gothic-P SDF.asset using Guid(cd8d9ab72731d3346aa8e6a644ffbb2a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '229329545a770d5c8ff2afa1ba3036d8') in 0.050664 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000013 seconds.
+  path: Assets/TextMesh Pro/Fonts/TsunagiGothic SDF.asset
+  artifactKey: Guid(a288d0a7ac755904e8c8a08ef6b42238) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TextMesh Pro/Fonts/TsunagiGothic SDF.asset using Guid(a288d0a7ac755904e8c8a08ef6b42238) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4a9f8b02c66e753865eb232893e0e5ed') in 0.033406 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000012 seconds.
+  path: Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
+  artifactKey: Guid(2e498d1c8094910479dc3e1b768306a4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset using Guid(2e498d1c8094910479dc3e1b768306a4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4f1713751adf87798ed03ec5df4177b1') in 0.095102 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000014 seconds.
+  path: Assets/TextMesh Pro/Fonts/Ronde-B_square SDF.asset
+  artifactKey: Guid(4a6ce31a207c1d94ea3718458652ab18) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TextMesh Pro/Fonts/Ronde-B_square SDF.asset using Guid(4a6ce31a207c1d94ea3718458652ab18) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '93dc03a3d0a11a27315cb6f13e4ee80d') in 0.051061 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000015 seconds.
+  path: Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset
+  artifactKey: Guid(8f586378b4e144a9851e7b34d9b748ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset using Guid(8f586378b4e144a9851e7b34d9b748ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '007425405e2f4fef13b63816c7a4cdee') in 0.097916 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 21.570618 seconds.
+  path: Assets/Prehabs/OneGrid.prefab
+  artifactKey: Guid(504db0dc73840e543934efe769a7b497) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prehabs/OneGrid.prefab using Guid(504db0dc73840e543934efe769a7b497) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '557c6d5d1607ec20c2c34b1252ae3795') in 0.058576 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 10.255181 seconds.
+  path: Assets/Scenes/SC_Setting.unity
+  artifactKey: Guid(d73683018957694419ebac0199b700d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/SC_Setting.unity using Guid(d73683018957694419ebac0199b700d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b9e7c38bcdb458901a3068f11cb04e4c') in 0.017251 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 12.985696 seconds.
+  path: Assets/TextMesh Pro/Fonts/Kaisotai-Next-UP-B SDF 1.asset
+  artifactKey: Guid(218d5340aec6f9749971ba9ab4b22d30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TextMesh Pro/Fonts/Kaisotai-Next-UP-B SDF 1.asset using Guid(218d5340aec6f9749971ba9ab4b22d30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '959723edf90499b82940da7b46182a2f') in 0.083176 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000017 seconds.
+  path: Assets/TextMesh Pro/Fonts/Kinkakuji-Normal SDF 1.asset
+  artifactKey: Guid(88343699aec6daf4c9b5346780423352) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TextMesh Pro/Fonts/Kinkakuji-Normal SDF 1.asset using Guid(88343699aec6daf4c9b5346780423352) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '535ad9a68e72c12a15e6fb49587e1555') in 0.077423 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000020 seconds.
+  path: Assets/TextMesh Pro/Fonts/Ronde-B_square SDF.asset
+  artifactKey: Guid(4a6ce31a207c1d94ea3718458652ab18) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TextMesh Pro/Fonts/Ronde-B_square SDF.asset using Guid(4a6ce31a207c1d94ea3718458652ab18) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1135dd9d0ab9f104a1320c77dbdf5266') in 0.101171 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 11.368383 seconds.
+  path: Assets/Scenes/SC_Tutorial.unity
+  artifactKey: Guid(62e35cc99c4888449bb1f9840427bfb7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/SC_Tutorial.unity using Guid(62e35cc99c4888449bb1f9840427bfb7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5b0b9ff63d32fb0f9add9015ca5a4b10') in 0.016244 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 9.021048 seconds.
+  path: Assets/TextMesh Pro/Fonts/Kaisotai-Next-UP-B SDF.asset
+  artifactKey: Guid(d6652216e6790bc4fbbbd337388df888) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TextMesh Pro/Fonts/Kaisotai-Next-UP-B SDF.asset using Guid(d6652216e6790bc4fbbbd337388df888) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b566a51907d12e7a82458eba80ee70d0') in 0.094231 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000018 seconds.
+  path: Assets/TextMesh Pro/Fonts/TsunagiGothic SDF.asset
+  artifactKey: Guid(a288d0a7ac755904e8c8a08ef6b42238) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TextMesh Pro/Fonts/TsunagiGothic SDF.asset using Guid(a288d0a7ac755904e8c8a08ef6b42238) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f914421a51f7a032103db4b3fdf8ab34') in 0.089941 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 8.852833 seconds.
+  path: Assets/Scenes/SC_CreateRoom.unity
+  artifactKey: Guid(7b7d852fd6401e1418212a3f333cb7a3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/SC_CreateRoom.unity using Guid(7b7d852fd6401e1418212a3f333cb7a3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1c341116c45af79b2a7f14d20bd20ffd') in 0.017151 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 24.728437 seconds.
+  path: Assets/UIs/StartCanvas_入力Variant.prefab
+  artifactKey: Guid(80884a613207b0b4589f68b69cf8d917) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UIs/StartCanvas_入力Variant.prefab using Guid(80884a613207b0b4589f68b69cf8d917) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '763288d7805c88ead54e9fc39d9d9523') in 0.128608 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 9.842910 seconds.
+  path: Assets/UIs/StartCanvas_入力Variant.prefab
+  artifactKey: Guid(80884a613207b0b4589f68b69cf8d917) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UIs/StartCanvas_入力Variant.prefab using Guid(80884a613207b0b4589f68b69cf8d917) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4a775aca280aa65af0aec97e36080ce4') in 0.109636 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 16.350542 seconds.
+  path: Assets/UIs/StartCanvas_入力Variant.prefab
+  artifactKey: Guid(80884a613207b0b4589f68b69cf8d917) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/UIs/StartCanvas_入力Variant.prefab using Guid(80884a613207b0b4589f68b69cf8d917) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6bbd03a913d774ef12a8a9e3f414d7e4') in 0.105526 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 13.357840 seconds.
+  path: Assets/Scenes/SC_EnterRoom.unity
+  artifactKey: Guid(42e6d6b2c6d271b4685c7deba29b24cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/SC_EnterRoom.unity using Guid(42e6d6b2c6d271b4685c7deba29b24cd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e67394074820f354c3a7df33da822966') in 0.020328 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 4.642046 seconds.
+  path: Assets/Scenes/SC_Game.unity
+  artifactKey: Guid(48fd3194425838a4cb085f820ae104ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/SC_Game.unity using Guid(48fd3194425838a4cb085f820ae104ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e23195061c0e599e75b094b95c0de87c') in 0.023475 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 63.485017 seconds.
+  path: Assets/Scenes/SC_Game.unity
+  artifactKey: Guid(48fd3194425838a4cb085f820ae104ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/SC_Game.unity using Guid(48fd3194425838a4cb085f820ae104ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '74e2504d3a8a2c3e5df83b978b3875c5') in 0.014673 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 4.122696 seconds.
+  path: Assets/Scenes/SC_Game.unity
+  artifactKey: Guid(48fd3194425838a4cb085f820ae104ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/SC_Game.unity using Guid(48fd3194425838a4cb085f820ae104ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3f3938d2c6e0f16093d40fb3d6611c8c') in 0.016628 seconds 

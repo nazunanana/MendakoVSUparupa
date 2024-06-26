@@ -361,7 +361,8 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Codes/Game/BoardGrid.cs"
 "Assets/Codes/Game/CreateGrid.cs"
-"Assets/Codes/Game/PlayerManager.cs"
+"Assets/Codes/Game/PieceState.cs"
+"Assets/Codes/Game/PlayerState.cs"
 "Assets/Codes/UI/ChangeSceneByButton.cs"
 "Assets/Codes/UI/GameIconClick.cs"
 -langversion:9.0

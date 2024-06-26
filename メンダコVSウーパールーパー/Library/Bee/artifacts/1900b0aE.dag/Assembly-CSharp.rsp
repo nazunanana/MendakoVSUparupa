@@ -361,6 +361,7 @@
 "Assets/Codes/Game/BoardGrid.cs"
 "Assets/Codes/Game/CreateGrid.cs"
 "Assets/Codes/UI/ChangeSceneByButton.cs"
+"Assets/Codes/UI/GameIconClick.cs"
 -langversion:9.0
 /unsafe+
 /deterministic

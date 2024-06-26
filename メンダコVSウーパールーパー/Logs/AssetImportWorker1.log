@@ -15,7 +15,7 @@ C:/Users/smile/Box/SUMIRE_coding/MendakoVSUparupa/メンダコVSウーパール�
 -logFile
 Logs/AssetImportWorker1.log
 -srvPort
-52089
+52619
 Successfully changed project path to: C:/Users/smile/Box/SUMIRE_coding/MendakoVSUparupa/メンダコVSウーパールーパー
 C:/Users/smile/Box/SUMIRE_coding/MendakoVSUparupa/メンダコVSウーパールーパー
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -47,11 +47,11 @@ C:/Users/smile/Box/SUMIRE_coding/MendakoVSUparupa/メンダコVSウーパール�
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [36044] Host "[IP] 192.168.1.100 [Port] 0 [Flags] 2 [Guid] 29417739 [EditorId] 29417739 [Version] 1048832 [Id] WindowsEditor(7,Muya_PC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+Player connection [35788] Host "[IP] 192.168.1.100 [Port] 0 [Flags] 2 [Guid] 1722495498 [EditorId] 1722495498 [Version] 1048832 [Id] WindowsEditor(7,Muya_PC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
 
-Player connection [36044] Host "[IP] 192.168.1.100 [Port] 0 [Flags] 2 [Guid] 29417739 [EditorId] 29417739 [Version] 1048832 [Id] WindowsEditor(7,Muya_PC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [35788] Host "[IP] 192.168.1.100 [Port] 0 [Flags] 2 [Guid] 1722495498 [EditorId] 1722495498 [Version] 1048832 [Id] WindowsEditor(7,Muya_PC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
 
-Refreshing native plugins compatible for Editor in 240.58 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 318.74 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2021.3.24f1 (cf10dcf7010d)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.3.24f1/Editor/Data/Resources/UnitySubsystems
@@ -67,163 +67,51 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.3.24f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.3.24f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.3.24f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56972
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56632
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.24f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.004958 seconds.
+Registered in 0.005568 seconds.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 42.91 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 46.29 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  0.378 seconds
+- Completed reload, in  0.484 seconds
 Domain Reload Profiling:
-	ReloadAssembly (379ms)
-		BeginReloadAssembly (51ms)
+	ReloadAssembly (485ms)
+		BeginReloadAssembly (81ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (0ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
 			CreateAndSetChildDomain (0ms)
-		EndReloadAssembly (268ms)
-			LoadAssemblies (49ms)
+		EndReloadAssembly (330ms)
+			LoadAssemblies (79ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (60ms)
+			SetupTypeCache (86ms)
 			ReleaseScriptCaches (0ms)
-			RebuildScriptCaches (16ms)
-			SetupLoadedEditorAssemblies (154ms)
+			RebuildScriptCaches (19ms)
+			SetupLoadedEditorAssemblies (180ms)
 				LogAssemblyErrors (0ms)
 				InitializePlatformSupportModulesInManaged (6ms)
 				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (43ms)
+				RefreshPlugins (47ms)
 				BeforeProcessingInitializeOnLoad (1ms)
-				ProcessInitializeOnLoadAttributes (71ms)
-				ProcessInitializeOnLoadMethodAttributes (33ms)
+				ProcessInitializeOnLoadAttributes (87ms)
+				ProcessInitializeOnLoadMethodAttributes (40ms)
 				AfterProcessingInitializeOnLoad (0ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (0ms)
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 3.973296 seconds.
+Registered in 5.008094 seconds.
 Begin MonoManager ReloadAssembly
+Symbol file data-000001B33F6CF020 doesn't match image C:\Users\smile\Box\SUMIRE_coding\MendakoVSUparupa\メンダコVSウーパールーパー\Library\ScriptAssemblies\Assembly-CSharp.dll
+Symbol file LoadedFromMemory is not a mono symbol file
+Symbol file data-000001B33F270820 doesn't match image C:\Users\smile\Box\SUMIRE_coding\MendakoVSUparupa\メンダコVSウーパールーパー\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll
+Symbol file LoadedFromMemory is not a mono symbol file
+Symbol file data-000001B33F00BC20 doesn't match image C:\Users\smile\Box\SUMIRE_coding\MendakoVSUparupa\メンダコVSウーパールーパー\Library\ScriptAssemblies\Unity.TextMeshPro.dll
+Symbol file LoadedFromMemory is not a mono symbol file
 Symbol file LoadedFromMemory doesn't match image C:\Users\smile\Box\SUMIRE_coding\MendakoVSUparupa\メンダコVSウーパールーパー\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
 Symbol file LoadedFromMemory doesn't match image C:\Users\smile\Box\SUMIRE_coding\MendakoVSUparupa\メンダコVSウーパールーパー\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 43.79 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  5.880 seconds
-Domain Reload Profiling:
-	ReloadAssembly (5883ms)
-		BeginReloadAssembly (75ms)
-			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (3ms)
-			BackupInstance (0ms)
-			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (12ms)
-		EndReloadAssembly (5542ms)
-			LoadAssemblies (4694ms)
-			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (178ms)
-			ReleaseScriptCaches (0ms)
-			RebuildScriptCaches (29ms)
-			SetupLoadedEditorAssemblies (347ms)
-				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (4ms)
-				SetLoadedEditorAssemblies (0ms)
-				RefreshPlugins (44ms)
-				BeforeProcessingInitializeOnLoad (65ms)
-				ProcessInitializeOnLoadAttributes (219ms)
-				ProcessInitializeOnLoadMethodAttributes (10ms)
-				AfterProcessingInitializeOnLoad (4ms)
-				EditorAssembliesLoaded (0ms)
-			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (3ms)
-Platform modules already initialized, skipping
-========================================================================
-Worker process is ready to serve import requests
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
-Refreshing native plugins compatible for Editor in 0.41 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3132 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 54 unused Assets / (115.4 KB). Loaded Objects now: 3588.
-Memory consumption went from 119.0 MB to 118.9 MB.
-Total: 2.495700 ms (FindLiveObjects: 0.156000 ms CreateObjectMapping: 0.060500 ms MarkObjects: 2.168500 ms  DeleteObjects: 0.109800 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 8106.802049 seconds.
-  path: Assets/UIs/StartCanvas.prefab
-  artifactKey: Guid(27ab5150bfd0a954fb0afd26b5155fa2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/UIs/StartCanvas.prefab using Guid(27ab5150bfd0a954fb0afd26b5155fa2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e5b097126d5b3d3c9f2f802958f2caea') in 0.112076 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000022 seconds.
-  path: Assets/UIs/Button.prefab
-  artifactKey: Guid(314b9059132d2ed459f07887e9df4818) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/UIs/Button.prefab using Guid(314b9059132d2ed459f07887e9df4818) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '701ba8240256a79ca1adee6893dbe688') in 0.027310 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000054 seconds.
-  path: Assets/TextMesh Pro/Fonts/Kinkakuji-Normal SDF.asset
-  artifactKey: Guid(5f03d4b705d65e2439b7a3b7d63d68f2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TextMesh Pro/Fonts/Kinkakuji-Normal SDF.asset using Guid(5f03d4b705d65e2439b7a3b7d63d68f2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '84fe0443b1c44eb41dee8cc5e07bfb2f') in 0.139112 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000016 seconds.
-  path: Assets/TextMesh Pro/Fonts/komorebi-gothic SDF.asset
-  artifactKey: Guid(2703cf7febbd424428a84bfb3ea35239) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TextMesh Pro/Fonts/komorebi-gothic SDF.asset using Guid(2703cf7febbd424428a84bfb3ea35239) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4dc10b0a94b67789311d6045349dd19e') in 0.049154 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000021 seconds.
-  path: Assets/UIs/StartCanvas_白枠Variant.prefab
-  artifactKey: Guid(994d2ab1614442b4f9c950b3dc0203bb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/UIs/StartCanvas_白枠Variant.prefab using Guid(994d2ab1614442b4f9c950b3dc0203bb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dc62ecb5f7dc0f7dbf223f797cf73767') in 0.061479 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000015 seconds.
-  path: Assets/TextMesh Pro/Fonts/Kinkakuji-Normal SDF 1.asset
-  artifactKey: Guid(88343699aec6daf4c9b5346780423352) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TextMesh Pro/Fonts/Kinkakuji-Normal SDF 1.asset using Guid(88343699aec6daf4c9b5346780423352) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2b883afb02729a8eb560a1893dcd9265') in 0.110255 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000043 seconds.
-  path: Assets/TextMesh Pro/Fonts/03SmartFont-P SDF.asset
-  artifactKey: Guid(f20504894ba87cb4bb261d7d16b91fb9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TextMesh Pro/Fonts/03SmartFont-P SDF.asset using Guid(f20504894ba87cb4bb261d7d16b91fb9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5ee8f088c32ed342dbebd63f90a27320') in 0.114760 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000016 seconds.
-  path: Assets/TextMesh Pro/Fonts/Kaisotai-Next-UP-B SDF.asset
-  artifactKey: Guid(d6652216e6790bc4fbbbd337388df888) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TextMesh Pro/Fonts/Kaisotai-Next-UP-B SDF.asset using Guid(d6652216e6790bc4fbbbd337388df888) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '169d56220f9bd0557f984650c99eb63e') in 0.070181 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 44.890658 seconds.
-  path: Assets/TextMesh Pro/Fonts/Kinkakuji-Normal SDF.asset
-  artifactKey: Guid(5f03d4b705d65e2439b7a3b7d63d68f2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TextMesh Pro/Fonts/Kinkakuji-Normal SDF.asset using Guid(5f03d4b705d65e2439b7a3b7d63d68f2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '29cfca420e4a40b8c5b31a7541836089') in 0.096261 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000017 seconds.
-  path: Assets/TextMesh Pro/Fonts/TsunagiGothic SDF.asset
-  artifactKey: Guid(a288d0a7ac755904e8c8a08ef6b42238) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TextMesh Pro/Fonts/TsunagiGothic SDF.asset using Guid(a288d0a7ac755904e8c8a08ef6b42238) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '673c7127d8e9518daa7fea53232aad95') in 0.096812 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 20.500705 seconds.
-  path: Assets/TextMesh Pro/Fonts/Kaisotai-Next-UP-B SDF 1.asset
-  artifactKey: Guid(218d5340aec6f9749971ba9ab4b22d30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/TextMesh Pro/Fonts/Kaisotai-Next-UP-B SDF 1.asset using Guid(218d5340aec6f9749971ba9ab4b22d30) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd57f3439a54169f1ae49060a46a4e1c4') in 0.114192 seconds 

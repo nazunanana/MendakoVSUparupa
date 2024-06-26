@@ -1320,11 +1320,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream:メンダコVSウーパールーパー/Assets/Scenes/SC_Game.unity
 --- !u!1 &2019578767
-=======
---- !u!1 &2106110883
->>>>>>> Stashed changes:メンダコVSウーパールーパー/Assets/gameScene.unity
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1332,27 +1328,17 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< Updated upstream:メンダコVSウーパールーパー/Assets/Scenes/SC_Game.unity
-  - component: {fileID: 2019578769}
-  - component: {fileID: 2019578770}
-  m_Layer: 0
-  m_Name: gridCreater
-=======
   - component: {fileID: 2106110887}
   - component: {fileID: 2106110886}
   - component: {fileID: 2106110885}
   - component: {fileID: 2106110884}
   m_Layer: 0
   m_Name: GridCollider
->>>>>>> Stashed changes:メンダコVSウーパールーパー/Assets/gameScene.unity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< Updated upstream:メンダコVSウーパールーパー/Assets/Scenes/SC_Game.unity
---- !u!4 &2019578769
-=======
 --- !u!64 &2106110884
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1418,30 +1404,20 @@ MeshFilter:
   m_GameObject: {fileID: 2106110883}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &2106110887
->>>>>>> Stashed changes:メンダコVSウーパールーパー/Assets/gameScene.unity
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< Updated upstream:メンダコVSウーパールーパー/Assets/Scenes/SC_Game.unity
-  m_GameObject: {fileID: 2019578767}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-=======
   m_GameObject: {fileID: 2106110883}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.48, y: 0.04, z: 6.482}
   m_LocalScale: {x: 0.26, y: 0.26, z: 0.26}
   m_ConstrainProportionsScale: 1
->>>>>>> Stashed changes:メンダコVSウーパールーパー/Assets/gameScene.unity
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream:メンダコVSウーパールーパー/Assets/Scenes/SC_Game.unity
 --- !u!114 &2019578770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1455,5 +1431,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridObject: {fileID: 8824002044893407301, guid: 504db0dc73840e543934efe769a7b497, type: 3}
-=======
->>>>>>> Stashed changes:メンダコVSウーパールーパー/Assets/gameScene.unity

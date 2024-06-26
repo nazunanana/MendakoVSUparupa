@@ -9,13 +9,31 @@ C:\UNITY\2021.3.24f1\Editor\Unity.exe
 -batchMode
 -noUpm
 -name
+<<<<<<< Updated upstream
+AssetImportWorker6
+-projectPath
+C:/Users/smile/Box/SUMIRE_coding/MendakoVSUparupa/メンダコVSウーパールーパー
+-logFile
+Logs/AssetImportWorker6.log
+-srvPort
+<<<<<<<< Updated upstream:メンダコVSウーパールーパー/Logs/AssetImportWorker9.log
+63576
+========
+59147
+>>>>>>>> Stashed changes:メンダコVSウーパールーパー/Logs/AssetImportWorker6.log
+=======
 AssetImportWorker9
 -projectPath
 C:/Users/smile/Box/SUMIRE_coding/MendakoVSUparupa/メンダコVSウーパールーパー
 -logFile
 Logs/AssetImportWorker9.log
 -srvPort
+<<<<<<<< Updated upstream:メンダコVSウーパールーパー/Logs/AssetImportWorker13.log
 63576
+========
+59147
+>>>>>>>> Stashed changes:メンダコVSウーパールーパー/Logs/AssetImportWorker9.log
+>>>>>>> Stashed changes
 Successfully changed project path to: C:/Users/smile/Box/SUMIRE_coding/MendakoVSUparupa/メンダコVSウーパールーパー
 C:/Users/smile/Box/SUMIRE_coding/MendakoVSUparupa/メンダコVSウーパールーパー
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -47,11 +65,35 @@ C:/Users/smile/Box/SUMIRE_coding/MendakoVSUparupa/メンダコVSウーパール�
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
+<<<<<<< Updated upstream
+<<<<<<<< Updated upstream:メンダコVSウーパールーパー/Logs/AssetImportWorker9.log
 Player connection [37672] Host "[IP] 133.14.213.40 [Port] 0 [Flags] 2 [Guid] 2135587384 [EditorId] 2135587384 [Version] 1048832 [Id] WindowsEditor(7,mocaPC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
 
 Player connection [37672] Host "[IP] 133.14.213.40 [Port] 0 [Flags] 2 [Guid] 2135587384 [EditorId] 2135587384 [Version] 1048832 [Id] WindowsEditor(7,mocaPC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
 
 Refreshing native plugins compatible for Editor in 1141.94 ms, found 4 plugins.
+========
+Player connection [17532] Host "[IP] 133.14.198.154 [Port] 0 [Flags] 2 [Guid] 1193386830 [EditorId] 1193386830 [Version] 1048832 [Id] WindowsEditor(7,mocaPC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+
+Player connection [17532] Host "[IP] 133.14.198.154 [Port] 0 [Flags] 2 [Guid] 1193386830 [EditorId] 1193386830 [Version] 1048832 [Id] WindowsEditor(7,mocaPC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+
+Refreshing native plugins compatible for Editor in 890.56 ms, found 4 plugins.
+>>>>>>>> Stashed changes:メンダコVSウーパールーパー/Logs/AssetImportWorker6.log
+=======
+<<<<<<<< Updated upstream:メンダコVSウーパールーパー/Logs/AssetImportWorker13.log
+Player connection [1928] Host "[IP] 133.14.213.40 [Port] 0 [Flags] 2 [Guid] 2798874253 [EditorId] 2798874253 [Version] 1048832 [Id] WindowsEditor(7,mocaPC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+
+Player connection [1928] Host "[IP] 133.14.213.40 [Port] 0 [Flags] 2 [Guid] 2798874253 [EditorId] 2798874253 [Version] 1048832 [Id] WindowsEditor(7,mocaPC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+
+Refreshing native plugins compatible for Editor in 1037.41 ms, found 4 plugins.
+========
+Player connection [28208] Host "[IP] 133.14.198.154 [Port] 0 [Flags] 2 [Guid] 962332691 [EditorId] 962332691 [Version] 1048832 [Id] WindowsEditor(7,mocaPC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+
+Player connection [28208] Host "[IP] 133.14.198.154 [Port] 0 [Flags] 2 [Guid] 962332691 [EditorId] 962332691 [Version] 1048832 [Id] WindowsEditor(7,mocaPC) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+
+Refreshing native plugins compatible for Editor in 977.11 ms, found 4 plugins.
+>>>>>>>> Stashed changes:メンダコVSウーパールーパー/Logs/AssetImportWorker9.log
+>>>>>>> Stashed changes
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2021.3.24f1 (cf10dcf7010d)
 [Subsystems] Discovering subsystems at path C:/UNITY/2021.3.24f1/Editor/Data/Resources/UnitySubsystems
@@ -67,6 +109,8 @@ Initialize mono
 Mono path[0] = 'C:/UNITY/2021.3.24f1/Editor/Data/Managed'
 Mono path[1] = 'C:/UNITY/2021.3.24f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/UNITY/2021.3.24f1/Editor/Data/MonoBleedingEdge/etc'
+<<<<<<< Updated upstream
+<<<<<<<< Updated upstream:メンダコVSウーパールーパー/Logs/AssetImportWorker9.log
 Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56740
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
@@ -80,12 +124,60 @@ Mono: successfully reloaded assembly
 Domain Reload Profiling:
 	ReloadAssembly (619ms)
 		BeginReloadAssembly (83ms)
+========
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56220
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/UNITY/2021.3.24f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.007487 seconds.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 59.70 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.594 seconds
+Domain Reload Profiling:
+	ReloadAssembly (595ms)
+		BeginReloadAssembly (75ms)
+>>>>>>>> Stashed changes:メンダコVSウーパールーパー/Logs/AssetImportWorker6.log
+=======
+<<<<<<<< Updated upstream:メンダコVSウーパールーパー/Logs/AssetImportWorker13.log
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56708
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/UNITY/2021.3.24f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.011974 seconds.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 93.12 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.882 seconds
+Domain Reload Profiling:
+	ReloadAssembly (884ms)
+		BeginReloadAssembly (110ms)
+========
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56324
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/UNITY/2021.3.24f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.006319 seconds.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 61.12 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.632 seconds
+Domain Reload Profiling:
+	ReloadAssembly (633ms)
+		BeginReloadAssembly (74ms)
+>>>>>>>> Stashed changes:メンダコVSウーパールーパー/Logs/AssetImportWorker9.log
+>>>>>>> Stashed changes
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (0ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
 			CreateAndSetChildDomain (1ms)
+<<<<<<< Updated upstream
 		EndReloadAssembly (424ms)
+<<<<<<<< Updated upstream:メンダコVSウーパールーパー/Logs/AssetImportWorker9.log
 			LoadAssemblies (79ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
 			SetupTypeCache (92ms)
@@ -99,10 +191,70 @@ Domain Reload Profiling:
 				BeforeProcessingInitializeOnLoad (1ms)
 				ProcessInitializeOnLoadAttributes (111ms)
 				ProcessInitializeOnLoadMethodAttributes (57ms)
+========
+			LoadAssemblies (73ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (101ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (27ms)
+			SetupLoadedEditorAssemblies (229ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (8ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (61ms)
+				BeforeProcessingInitializeOnLoad (1ms)
+				ProcessInitializeOnLoadAttributes (109ms)
+				ProcessInitializeOnLoadMethodAttributes (50ms)
+>>>>>>>> Stashed changes:メンダコVSウーパールーパー/Logs/AssetImportWorker6.log
+=======
+<<<<<<<< Updated upstream:メンダコVSウーパールーパー/Logs/AssetImportWorker13.log
+		EndReloadAssembly (620ms)
+			LoadAssemblies (106ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (165ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (35ms)
+			SetupLoadedEditorAssemblies (337ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (10ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (93ms)
+				BeforeProcessingInitializeOnLoad (1ms)
+				ProcessInitializeOnLoadAttributes (165ms)
+				ProcessInitializeOnLoadMethodAttributes (67ms)
+========
+		EndReloadAssembly (461ms)
+			LoadAssemblies (71ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (119ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (24ms)
+			SetupLoadedEditorAssemblies (255ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (7ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (62ms)
+				BeforeProcessingInitializeOnLoad (1ms)
+				ProcessInitializeOnLoadAttributes (124ms)
+				ProcessInitializeOnLoadMethodAttributes (62ms)
+>>>>>>>> Stashed changes:メンダコVSウーパールーパー/Logs/AssetImportWorker9.log
+>>>>>>> Stashed changes
 				AfterProcessingInitializeOnLoad (0ms)
 				EditorAssembliesLoaded (0ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (0ms)
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
+<<<<<<< Updated upstream
+<<<<<<<< Updated upstream:メンダコVSウーパールーパー/Logs/AssetImportWorker9.log
 Registered in 6.690202 seconds.
+========
+Registered in 5.845092 seconds.
+>>>>>>>> Stashed changes:メンダコVSウーパールーパー/Logs/AssetImportWorker6.log
+=======
+<<<<<<<< Updated upstream:メンダコVSウーパールーパー/Logs/AssetImportWorker13.log
+Registered in 6.835966 seconds.
+========
+Registered in 5.280824 seconds.
+>>>>>>>> Stashed changes:メンダコVSウーパールーパー/Logs/AssetImportWorker9.log
+>>>>>>> Stashed changes

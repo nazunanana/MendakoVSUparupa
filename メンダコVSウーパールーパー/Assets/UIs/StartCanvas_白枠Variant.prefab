@@ -68,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u3042\u3044\u3046\u3048\u304A"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f20504894ba87cb4bb261d7d16b91fb9, type: 2}
-  m_sharedMaterial: {fileID: -5849622321492142722, guid: f20504894ba87cb4bb261d7d16b91fb9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5f03d4b705d65e2439b7a3b7d63d68f2, type: 2}
+  m_sharedMaterial: {fileID: -2212388736182605804, guid: 5f03d4b705d65e2439b7a3b7d63d68f2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -355,7 +355,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5410140557767837281, guid: 27ab5150bfd0a954fb0afd26b5155fa2, type: 3}
       propertyPath: m_Name
-      value: "StartCanvas_\u904A\u3073\u65B9"
+      value: "StartCanvas_\u767D\u67A0Variant"
       objectReference: {fileID: 0}
     - target: {fileID: 5410140557767837285, guid: 27ab5150bfd0a954fb0afd26b5155fa2, type: 3}
       propertyPath: m_Pivot.x

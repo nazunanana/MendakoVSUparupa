@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -251,8 +251,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u30E1\u30F3\u30C0\u30B3 VS \u30A6\u30D1\u30EB\u30D1"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f20504894ba87cb4bb261d7d16b91fb9, type: 2}
-  m_sharedMaterial: {fileID: -5849622321492142722, guid: f20504894ba87cb4bb261d7d16b91fb9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5f03d4b705d65e2439b7a3b7d63d68f2, type: 2}
+  m_sharedMaterial: {fileID: -2212388736182605804, guid: 5f03d4b705d65e2439b7a3b7d63d68f2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

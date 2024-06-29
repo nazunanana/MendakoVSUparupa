@@ -111,3 +111,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc5d6d17156f90a4c91d4edb57887656, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridSystemObj: {fileID: 387623249586609869, guid: 0220d0facf853594ba7cfb0a216bf461, type: 3}
+  playerObj: {fileID: 4531802201551302878, guid: a2dc6325c07c2794c9c806713feb4122, type: 3}

@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: ab14e119a82a9fd4ebd96a17280ea823
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - playerPrehab: {fileID: 4531802201551302878, guid: a2dc6325c07c2794c9c806713feb4122, type: 3}
+  - gridSystemPrehab: {fileID: 387623249586609869, guid: 0220d0facf853594ba7cfb0a216bf461, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

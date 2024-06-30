@@ -1,0 +1,45 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Fusion;
+
+public class GameLauncher : MonoBehaviour
+{
+    [SerializeField]
+    private NetworkRunner networkRunnerPrefab;
+    [SerializeField]
+   private NetworkPrefabRef playerPrefab;
+
+    private NetworkRunner networkRunner;
+
+    private async void Start()
+    {
+        // NetworkRunnerを生成する
+        networkRunner = Instantiate(networkRunnerPrefab);
+        // StartGameArgsに渡した設定で、セッションに参加する
+        var result = await networkRunner.StartGame(new StartGameArgs
+        {
+            // セッション名（ランダムな文字列のパスワード）
+            // SessionName = "aaaaa",
+            // 新規セッションを作成できるか決めるフラグ
+            // EnableClientSessionCreation = true,
+            // セッションに参加できる最大プレイヤー数
+            // PlayerCount = 2,
+            // セッションが作成されたとき、他プレイヤーの参加を許可するかを定義する
+            // isOpen = true,
+
+            GameMode = GameMode.Shared,
+            SceneManager = networkRunner.GetComponent<NetworkSceneManagerDefault>()
+        });
+
+        if (result.Ok)
+        {
+            Debug.Log("成功！");
+        }
+        else
+        {
+            Debug.Log("失敗！");
+        }
+
+    }
+}

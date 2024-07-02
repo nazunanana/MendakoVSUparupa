@@ -19,13 +19,14 @@ public class JoinSession : MonoBehaviour
 
     private void Start()
     {
-        inputText = inputText.GetComponent<TMP_InputField> ();
+        inputText = inputText.GetComponent<TMP_InputField>();
     }
     public async void InputPassword()
     {
         roomName = inputText.text;
         // 入力欄が空欄の時
-        if(roomName == ""){
+        if (roomName == "")
+        {
             Debug.Log("パスワードを入力してください。");
             return;
         }
@@ -41,18 +42,42 @@ public class JoinSession : MonoBehaviour
             EnableClientSessionCreation = true,
             // セッションに参加できる最大プレイヤー数
             PlayerCount = 2,
-
             GameMode = GameMode.Shared,
             SceneManager = networkRunner.GetComponent<NetworkSceneManagerDefault>()
         });
 
         if (result.Ok)
         {
-            Debug.Log("セッション参加しました。");
+            Debug.Log("セッション参加しました。);
+            // runner.ActivePlayers.Countで現在参加しているプレイヤー数が確認できる
+            if (networkRunner.SessionInfo.PlayerCount == 2)
+            {
+                // プレイヤーが2人集まったらシーンを変更する
+                Debug.Log("マッチ成功！");
+                //runner.SetActiveScene("SC_Ready");
+            }
         }
         else
         {
-            Debug.Log("セッション参加に失敗しました");
+            if (result.ShutdownReason == ShutdownReason.GameIsFull)
+            {
+                Debug.LogError("セッションは満員です。別のパスワードを試してください。");
+            }
+            else{
+                Debug.LogError("セッション参加に失敗しました");
+            }
         }
     }
+
+    // private void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
+    // {
+    //     // runner.ActivePlayers.Countで現在参加しているプレイヤー数が確認できる
+    //     if (runner.ActivePlayers.Count == 2)
+    //     {
+    //         // プレイヤーが2人集まったらシーンを変更する
+    //         //runner.SetActiveScene("SC_Ready");
+    //         Debug.Log("マッチ成功！");
+    //     }
+    // }
+
 }

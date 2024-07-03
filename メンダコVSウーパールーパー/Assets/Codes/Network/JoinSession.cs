@@ -48,7 +48,7 @@ public class JoinSession : MonoBehaviour
 
         if (result.Ok)
         {
-            Debug.Log("セッション参加しました。);
+            Debug.Log("セッション参加しました。");
             // runner.ActivePlayers.Countで現在参加しているプレイヤー数が確認できる
             if (networkRunner.SessionInfo.PlayerCount == 2)
             {

@@ -50,7 +50,8 @@ public class JoinSession : MonoBehaviour
         {
             Debug.Log("セッション参加しました。");
             // runner.ActivePlayers.Countで現在参加しているプレイヤー数が確認できる
-            if(networkRunner.SessionInfo.PlayerCount == 1){
+            if (networkRunner.SessionInfo.PlayerCount == 1)
+            {
                 // プレイヤーがまだ1人だけだったら
                 Debug.Log("プレイヤーを探しています…");
             }
@@ -58,7 +59,14 @@ public class JoinSession : MonoBehaviour
             {
                 // プレイヤーが2人集まったらシーンを変更する
                 Debug.Log("マッチ成功！");
-                //runner.SetActiveScene("SC_Ready");
+                //if (ChangeSceneByRemote.Instance != null)
+                //{
+                    ChangeSceneByRemote.Instance.RpcLoadScene("SC_Ready");
+                //}
+                //else
+                //{
+                //    Debug.LogError("ChangeSceneByRemote.Instance is null.");
+                //}
             }
         }
         else
@@ -67,7 +75,8 @@ public class JoinSession : MonoBehaviour
             {
                 Debug.LogError("セッションは満員です。別のパスワードを試してください。");
             }
-            else{
+            else
+            {
                 Debug.LogError("セッション参加に失敗しました");
             }
         }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SettingGame : MonoBehaviour
 {
@@ -17,7 +18,21 @@ public class SettingGame : MonoBehaviour
     /// <summary> メンダコ陣営のカメラ位置、向き（定数） </summary>
     private const int MEN_CAMERA_POSITION_Z = -13;
     private const int MEN_CAMERA_ROTATION_Y = 0;
-    void Start()
+    private bool isInitialized = false; // 初期化完了フラグ
+    void Awake(){
+        Debug.Log("Awake");
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("Loaded. Initialize");
+        Initialize();
+    }
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    private void Initialize()
     {
         // プレイヤーオブジェクトを作成
         PL_uparupa = Instantiate(playerPrehab, playerPrehab.transform.position, Quaternion.identity);
@@ -38,12 +53,19 @@ public class SettingGame : MonoBehaviour
         manageGrid.GetComponent<ManageGrid>().SetPlayers = new GameObject[]{PL_uparupa, PL_mendako}; //グリッド生成
         PL_uparupa.GetComponent<PlayerState>().setManageGrid = manageGrid;
         PL_mendako.GetComponent<PlayerState>().setManageGrid = manageGrid;
+
+        isInitialized = true; // 初期化完了
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (!isInitialized) return; // 初期化が完了していない場合は何もしない
+        if (PL_uparupa.GetComponent<PlayerState>().selectMode == PlayerState.SelectMode.SetAllPieces &&
+            PL_mendako.GetComponent<PlayerState>().selectMode == PlayerState.SelectMode.SetAllPieces)
+        {
+            SceneManager.LoadScene("SC_Game");
+        }
     }
 
     private void SetCameraPos(bool isUparupaTeam){

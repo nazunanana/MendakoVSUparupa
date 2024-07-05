@@ -14,13 +14,19 @@ public class PieceState : MonoBehaviour
     private PlayerState.Team team;
     // 駒ID
     private int pieceID;
-
     // どのマスにいるか
     private Vector2Int posID;
+    // グローバル位置換算
+    private const float FIRST_X = -6.48f; //ウパルパ陣営側
+    private const float FIRST_Z = -6.48f;
+    private const float Y_POS = 0.04f;
+    private const int GRID_NUM = 6;
+    private float gridSize = Mathf.Abs(FIRST_X*2/5);
 
-    public bool getIsReal()
+    public bool getsetIsReal
     {
-        return isReal;
+        get { return isReal; }
+        set { isReal = value; }
     }
 
     public PlayerState.Team getsetTeam
@@ -46,6 +52,7 @@ public class PieceState : MonoBehaviour
 
     void OnMouseOver()
     {
+        // Debug.Log("piece over");
         // マテリアルをハイライト
         if (team == player.GetComponent<PlayerState>().getsetTeam) //自陣の駒なら
         {
@@ -60,7 +67,7 @@ public class PieceState : MonoBehaviour
                 default:
                     break;
             }
-        }
+        }else{ Debug.Log("違うチーム"); }
     }
     void OnMouseExit()
     {
@@ -87,13 +94,13 @@ public class PieceState : MonoBehaviour
             switch (player.GetComponent<PlayerState>().getsetSelectMode)
             {
                 case PlayerState.SelectMode.SetPiece: //設置駒選択なら
-                    player.GetComponent<CreatePiece>().SelectPiece(posID); // 状態遷移
+                    player.GetComponent<CreatePiece>().SelectPiece(posID, getsetIsReal); // 状態遷移
                     HighLightPiece(true);
                     Debug.Log("置く駒決めた");
                     break;
                 case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
                     player.GetComponent<PlayerState>().toMoveSetPosition(posID); // 状態遷移
-                    HighLightPiece(true);
+                    HighLightPiece(false);
                     Debug.Log("移動させる駒選択した");
                     break;
                 default:
@@ -103,7 +110,7 @@ public class PieceState : MonoBehaviour
     }
 
     // マテリアルを強調
-    private void HighLightPiece(bool tf)
+    public void HighLightPiece(bool tf)
     {
         if (isReal)
         {
@@ -121,10 +128,16 @@ public class PieceState : MonoBehaviour
         }
     }
     // 位置を変更
-    private void MovePiecePos(Vector2Int posID)
+    public void MovePiecePos(Vector2Int posID)
     {
         getsetPosID = posID;
         // 移動させる
-        this.gameObject.transform.position(ManageGrid.Id2Pos(posID));
+        this.gameObject.transform.position = Id2Pos(posID);
+    }
+    /// <summary>
+    /// 位置換算
+    /// </summary>
+    public Vector3 Id2Pos(Vector2Int posID){
+        return new Vector3(FIRST_X+posID[0]*gridSize, Y_POS, FIRST_Z+posID[1]*gridSize);
     }
 }

@@ -84,7 +84,4 @@ public class ManageGrid : MonoBehaviour
             gridObj.GetComponent<BoardGrid>().EnableUnEnebleMyGrid(false);
         }
     }
-    public Vector3 Id2Pos(Vector2Int posID){
-        return new Vector3(FIRST_X+posID[0]*gridSize, Y_POS, FIRST_Z+posID[1]*gridSize);
-    }
 }

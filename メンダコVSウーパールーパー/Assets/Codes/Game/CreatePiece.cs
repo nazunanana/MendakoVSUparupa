@@ -20,6 +20,8 @@ public class CreatePiece : MonoBehaviour
     private GameObject[] pieces;
     // 駒の位置
     private Vector2Int[] piecePosID;
+    // 選択中の駒のタイプ
+    private bool pieceType;
     // 配置した駒の数
     private int SetRealPiece;
     private int SetFakePiece;
@@ -38,10 +40,12 @@ public class CreatePiece : MonoBehaviour
                 GameObject realPiece = Instantiate(myRealPrehab, new Vector3(4f,0.15f,9.3f), myRealPrehab.transform.rotation);
                 realPiece.GetComponent<PieceState>().setPlayer = player;
                 realPiece.GetComponent<PieceState>().getsetTeam = PlayerState.Team.uparupa;
+                realPiece.GetComponent<PieceState>().getsetIsReal = true;
                 pieces[2*i] = realPiece;
                 GameObject fakePiece = Instantiate(myFakePrehab, new Vector3(-4f,0.15f,9.3f), myFakePrehab.transform.rotation);
                 fakePiece.GetComponent<PieceState>().setPlayer = player;
                 fakePiece.GetComponent<PieceState>().getsetTeam = PlayerState.Team.uparupa;
+                fakePiece.GetComponent<PieceState>().getsetIsReal = false;
                 pieces[2*i+1] = fakePiece;
             }
         // メンダコ
@@ -52,40 +56,47 @@ public class CreatePiece : MonoBehaviour
                 GameObject realPiece = Instantiate(myRealPrehab, new Vector3(-4f,0.15f,-9.3f), myRealPrehab.transform.rotation);
                 realPiece.GetComponent<PieceState>().setPlayer = player;
                 realPiece.GetComponent<PieceState>().getsetTeam = PlayerState.Team.mendako;
+                realPiece.GetComponent<PieceState>().getsetIsReal = true;
                 pieces[2*i] = realPiece;
                 GameObject fakePiece = Instantiate(myFakePrehab, new Vector3(4f,0.15f,-9.3f), myFakePrehab.transform.rotation);
                 fakePiece.GetComponent<PieceState>().setPlayer = player;
                 fakePiece.GetComponent<PieceState>().getsetTeam = PlayerState.Team.mendako;
+                fakePiece.GetComponent<PieceState>().getsetIsReal = false;
                 pieces[2*i+1] = fakePiece;
             }
         }
         SetRealPiece = 0;
         SetFakePiece = 0;
-        player.GetComponent<PlayerState>().StartSetPieces();
+        player.GetComponent<PlayerState>().toStartSetPieces();
     }
     public GameObject getPlayer{
         get{ return player; }
     }
 
-    public void setPiecePosID(bool real, Vector2Int posID){
+    public void setPiecePosID(Vector2Int posID, bool real){
         if(real){
             piecePosID[2*SetRealPiece] = posID;
             SetRealPiece++;
         }else{
-            piecePosID[2*SetRealPiece+1] = posID;
+            piecePosID[2*SetFakePiece+1] = posID;
             SetFakePiece++;
         }
+        Debug.Log(SetRealPiece+" : "+SetFakePiece);
     }
     // 駒を選択
     public void StartSelect(){
         player.GetComponent<PlayerState>().toStartSetPieces(); //状態遷移、動かす駒設定
     }
-    public void SelectPiece(Vector2Int posID){
+    public void SelectPiece(Vector2Int posID, bool isReal){
         player.GetComponent<PlayerState>().toSelectSetPosition(posID); //状態遷移、動かす駒設定
+        pieceType = isReal;
     }
     public void SelectPosition(Vector2Int posID){
-        player.GetComponent<PlayerState>().MoveSetPosition(posID); //状態遷移、登録
-        MovePiecePos(posID); //移動
+        player.GetComponent<PlayerState>().toMoveSetPosition(posID); //状態遷移、登録
+        int id = (pieceType) ? 2*SetRealPiece : 2*SetFakePiece+1;
+        pieces[id].GetComponent<PieceState>().MovePiecePos(posID); //移動
+        setPiecePosID(posID, pieceType); // 配置数登録
+
         // 配置完了
         if(SetRealPiece==PIECE_NUM && SetFakePiece==PIECE_NUM){
             player.GetComponent<PlayerState>().toFinishSet();

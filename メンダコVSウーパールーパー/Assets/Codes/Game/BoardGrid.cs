@@ -60,18 +60,19 @@ public class BoardGrid : MonoBehaviour {
     void OnMouseDown(){
         //Debug.Log(posID.x+","+posID.y+"click");
         switch(nowPlayerComp.getsetSelectMode){
-            case PlayerState.SelectMode.SetPosition:
+            case PlayerState.SelectMode.SetPosition: //配置シーン中
                 nowPlayer.GetComponent<CreatePiece>().SelectPosition(posID);
-                Debug.Log("駒置いた");
+                ChangeHighLight(false);
                 break;
-            case PlayerState.SelectMode.MovePiece:
-                nowPlayerComp.SelectPiece(posID);
-                Debug.Log("移動させる駒選択した");
+            case PlayerState.SelectMode.MovePiece: //ゲーム中
+                nowPlayerComp.toSelectPiece(posID);
+                ChangeHighLight(false);
                 break;
-            case PlayerState.SelectMode.MovePosition:
-                nowPlayerComp.MovePiece(posID);
-                Debug.Log("移動した");
-                break;
+            // case PlayerState.SelectMode.MovePosition:
+            //     nowPlayerComp.toMovePiece(posID);
+            //     Debug.Log("移動した");
+            //     ChangeHighLight(false);
+            //     break;
             case PlayerState.SelectMode.NoMyTurn:
                 break;
             default:
@@ -106,7 +107,7 @@ public class BoardGrid : MonoBehaviour {
 
     // 自身を強調・強調を解除
     public void EnableUnEnebleMyGrid(bool tf){
-        Debug.Log("highlight my grid");
+        // Debug.Log("highlight my grid");
         MeshRenderer meshrender = this.gameObject.GetComponent<MeshRenderer>();
         if (meshrender != null){
             meshrender.enabled = tf;

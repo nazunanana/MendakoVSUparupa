@@ -38,18 +38,13 @@ public class PlayerState : MonoBehaviour
     public GameObject fakeMendakoPrehab; // インスペクターで指定
     // 自陣営の駒生成
     private GameObject piece;
+    // グリッドマネージャー
+    private GameObject manageGrid;
     private List<GameObject> myPieces;
     // 場に出ている自陣営の駒 <位置のID, 駒オブジェクト>
     private Dictionary<Vector2Int, GameObject> activePieces;
     // 獲得した相手陣営の駒
     private List<GameObject> getPieces;
-    
-    /// <summary> ウパルパ陣営のカメラ位置、向き（定数） </summary>
-    private const int UPA_CAMERA_POSITION_Z = -13;
-    private const int UPA_CAMERA_ROTATION_Y = 0;
-    /// <summary> メンダコ陣営のカメラ位置、向き（定数） </summary>
-    private const int MEN_CAMERA_POSITION_Z = 13;
-    private const int MEN_CAMERA_ROTATION_Y = 180;
 
     // 選択した駒位置
     private Vector2Int piecePos;
@@ -85,10 +80,14 @@ public class PlayerState : MonoBehaviour
             selectMode = SelectMode.NoMyTurn;
         }
     }
+    public GameObject setManageGrid{
+        set{ manageGrid = value; }
+    }
     public Team getsetTeam{
         get{ return team; }
         set{
             team = value;
+            activePieces = new Dictionary<Vector2Int, GameObject>();
         }
     }
 
@@ -124,11 +123,11 @@ public class PlayerState : MonoBehaviour
     /// <summary>
     /// 駒選択開始に
     /// </summary>
-    public void toStartSetPieces(Vector2Int posID){
+    public void toStartSetPieces(){
         selectMode = SelectMode.SetPiece;
     }
     /// <summary>
-    /// 配置駒選択に
+    /// 配置マス選択に
     /// </summary>
     public void toSelectSetPosition(Vector2Int posID){
         piecePos = posID;
@@ -138,10 +137,11 @@ public class PlayerState : MonoBehaviour
     /// 配置駒の移動をして駒選択状態に
     /// </summary>
     public void toMoveSetPosition(Vector2Int posID){
-        // 配列の位置を変える
-        activePieces.remove(new Vector2Int(2*i,1), piece);
-        MovePiece(posID); //移動
-        StartSetPieces();
+        moveToPos = posID;
+        // 配列の登録変更
+        activePieces.Add(moveToPos, piece); //選択位置で登録
+        ClearAllHighLight();
+        toStartSetPieces();
     }
 
     /// <summary>
@@ -155,6 +155,7 @@ public class PlayerState : MonoBehaviour
     /// </summary>
     public void toFinishSet(){
         selectMode = SelectMode.SetAllPieces;
+        ClearAllHighLight();
     }
 
     /// <summary>
@@ -171,7 +172,18 @@ public class PlayerState : MonoBehaviour
     /// </summary>
     public void toMovePiece(Vector2Int posID){
         moveToPos = posID;
+        activePieces.Remove(piecePos); //現在位置の登録解除
+        activePieces.Add(moveToPos, piece); //移動先で登録
         Debug.Log("move to "+moveToPos[0]+","+moveToPos[1]);
         selectMode = SelectMode.NoMyTurn;
+    }
+    /// <summary>
+    /// あらゆるハイライトをクリア
+    /// </summary>
+    public void ClearAllHighLight(){
+        foreach(GameObject obj in activePieces.Values){
+            if(obj!=null) obj.GetComponent<PieceState>().HighLightPiece(false);
+        }
+        manageGrid.GetComponent<ManageGrid>().ClearHighLight();
     }
 }

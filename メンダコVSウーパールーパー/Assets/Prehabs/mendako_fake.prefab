@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 3189139146794247369}
   - component: {fileID: -7657350190522970384}
   - component: {fileID: 2176541332899544588}
+  - component: {fileID: 3929283728208877341}
   m_Layer: 0
   m_Name: mendako_fake
   m_TagString: Untagged
@@ -228,6 +229,23 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7427258760178724847, guid: 0b2ed58845bfa91468f632cb1e12b543, type: 3}
+--- !u!114 &3929283728208877341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2813001013815344755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 187057899
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours: []
 --- !u!1 &6176844937966487372
 GameObject:
   m_ObjectHideFlags: 0

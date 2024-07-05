@@ -106,7 +106,7 @@ public class PieceState : MonoBehaviour
                 default:
                     break;
             }
-        }
+        }else{ Debug.Log("違うチーム"); }
     }
 
     // マテリアルを強調

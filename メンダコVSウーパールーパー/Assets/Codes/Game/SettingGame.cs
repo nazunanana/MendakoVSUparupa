@@ -34,7 +34,8 @@ public class SettingGame : MonoBehaviour
         PL_mendako.GetComponent<CreatePiece>().CreateInitPieces();
         // グリッド管理オブジェクト生成、プレイヤーオブジェクトを伝達
         manageGrid = Instantiate(gridSystemPrehab, gridSystemPrehab.transform.position, Quaternion.identity);
-        manageGrid.GetComponent<ManageGrid>().SetPlayers = new GameObject[]{PL_uparupa, PL_mendako};
+        manageGrid.GetComponent<ManageGrid>().setImUparupa = isUparupaTeam ? true : false;
+        manageGrid.GetComponent<ManageGrid>().SetPlayers = new GameObject[]{PL_uparupa, PL_mendako}; //グリッド生成
         PL_uparupa.GetComponent<PlayerState>().setManageGrid = manageGrid;
         PL_mendako.GetComponent<PlayerState>().setManageGrid = manageGrid;
     }

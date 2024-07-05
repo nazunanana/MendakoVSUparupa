@@ -16,10 +16,10 @@ public class CreatePiece : MonoBehaviour
     private GameObject player;
     private GameObject myRealPrehab;
     private GameObject myFakePrehab;
-    // 自陣営の駒生成
-    private GameObject[] pieces;
     // 駒の位置
     private Vector2Int[] piecePosID;
+    // 駒一覧
+    List<GameObject> myPieces;
     // 選択中の駒のタイプ
     private bool pieceType;
     // 配置した駒の数
@@ -30,7 +30,7 @@ public class CreatePiece : MonoBehaviour
     // 駒配置のための初期化
     public void CreateInitPieces(){
         player = this.gameObject;
-        pieces = new GameObject[8];
+        myPieces= new List<GameObject>();
         piecePosID = new Vector2Int[8];
         // ウパルパ
         if(player.GetComponent<PlayerState>().getsetTeam == PlayerState.Team.uparupa){
@@ -41,12 +41,12 @@ public class CreatePiece : MonoBehaviour
                 realPiece.GetComponent<PieceState>().setPlayer = player;
                 realPiece.GetComponent<PieceState>().getsetTeam = PlayerState.Team.uparupa;
                 realPiece.GetComponent<PieceState>().getsetIsReal = true;
-                pieces[2*i] = realPiece;
+                myPieces.Add(realPiece);
                 GameObject fakePiece = Instantiate(myFakePrehab, new Vector3(-4f,0.15f,9.3f), myFakePrehab.transform.rotation);
                 fakePiece.GetComponent<PieceState>().setPlayer = player;
                 fakePiece.GetComponent<PieceState>().getsetTeam = PlayerState.Team.uparupa;
                 fakePiece.GetComponent<PieceState>().getsetIsReal = false;
-                pieces[2*i+1] = fakePiece;
+                myPieces.Add(fakePiece);
             }
         // メンダコ
         }else{
@@ -57,14 +57,15 @@ public class CreatePiece : MonoBehaviour
                 realPiece.GetComponent<PieceState>().setPlayer = player;
                 realPiece.GetComponent<PieceState>().getsetTeam = PlayerState.Team.mendako;
                 realPiece.GetComponent<PieceState>().getsetIsReal = true;
-                pieces[2*i] = realPiece;
+                myPieces.Add(realPiece);
                 GameObject fakePiece = Instantiate(myFakePrehab, new Vector3(4f,0.15f,-9.3f), myFakePrehab.transform.rotation);
                 fakePiece.GetComponent<PieceState>().setPlayer = player;
                 fakePiece.GetComponent<PieceState>().getsetTeam = PlayerState.Team.mendako;
                 fakePiece.GetComponent<PieceState>().getsetIsReal = false;
-                pieces[2*i+1] = fakePiece;
+                myPieces.Add(fakePiece);
             }
         }
+        player.GetComponent<PlayerState>().getsetMyPieces = myPieces;
         SetRealPiece = 0;
         SetFakePiece = 0;
         player.GetComponent<PlayerState>().toStartSetPieces();
@@ -94,7 +95,7 @@ public class CreatePiece : MonoBehaviour
     public void SelectPosition(Vector2Int posID){
         player.GetComponent<PlayerState>().toMoveSetPosition(posID); //状態遷移、登録
         int id = (pieceType) ? 2*SetRealPiece : 2*SetFakePiece+1;
-        pieces[id].GetComponent<PieceState>().MovePiecePos(posID); //移動
+        myPieces[id].GetComponent<PieceState>().MovePiecePos(posID); //移動
         setPiecePosID(posID, pieceType); // 配置数登録
 
         // 配置完了

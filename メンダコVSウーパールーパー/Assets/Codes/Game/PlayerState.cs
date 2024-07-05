@@ -55,7 +55,7 @@ public class PlayerState : MonoBehaviour
     /// <summary>
     /// ゲーム開始
     /// </summary>
-    public void Setting(Team team){
+    public void StartGameSetting(Team team){
         myPieces = new List<GameObject>();
         activePieces = new Dictionary<Vector2Int, GameObject>();
         if(team==Team.uparupa){
@@ -68,6 +68,7 @@ public class PlayerState : MonoBehaviour
                 activePieces.Add(new Vector2Int(2*i+1,1), piece);
             }
             selectMode = SelectMode.MovePiece;
+            Debug.Log("相手ターン開始");
         }else{
             for(int i=0; i<4; i++){
                 piece = Instantiate(realMendakoPrehab, realMendakoPrehab.transform.position, Quaternion.identity);
@@ -78,6 +79,7 @@ public class PlayerState : MonoBehaviour
                 activePieces.Add(new Vector2Int(2*i+1,1), piece);
             }
             selectMode = SelectMode.NoMyTurn;
+            Debug.Log("自分のターン開始");
         }
     }
     public GameObject setManageGrid{
@@ -87,6 +89,7 @@ public class PlayerState : MonoBehaviour
         get{ return team; }
         set{
             team = value;
+            myPieces = new List<GameObject>();
             activePieces = new Dictionary<Vector2Int, GameObject>();
         }
     }
@@ -94,6 +97,11 @@ public class PlayerState : MonoBehaviour
     public int getsetRealPoint{
         get{ return realPoint; }
         set{ realPoint = value; }
+    }
+
+    public List<GameObject> getsetMyPieces{
+        get{ return myPieces; }
+        set{ myPieces = value; }
     }
 
     public int getsetFakePoint{
@@ -143,19 +151,20 @@ public class PlayerState : MonoBehaviour
         ClearAllHighLight();
         toStartSetPieces();
     }
+    /// <summary>
+    /// 4駒配置完了状態に
+    /// </summary>
+    public void toFinishSet(){
+        Debug.Log(team + "が8駒配置完了");
+        selectMode = SelectMode.SetAllPieces;
+        ClearAllHighLight();
+    }
 
     /// <summary>
     /// ターン開始時に
     /// </summary>
     public void toStartMyTurn(){
         selectMode = SelectMode.MovePiece;
-    }
-    /// <summary>
-    /// 4駒配置完了状態に
-    /// </summary>
-    public void toFinishSet(){
-        selectMode = SelectMode.SetAllPieces;
-        ClearAllHighLight();
     }
 
     /// <summary>
@@ -164,7 +173,7 @@ public class PlayerState : MonoBehaviour
     public void toSelectPiece(Vector2Int posID){
         piecePos = posID;
         selectMode = SelectMode.MovePosition;
-        Debug.Log("select piece on "+piecePos[0]+","+piecePos[1]);
+        // Debug.Log("select piece on "+piecePos[0]+","+piecePos[1]);
     }
     
     /// <summary>
@@ -181,7 +190,7 @@ public class PlayerState : MonoBehaviour
     /// あらゆるハイライトをクリア
     /// </summary>
     public void ClearAllHighLight(){
-        foreach(GameObject obj in activePieces.Values){
+        foreach(GameObject obj in myPieces){
             if(obj!=null) obj.GetComponent<PieceState>().HighLightPiece(false);
         }
         manageGrid.GetComponent<ManageGrid>().ClearHighLight();

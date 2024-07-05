@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8579546467671568038}
-  - component: {fileID: 5507509044727269784}
-  - component: {fileID: 1479186565437629503}
+  - component: {fileID: -8496724235990915845}
+  - component: {fileID: -6841728820833063937}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5507509044727269784
+--- !u!114 &-8496724235990915845
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,7 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ed4a468584b7945969dd8c482e8369, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1479186565437629503
+  realUparupaPrehab: {fileID: 5538709557641451423, guid: a66a4f26450eca74b9f8ffa7b098e2c2, type: 3}
+  fakeUparupaPrehab: {fileID: 2227620648359408402, guid: cdaa84a0f8ab4df41bc36dbe2166fae0, type: 3}
+  realMendakoPrehab: {fileID: 1644011147557011213, guid: f14032dc8c941c44f82588b14cd55c18, type: 3}
+  fakeMendakoPrehab: {fileID: 2813001013815344755, guid: c5813fac108a7b9489085717ca36efb2, type: 3}
+--- !u!114 &-6841728820833063937
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,11 +58,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4531802201551302878}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Script: {fileID: 11500000, guid: 588fd092d7cbc5f418886e44de2d93ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 2604744534
-  ObjectInterest: 1
-  Flags: 262145
-  NestedObjects: []
-  NetworkedBehaviours: []
+  realUparupaPrehab: {fileID: 5538709557641451423, guid: a66a4f26450eca74b9f8ffa7b098e2c2, type: 3}
+  fakeUparupaPrehab: {fileID: 2227620648359408402, guid: cdaa84a0f8ab4df41bc36dbe2166fae0, type: 3}
+  realMendakoPrehab: {fileID: 1644011147557011213, guid: f14032dc8c941c44f82588b14cd55c18, type: 3}
+  fakeMendakoPrehab: {fileID: 2813001013815344755, guid: c5813fac108a7b9489085717ca36efb2, type: 3}

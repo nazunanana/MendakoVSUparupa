@@ -14,8 +14,8 @@ public class PlayGame : MonoBehaviour
         // プレイヤーオブジェクトを作成
         PL_uparupa = Instantiate(playerPrehab, playerPrehab.transform.position, Quaternion.identity);
         PL_mendako = Instantiate(playerPrehab, playerPrehab.transform.position, Quaternion.identity);
-        PL_uparupa.GetComponent<PlayerState>().setgetTeam = PlayerState.Team.uparupa;
-        PL_mendako.GetComponent<PlayerState>().setgetTeam = PlayerState.Team.mendako;
+        PL_uparupa.GetComponent<PlayerState>().getsetTeam = PlayerState.Team.uparupa;
+        PL_mendako.GetComponent<PlayerState>().getsetTeam = PlayerState.Team.mendako;
         // 管理オブジェクト生成
         manageGrid = Instantiate(gridSystemPrehab, gridSystemPrehab.transform.position, Quaternion.identity);
         manageGrid.GetComponent<ManageGrid>().SetPlayers = new GameObject[]{PL_uparupa, PL_mendako};

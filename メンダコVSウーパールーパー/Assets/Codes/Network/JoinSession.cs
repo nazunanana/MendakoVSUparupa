@@ -90,14 +90,15 @@ public class JoinSession : MonoBehaviour
             // プレイヤーが2人集まったらシーンを変更する
             Debug.Log("マッチ成功！");
 
-            var playerObj = networkRunner.SpawnAsync(playerPrefab);
-            // var playerSta = plObject.getComponent<PlayerState>;
-            // setPlayerState(playerObj, plData);
+            //var playerObj = networkRunner.SpawnAsync(playerPrefab);
+            //var Data = plObject.getComponent<SettingGame>;
+            //setPlayerState(playerObj, Data);
 
             // SceneManager.LoadScene("SC_Ready");
         }
     }
 
-    //private void setPlayerState()
-
+    //private void setPlayerState(var playerObj, var Data){
+    //     プレイヤーごとにisUparupaTeam設定（未実装）
+    //}
 }

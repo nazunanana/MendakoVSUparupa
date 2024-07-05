@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -8496724235990915845}
   - component: {fileID: -6841728820833063937}
   - component: {fileID: 7496931906993790794}
+  - component: {fileID: -336550656334112784}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -84,3 +85,19 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours: []
+--- !u!114 &-336550656334112784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4531802201551302878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e8f4c2e3a3eef8489fa2d934aed9a20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrehab: {fileID: 4531802201551302878}
+  gridSystemPrehab: {fileID: 387623249586609869, guid: 0220d0facf853594ba7cfb0a216bf461, type: 3}
+  cam: {fileID: 0}
+  isUparupaTeam: 1

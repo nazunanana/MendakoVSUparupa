@@ -58,6 +58,8 @@ public class JoinSession : MonoBehaviour
             Debug.Log("セッション参加しました。");
             // runner.ActivePlayers.Countで現在参加しているプレイヤー数が確認できる
 
+            var playerObj = networkRunner.asyncSpawn(playerPrefab);
+
             if (networkRunner.SessionInfo.PlayerCount == 1)
             {
                 // プレイヤーがまだ1人だけだったら
@@ -66,6 +68,10 @@ public class JoinSession : MonoBehaviour
 
             // コルーチンを開始してプレイヤー数が2人になるのを待つ
             StartCoroutine(WaitForPlayers());
+
+            setPlayerState(playerObj, networkRunner.LocalPlayer);
+
+            //SceneManager.LoadScene("SC_Ready");
 
         }
         else
@@ -90,15 +96,17 @@ public class JoinSession : MonoBehaviour
             // プレイヤーが2人集まったらシーンを変更する
             Debug.Log("マッチ成功！");
 
-            //var playerObj = networkRunner.SpawnAsync(playerPrefab);
-            //var Data = plObject.getComponent<SettingGame>;
-            //setPlayerState(playerObj, Data);
-
-            // SceneManager.LoadScene("SC_Ready");
         }
     }
 
-    //private void setPlayerState(var playerObj, var Data){
-    //     プレイヤーごとにisUparupaTeam設定（未実装）
-    //}
+    private void setPlayerState(NetworkObject playerObj, PlayerRef playerRef){
+        //プレイヤーごとにisUparupaTeam設定
+        var playerData = playerObj.GetComponent<SettingGame>();
+
+        if(playerRef.PlayerId == 1){
+            playerData.isUparupaTeam = true;
+        }else if(playerRef.PlayerId == 2){
+            playerData.isUparupaTeam = false;
+        }
+    }
 }

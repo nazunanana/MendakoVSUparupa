@@ -49,41 +49,58 @@ public class BoardGrid : MonoBehaviour {
 
     // マスを強調
     void OnMouseOver() {
-        Debug.Log(posID.x+","+posID.y+"hovering");
+        //Debug.Log(posID.x+","+posID.y+"hovering");
         ChangeHighLight(true);
     }
     void OnMouseExit() {
-        Debug.Log(posID.x+","+posID.y+"exit");
+        //Debug.Log(posID.x+","+posID.y+"exit");
         ChangeHighLight(false);
     }
     // クリック時
     void OnMouseDown(){
-        Debug.Log(posID.x+","+posID.y+"click");
-        // 駒選択中→駒を選択
-        if(nowPlayerComp.getisSelectingPiece){
-            nowPlayerComp.SelectPiece(posID);
-            Debug.Log("駒選択"+nowPlayerComp.getisSelectingMove);
-        // 駒選択済みなら移動先を選択
-        }else if(!nowPlayerComp.getisSelectingPiece && nowPlayerComp.getisSelectingMove){
-            // 状態変化、移動先を設定
-            nowPlayerComp.MovePiece(posID);
-            Debug.Log("移動マス選択"+nowPlayerComp.getisSelectingMove);
+        //Debug.Log(posID.x+","+posID.y+"click");
+        switch(nowPlayerComp.getsetSelectMode){
+            case PlayerState.SelectMode.SetPosition:
+                nowPlayer.GetComponent<CreatePiece>().SelectPosition(posID);
+                Debug.Log("駒置いた");
+                break;
+            case PlayerState.SelectMode.MovePiece:
+                nowPlayerComp.SelectPiece(posID);
+                Debug.Log("移動させる駒選択した");
+                break;
+            case PlayerState.SelectMode.MovePosition:
+                nowPlayerComp.MovePiece(posID);
+                Debug.Log("移動した");
+                break;
+            case PlayerState.SelectMode.NoMyTurn:
+                break;
+            default:
+                break;
         }
         // 現在のハイライトをクリア
-        gridSystemComp.ClearHighLight();
+        //gridSystemComp.ClearHighLight();
     }
 
     // 状態によって強調させる・解除する
     // 駒選択前なら前後左右 / 駒選択済みならこのマスだけ
     private void ChangeHighLight(bool tf){
-        if(nowPlayerComp.getisSelectingPiece){
-            Debug.Log("piece selecting!");
-            gridSystemComp.HighLightWASDGrid(posID,tf);
-        }else if(!nowPlayerComp.getisSelectingPiece && nowPlayerComp.getisSelectingMove){
-            Debug.Log("move selecting!");
-            gridSystemComp.HighLightGrid(posID,tf);
-        }else{
-            Debug.Log("Not your turn now!");
+        switch(nowPlayerComp.getsetSelectMode){
+            case PlayerState.SelectMode.SetPiece: //設置駒選択中
+                // 駒のみハイライト
+                break;
+            case PlayerState.SelectMode.SetPosition:
+                gridSystemComp.HighLightGrid(posID,tf);
+                break;
+            case PlayerState.SelectMode.MovePiece:
+                gridSystemComp.HighLightWASDGrid(posID,tf);
+                break;
+            case PlayerState.SelectMode.MovePosition:
+                gridSystemComp.HighLightGrid(posID,tf);
+                break;
+            case PlayerState.SelectMode.NoMyTurn:
+                break;
+            default:
+                break;
         }
     }
 

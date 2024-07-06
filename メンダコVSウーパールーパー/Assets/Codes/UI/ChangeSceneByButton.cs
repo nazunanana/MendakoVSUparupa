@@ -60,6 +60,14 @@ public class ChangeSceneByButton : MonoBehaviour, IPointerEnterHandler, IPointer
         {
             SceneManager.LoadScene("SC_SetPieces");
         }
+        else if (textValue == "タイトルへ")
+        {
+            SceneManager.LoadScene("SC_Start");
+        }
+        else if (textValue == "もう一度")
+        {
+            SceneManager.LoadScene("SC_SetPieces");
+        }
         Debug.Log("Button text: " + textValue);
     }
 

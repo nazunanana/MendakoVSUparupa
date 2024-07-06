@@ -36,6 +36,7 @@ public class PlayerState : MonoBehaviour
     public GameObject fakeUparupaPrehab; // インスペクターで指定
     public GameObject realMendakoPrehab; // インスペクターで指定
     public GameObject fakeMendakoPrehab; // インスペクターで指定
+    private GameObject manager;
     // 自陣営の駒生成
     private GameObject piece;
     // グリッドマネージャー
@@ -84,6 +85,9 @@ public class PlayerState : MonoBehaviour
     }
     public GameObject setManageGrid{
         set{ manageGrid = value; }
+    }
+    public GameObject setManager{
+        set{ manager = value; }
     }
     public Team getsetTeam{
         get{ return team; }
@@ -156,6 +160,9 @@ public class PlayerState : MonoBehaviour
     /// </summary>
     public void toFinishSet(){
         Debug.Log(team + "が8駒配置完了");
+        // UI差し替え
+        manager.GetComponent<SettingGame>().UI_message.SetActive(false);
+        manager.GetComponent<SettingGame>().UI_finishMessage.SetActive(true);
         selectMode = SelectMode.SetAllPieces;
         ClearAllHighLight();
     }

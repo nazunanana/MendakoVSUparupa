@@ -10,6 +10,8 @@ public class SettingGame : MonoBehaviour
     public GameObject playerPrehab;
     private GameObject manageGrid;
     public GameObject gridSystemPrehab;
+    public GameObject UI_message;
+    public GameObject UI_finishMessage;
     public GameObject cam;
     public bool isUparupaTeam = true;
     /// <summary> ウパルパ陣営のカメラ位置、向き（定数） </summary>
@@ -42,6 +44,9 @@ public class SettingGame : MonoBehaviour
         // チーム設定
         PL_uparupa.GetComponent<PlayerState>().getsetTeam = PlayerState.Team.uparupa;
         PL_mendako.GetComponent<PlayerState>().getsetTeam = PlayerState.Team.mendako;
+        // マネージャーを通知
+        PL_uparupa.GetComponent<PlayerState>().setManager = this.gameObject;
+        PL_mendako.GetComponent<PlayerState>().setManager = this.gameObject;
         // カメラ位置設定
         SetCameraPos(isUparupaTeam);
         // ピース配置開始

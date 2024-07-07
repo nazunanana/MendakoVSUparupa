@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using ExitGames.Client.Photon.StructWrapping;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class ManageGrid : MonoBehaviour
@@ -8,6 +9,7 @@ public class ManageGrid : MonoBehaviour
     public GameObject oneGridPrehab = null;
     private GameObject[,] gridArray;
     private GameObject[] players;
+    public bool ImUparupa;
     
     private const float FIRST_X = -6.48f; //ウパルパ陣営側
     private const float FIRST_Z = -6.48f;
@@ -26,6 +28,12 @@ public class ManageGrid : MonoBehaviour
             Init();
         }
     }
+    public bool setImUparupa{
+        set{
+            ImUparupa = value;
+            Debug.Log("Upa?"+ImUparupa);
+        }
+    }
 
     void CreateGrids()
     {
@@ -37,8 +45,12 @@ public class ManageGrid : MonoBehaviour
                 // それぞれのIDと位置を教える
                 gridComponent.SetPosition(new Vector2Int(j,i), position);
                 gridComponent.SetGridSystemObj = this.gameObject;
-                // 最初のプレイヤーはウパルパ
-                gridComponent.SetNowPlayer = this.players[0];
+                // 配置中なら自分  最初のプレイヤーはウパルパ
+                if(SceneManager.GetActiveScene().name == "SC_SetPieces"){
+                    gridComponent.SetNowPlayer =  ImUparupa ? this.players[0] : this.players[1];
+                } else {
+                    gridComponent.SetNowPlayer = this.players[0];
+                }
                 // 生成したマスを配列に登録
                 gridArray[j,i] = newGridObj;
                 if(i==0 && (j==0 || j==5)) {

@@ -67,7 +67,7 @@ public class PieceState : MonoBehaviour
                 default:
                     break;
             }
-        }else{ Debug.Log("違うチーム"); }
+        }else{ Debug.Log("not my team's piece"); }
     }
     void OnMouseExit()
     {
@@ -96,17 +96,17 @@ public class PieceState : MonoBehaviour
                 case PlayerState.SelectMode.SetPiece: //設置駒選択なら
                     player.GetComponent<CreatePiece>().SelectPiece(posID, getsetIsReal); // 状態遷移
                     HighLightPiece(true);
-                    Debug.Log("置く駒決めた");
+                    Debug.Log("Select Piece");
                     break;
                 case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
                     player.GetComponent<PlayerState>().toMoveSetPosition(posID); // 状態遷移
                     HighLightPiece(false);
-                    Debug.Log("移動させる駒選択した");
+                    Debug.Log("Select Piece");
                     break;
                 default:
                     break;
             }
-        }
+        }else{ Debug.Log("not my team's piece"); }
     }
 
     // マテリアルを強調

@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SC_Setting.unity
     guid: d73683018957694419ebac0199b700d0
   - enabled: 1
+    path: Assets/Scenes/SC_SetPieces.unity
+    guid: 13eee6fe003f22f45a63d1710b020f84
+  - enabled: 1
     path: Assets/Scenes/SC_Game.unity
     guid: 48fd3194425838a4cb085f820ae104ca
   - enabled: 1

@@ -151,9 +151,9 @@ public class PlayerState : MonoBehaviour
     public void toMoveSetPosition(Vector2Int posID){
         moveToPos = posID;
         // 配列の登録変更
-        activePieces.Add(moveToPos, piece); //選択位置で登録
-        ClearAllHighLight();
-        toStartSetPieces();
+        //activePieces.Add(moveToPos, piece); //選択位置で登録 //pieceを設定してないからおかしいはず
+        ClearAllHighLight(); //ハイライト解除
+        toStartSetPieces(); //状態遷移
     }
     /// <summary>
     /// 4駒配置完了状態に
@@ -161,8 +161,7 @@ public class PlayerState : MonoBehaviour
     public void toFinishSet(){
         Debug.Log(team + "が8駒配置完了");
         // UI差し替え
-        manager.GetComponent<SettingGame>().UI_message.SetActive(false);
-        manager.GetComponent<SettingGame>().UI_finishMessage.SetActive(true);
+        this.gameObject.GetComponent<SettingUI>().FinishSetting();
         selectMode = SelectMode.SetAllPieces;
         ClearAllHighLight();
     }
@@ -179,6 +178,7 @@ public class PlayerState : MonoBehaviour
     /// </summary>
     public void toSelectPiece(Vector2Int posID){
         piecePos = posID;
+        piece = activePieces[piecePos]; // 選択中の駒
         selectMode = SelectMode.MovePosition;
         // Debug.Log("select piece on "+piecePos[0]+","+piecePos[1]);
     }

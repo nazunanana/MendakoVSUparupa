@@ -7,13 +7,16 @@ public class SettingGame : MonoBehaviour
 {
     private GameObject PL_uparupa;
     private GameObject PL_mendako;
-    public GameObject playerPrehab;
+    [SerializeField] private GameObject playerPrehab;
     private GameObject manageGrid;
-    public GameObject gridSystemPrehab;
-    public GameObject UI_message;
-    public GameObject UI_finishMessage;
-    public GameObject cam;
-    public bool isUparupaTeam = true;
+    [SerializeField] private GameObject gridSystemPrehab;
+    [SerializeField] private GameObject cam;
+    [SerializeField] private bool isUparupaTeam = true;
+    // UI
+    [SerializeField] private GameObject UI_message;
+    [SerializeField] private GameObject UI_finishMessage;
+    [SerializeField] private GameObject UI_real;
+    [SerializeField] private GameObject UI_fake;
     /// <summary> ウパルパ陣営のカメラ位置、向き（定数） </summary>
     private const int UPA_CAMERA_POSITION_Z = 13;
     private const int UPA_CAMERA_ROTATION_Y = 180;
@@ -47,6 +50,9 @@ public class SettingGame : MonoBehaviour
         // マネージャーを通知
         PL_uparupa.GetComponent<PlayerState>().setManager = this.gameObject;
         PL_mendako.GetComponent<PlayerState>().setManager = this.gameObject;
+        // UIを渡す
+        PL_uparupa.GetComponent<SettingUI>().setUIObject(new GameObject[]{UI_message, UI_finishMessage, UI_real, UI_fake});
+        PL_mendako.GetComponent<SettingUI>().setUIObject(new GameObject[]{UI_message, UI_finishMessage, UI_real, UI_fake});
         // カメラ位置設定
         SetCameraPos(isUparupaTeam);
         // ピース配置開始

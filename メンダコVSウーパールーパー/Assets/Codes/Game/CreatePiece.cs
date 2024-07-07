@@ -97,6 +97,7 @@ public class CreatePiece : MonoBehaviour
         int id = (pieceType) ? 2*SetRealPiece : 2*SetFakePiece+1;
         myPieces[id].GetComponent<PieceState>().MovePiecePos(posID); //移動
         setPiecePosID(posID, pieceType); // 配置数登録
+        player.GetComponent<SettingUI>().DecreasePieceNum(pieceType); //UI
 
         // 配置完了
         if(SetRealPiece==PIECE_NUM && SetFakePiece==PIECE_NUM){

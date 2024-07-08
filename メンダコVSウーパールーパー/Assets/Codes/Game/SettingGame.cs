@@ -7,7 +7,7 @@ public class SettingGame : MonoBehaviour
 {
     private GameObject PL_uparupa;
     private GameObject PL_mendako;
-    private GameObject playerPrehab;
+    [SerializeField] private GameObject playerPrehab;
     private GameObject manageGrid;
     [SerializeField] private GameObject gridSystemPrehab;
     [SerializeField] private GameObject cam;

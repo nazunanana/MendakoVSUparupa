@@ -29,15 +29,22 @@ public class JoinSession : MonoBehaviour
     {
         roomName = inputText.text;
         // 入力欄が空欄の時
-        if (roomName == "")
+        if (string.IsNullOrEmpty(roomName))
         {
             Debug.Log("パスワードを入力してください。");
             return;
         }
         
         Debug.Log("セッションに参加します");
-        runner = gameObject.AddComponent<NetworkRunner>();
-        runner.ProvideInput = true;
+
+        if (runner == null)
+        {
+            Debug.LogError("NetworkRunnerが見つかりません。NetworkManagerが正しく初期化されているか確認してください。");
+            return;
+        }
+
+        //runner = gameObject.AddComponent<NetworkRunner>();
+        //runner.ProvideInput = true;
 
         // StartGameArgsに渡した設定で、セッションに参加する
         var result = await runner.StartGame(

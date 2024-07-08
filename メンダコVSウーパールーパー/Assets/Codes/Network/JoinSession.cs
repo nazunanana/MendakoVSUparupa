@@ -1,46 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
-using Fusion;
+using System;
 using TMPro;
+using Fusion;
+using Fusion.Sockets;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class JoinSession : MonoBehaviour
 {
-    [SerializeField]
-    private NetworkRunner networkRunnerPrefab;
-
-    [SerializeField]
-    private NetworkPrefabRef playerPrefab;
 
     [SerializeField]
     private TMP_InputField inputText;
 
+    //ルーム番号
     private string roomName;
 
-    private NetworkRunner networkRunner;
+    private NetworkRunner runner;
 
     private void Start()
     {
         inputText = inputText.GetComponent<TMP_InputField>();
+
+        runner = NetworkManager.Instance.Runner;
     }
 
-    public async void InputPassword()
+    private async void InputPassword()
     {
         roomName = inputText.text;
         // 入力欄が空欄の時
-        if (roomName == "")
+        if (string.IsNullOrEmpty(roomName))
         {
             Debug.Log("パスワードを入力してください。");
             return;
         }
+        
+        Debug.Log("セッションに参加します");
 
-        // NetworkRunnerを生成する
-        networkRunner = Instantiate(networkRunnerPrefab);
+        if (runner == null)
+        {
+            Debug.LogError("NetworkRunnerが見つかりません。NetworkManagerが正しく初期化されているか確認してください。");
+            return;
+        }
+
+        //runner = gameObject.AddComponent<NetworkRunner>();
+        //runner.ProvideInput = true;
 
         // StartGameArgsに渡した設定で、セッションに参加する
-        var result = await networkRunner.StartGame(
-            new StartGameArgs
+        var result = await runner.StartGame(
+            new StartGameArgs()
             {
                 // セッション名
                 SessionName = roomName,
@@ -49,24 +57,26 @@ public class JoinSession : MonoBehaviour
                 // セッションに参加できる最大プレイヤー数
                 PlayerCount = 2,
                 GameMode = GameMode.Shared,
-                SceneManager = networkRunner.GetComponent<NetworkSceneManagerDefault>()
+                SceneManager = runner.GetComponent<NetworkSceneManagerDefault>()
             }
         );
 
         if (result.Ok)
         {
             Debug.Log("セッション参加しました。");
-            // runner.ActivePlayers.Countで現在参加しているプレイヤー数が確認できる
 
-            if (networkRunner.SessionInfo.PlayerCount == 1)
+            // runner.ActivePlayers.Countで現在参加しているプレイヤー数が確認できる
+            if (runner.SessionInfo.PlayerCount == 1)
             {
-                // プレイヤーがまだ1人だけだったら
+                // プレイヤーがまだ1人だけなら待機
                 Debug.Log("プレイヤーを探しています…");
             }
 
             // コルーチンを開始してプレイヤー数が2人になるのを待つ
             StartCoroutine(WaitForPlayers());
 
+
+            //setPlayerState(playerObj, networkRunner.LocalPlayer);
         }
         else
         {
@@ -79,10 +89,9 @@ public class JoinSession : MonoBehaviour
                 Debug.LogError("セッション参加に失敗しました");
             }
         }
-
         IEnumerator WaitForPlayers()
         {
-            while (networkRunner.SessionInfo.PlayerCount != 2)
+            while (runner.SessionInfo.PlayerCount != 2)
             {
                 yield return null; // 1フレーム待つ
             }
@@ -90,15 +99,38 @@ public class JoinSession : MonoBehaviour
             // プレイヤーが2人集まったらシーンを変更する
             Debug.Log("マッチ成功！");
 
-            //var playerObj = networkRunner.SpawnAsync(playerPrefab);
-            //var Data = plObject.getComponent<SettingGame>;
-            //setPlayerState(playerObj, Data);
-
-            // SceneManager.LoadScene("SC_Ready");
+            SceneManager.LoadScene("SC_Ready");
         }
     }
+    // private IEnumerator SpawnPlayer()
+    // {
+    //     yield return new WaitUntil(() => runner.SessionInfo.PlayerCount == 2);
 
-    //private void setPlayerState(var playerObj, var Data){
-    //     プレイヤーごとにisUparupaTeam設定（未実装）
-    //}
+    //     PlayerRef player = runner.LocalPlayer;
+
+    //     runner.Spawn(playerPrefab);
+    //     Debug.Log(player.PlayerId + "人目のプレイヤーをスポーンしました");
+    // }
+
+    // public void PlayerJoined(PlayerRef player)
+    // {
+    //     Debug.Log("Player." + player.PlayerId + " が参加しました");
+
+    //     networkRunner.Spawn(playerPrefab);
+    // }
+
+    // private void setPlayerState(NetworkObject playerObj, PlayerRef playerRef)
+    // {
+    //     //プレイヤーごとにisUparupaTeam設定
+    //     var playerData = playerObj.GetComponent<SettingGame>();
+
+    //     if (playerRef.PlayerId == 1)
+    //     {
+    //         playerData.isUparupaTeam = true;
+    //     }
+    //     else if (playerRef.PlayerId == 2)
+    //     {
+    //         playerData.isUparupaTeam = false;
+    //     }
+    // }
 }

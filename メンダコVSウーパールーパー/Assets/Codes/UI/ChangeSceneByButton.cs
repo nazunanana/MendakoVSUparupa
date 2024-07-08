@@ -68,6 +68,12 @@ public class ChangeSceneByButton : MonoBehaviour, IPointerEnterHandler, IPointer
         {
             SceneManager.LoadScene("SC_SetPieces");
         }
+        // [debug]
+        else if (textValue == "ゲームシーンへ")
+        {
+            SceneManager.LoadScene("SC_Game");
+        }
+
         Debug.Log("Button text: " + textValue);
     }
 

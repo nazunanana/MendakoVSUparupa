@@ -10,7 +10,7 @@ public class SettingGame : MonoBehaviour
     [SerializeField] private GameObject playerPrehab;
     private GameObject manageGrid;
     [SerializeField] private GameObject gridSystemPrehab;
-    [SerializeField] private GameObject cam;
+    private GameObject cam;
     [SerializeField] private bool isUparupaTeam = true;
     // UI
     [SerializeField] private GameObject UI_message;
@@ -31,6 +31,7 @@ public class SettingGame : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log("Loaded. Initialize");
+        cam = GameObject.FindGameObjectWithTag("MainCamera");
         Initialize();
     }
     void OnDestroy()
@@ -41,11 +42,13 @@ public class SettingGame : MonoBehaviour
     {
         // プレイヤーオブジェクトを作成
         PL_uparupa = Instantiate(playerPrehab, playerPrehab.transform.position, Quaternion.identity);
+        DontDestroyOnLoad(PL_uparupa);
         //GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         //PL_uparupa = players[0];
         //players[0].name = "PL_uparupa";
         PL_uparupa.name = "PL_uparupa";
         PL_mendako = Instantiate(playerPrehab, playerPrehab.transform.position, Quaternion.identity);
+        DontDestroyOnLoad(PL_mendako);
         //PL_mendako = players[1];
         PL_mendako.name = "PL_mendako";
         // チーム設定
@@ -65,6 +68,7 @@ public class SettingGame : MonoBehaviour
         PL_mendako.GetComponent<CreatePiece>().CreateInitPieces();
         // グリッド管理オブジェクト生成、プレイヤーオブジェクトを伝達
         manageGrid = Instantiate(gridSystemPrehab, gridSystemPrehab.transform.position, Quaternion.identity);
+        DontDestroyOnLoad(manageGrid);
         manageGrid.GetComponent<ManageGrid>().setImUparupa = isUparupaTeam ? true : false;
         manageGrid.GetComponent<ManageGrid>().SetPlayers = new GameObject[]{PL_uparupa, PL_mendako}; //グリッド生成
         PL_uparupa.GetComponent<PlayerState>().setManageGrid = manageGrid;

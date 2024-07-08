@@ -41,6 +41,7 @@ public class ManageGrid : MonoBehaviour
             for(int j=0; j<GRID_NUM; ++j){
                 Vector3 position = new Vector3(FIRST_X+j*gridSize, Y_POS, FIRST_Z+i*gridSize);
                 GameObject newGridObj = Instantiate(oneGridPrehab, position, Quaternion.identity);
+                DontDestroyOnLoad(newGridObj);
                 BoardGrid gridComponent = newGridObj.GetComponent<BoardGrid>();
                 // それぞれのIDと位置を教える
                 gridComponent.SetPosition(new Vector2Int(j,i), position);

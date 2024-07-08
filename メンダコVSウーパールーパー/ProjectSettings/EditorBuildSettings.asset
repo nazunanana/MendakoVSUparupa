@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/SC_Tutorial.unity
     guid: 62e35cc99c4888449bb1f9840427bfb7
   - enabled: 1
-    path: Assets/Scenes/SC_CreateRoom.unity
-    guid: 7b7d852fd6401e1418212a3f333cb7a3
-  - enabled: 1
     path: Assets/Scenes/SC_EnterRoom.unity
     guid: 42e6d6b2c6d271b4685c7deba29b24cd
   - enabled: 1

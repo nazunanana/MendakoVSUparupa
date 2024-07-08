@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.052244805, g: 0.13166165, b: 0.3723552, a: 1}
+  m_IndirectSpecularColor: {r: 0.052145094, g: 0.13165115, b: 0.3723809, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -610,10 +610,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -933,7 +933,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e8f4c2e3a3eef8489fa2d934aed9a20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrehab: {fileID: 4531802201551302878, guid: a2dc6325c07c2794c9c806713feb4122, type: 3}
   gridSystemPrehab: {fileID: 387623249586609869, guid: 0220d0facf853594ba7cfb0a216bf461, type: 3}
   cam: {fileID: 234675005}
   isUparupaTeam: 1

@@ -7,7 +7,7 @@ public class SettingGame : MonoBehaviour
 {
     private GameObject PL_uparupa;
     private GameObject PL_mendako;
-    [SerializeField] private GameObject playerPrehab;
+    private GameObject playerPrehab;
     private GameObject manageGrid;
     [SerializeField] private GameObject gridSystemPrehab;
     [SerializeField] private GameObject cam;
@@ -41,8 +41,12 @@ public class SettingGame : MonoBehaviour
     {
         // プレイヤーオブジェクトを作成
         PL_uparupa = Instantiate(playerPrehab, playerPrehab.transform.position, Quaternion.identity);
+        //GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        //PL_uparupa = players[0];
+        //players[0].name = "PL_uparupa";
         PL_uparupa.name = "PL_uparupa";
         PL_mendako = Instantiate(playerPrehab, playerPrehab.transform.position, Quaternion.identity);
+        //PL_mendako = players[1];
         PL_mendako.name = "PL_mendako";
         // チーム設定
         PL_uparupa.GetComponent<PlayerState>().getsetTeam = PlayerState.Team.uparupa;
@@ -51,8 +55,9 @@ public class SettingGame : MonoBehaviour
         PL_uparupa.GetComponent<PlayerState>().setManager = this.gameObject;
         PL_mendako.GetComponent<PlayerState>().setManager = this.gameObject;
         // UIを渡す
-        PL_uparupa.GetComponent<SettingUI>().setUIObject(new GameObject[]{UI_message, UI_finishMessage, UI_real, UI_fake});
-        PL_mendako.GetComponent<SettingUI>().setUIObject(new GameObject[]{UI_message, UI_finishMessage, UI_real, UI_fake});
+        GameObject[] UIarray = new GameObject[]{UI_message, UI_finishMessage, UI_real, UI_fake};
+        PL_uparupa.GetComponent<SettingUI>().setUIObject(UIarray);
+        PL_mendako.GetComponent<SettingUI>().setUIObject(UIarray);
         // カメラ位置設定
         SetCameraPos(isUparupaTeam);
         // ピース配置開始

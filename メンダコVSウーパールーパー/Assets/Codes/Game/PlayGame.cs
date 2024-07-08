@@ -18,6 +18,10 @@ public class PlayGame : MonoBehaviour
         Destroy(PL_mendako.GetComponent<SettingUI>());
         // 管理オブジェクト生成
         manageGrid = GameObject.FindGameObjectWithTag("GridSystem");
+
+        PL_uparupa.GetComponent<PlayerState>().toStartMyTurn();
+        PL_mendako.GetComponent<PlayerState>().toNoMyTurn();
+
     }
 
     // Update is called once per frame

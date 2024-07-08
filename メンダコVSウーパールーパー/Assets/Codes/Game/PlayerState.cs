@@ -52,37 +52,6 @@ public class PlayerState : MonoBehaviour
     // 選択した移動先
     private Vector2Int moveToPos;
     
-
-    /// <summary>
-    /// ゲーム開始
-    /// </summary>
-    public void StartGameSetting(Team team){
-        myPieces = new List<GameObject>();
-        activePieces = new Dictionary<Vector2Int, GameObject>();
-        if(team==Team.uparupa){
-            for(int i=0; i<4; i++){
-                piece = Instantiate(realUparupaPrehab, realUparupaPrehab.transform.position, Quaternion.identity);
-                myPieces.Add(piece);
-                activePieces.Add(new Vector2Int(2*i,1), piece);
-                piece = Instantiate(fakeUparupaPrehab, fakeUparupaPrehab.transform.position, Quaternion.identity);
-                myPieces.Add(piece);
-                activePieces.Add(new Vector2Int(2*i+1,1), piece);
-            }
-            selectMode = SelectMode.MovePiece;
-            Debug.Log("相手ターン開始");
-        }else{
-            for(int i=0; i<4; i++){
-                piece = Instantiate(realMendakoPrehab, realMendakoPrehab.transform.position, Quaternion.identity);
-                myPieces.Add(piece);
-                activePieces.Add(new Vector2Int(2*i,1), piece);
-                piece = Instantiate(fakeMendakoPrehab, fakeMendakoPrehab.transform.position, Quaternion.identity);
-                myPieces.Add(piece);
-                activePieces.Add(new Vector2Int(2*i+1,1), piece);
-            }
-            selectMode = SelectMode.NoMyTurn;
-            Debug.Log("自分のターン開始");
-        }
-    }
     public GameObject setManageGrid{
         set{ manageGrid = value; }
     }
@@ -167,6 +136,12 @@ public class PlayerState : MonoBehaviour
     }
 
     /// <summary>
+    /// ターンではない
+    /// </summary>
+    public void toNoMyTurn(){
+        selectMode = SelectMode.NoMyTurn;
+    }
+    /// <summary>
     /// ターン開始時に
     /// </summary>
     public void toStartMyTurn(){
@@ -176,7 +151,7 @@ public class PlayerState : MonoBehaviour
     /// <summary>
     /// 駒選択した時の処理
     /// </summary>
-    public void toSelectPiece(Vector2Int posID){
+    public void toSelectPiece(Vector2Int posID){ //TODO:どれがどの状況か分かってない！！！
         piecePos = posID;
         piece = activePieces[piecePos]; // 選択中の駒
         selectMode = SelectMode.MovePosition;

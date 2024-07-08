@@ -89,19 +89,13 @@ public class BoardGrid : MonoBehaviour {
     // 駒選択前なら前後左右 / 駒選択済みならこのマスだけ
     private void ChangeHighLight(bool tf){
         switch(nowPlayerComp.getsetSelectMode){
-            case PlayerState.SelectMode.SetPiece: //設置駒選択中
-                // 駒のみハイライト
-                break;
-            case PlayerState.SelectMode.SetPosition:
+            case PlayerState.SelectMode.SetPosition: //位置決め
                 //配置可能領域なら(左右ID1~4,前後ID01 or 45)。相手領域は壁があるから選択されない
                 if(0<posID[0] && posID[0]<5 && (4<=posID[1] || posID[1]<=1) ){
                     gridSystemComp.HighLightGrid(posID,tf);
                 }
                 break;
-            case PlayerState.SelectMode.MovePiece:
-                gridSystemComp.HighLightWASDGrid(posID,tf);
-                break;
-            case PlayerState.SelectMode.MovePosition:
+            case PlayerState.SelectMode.MovePosition: //位置決め
                 gridSystemComp.HighLightGrid(posID,tf);
                 break;
             case PlayerState.SelectMode.NoMyTurn:

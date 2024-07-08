@@ -40,11 +40,7 @@ public class ChangeSceneByButton : MonoBehaviour, IPointerEnterHandler, IPointer
         {
             SceneManager.LoadScene("SC_Tutorial");
         }
-        else if (textValue == "部屋を立てる")
-        {
-            SceneManager.LoadScene("SC_CreateRoom");
-        }
-        else if (textValue == "部屋に入る")
+        else if (textValue == "スタート")
         {
             SceneManager.LoadScene("SC_EnterRoom");
         }
@@ -56,13 +52,21 @@ public class ChangeSceneByButton : MonoBehaviour, IPointerEnterHandler, IPointer
         {
             SceneManager.LoadScene("SC_Start");
         }
-        else if (textValue == "作成")
-        {
-            SceneManager.LoadScene("SC_Game");
-        }
         else if (textValue == "入室")
         {
-            SceneManager.LoadScene("SC_Game");
+            SceneManager.LoadScene("SC_Ready");
+        }
+        else if (textValue == "Ready")
+        {
+            SceneManager.LoadScene("SC_SetPieces");
+        }
+        else if (textValue == "タイトルへ")
+        {
+            SceneManager.LoadScene("SC_Start");
+        }
+        else if (textValue == "もう一度")
+        {
+            SceneManager.LoadScene("SC_SetPieces");
         }
         Debug.Log("Button text: " + textValue);
     }

@@ -61,8 +61,11 @@ public class BoardGrid : MonoBehaviour {
         //Debug.Log(posID.x+","+posID.y+"click");
         switch(nowPlayerComp.getsetSelectMode){
             case PlayerState.SelectMode.SetPosition: //配置シーン中
-                nowPlayer.GetComponent<CreatePiece>().SelectPosition(posID);
-                ChangeHighLight(false);
+                // 配置可能領域なら
+                if(0<posID[0] && posID[0]<5 && (4<=posID[1] || posID[1]<=1) ){
+                    nowPlayer.GetComponent<CreatePiece>().SelectPosition(posID);
+                    ChangeHighLight(false);
+                }
                 break;
             case PlayerState.SelectMode.MovePiece: //ゲーム中
                 nowPlayerComp.toSelectPiece(posID);
@@ -90,7 +93,10 @@ public class BoardGrid : MonoBehaviour {
                 // 駒のみハイライト
                 break;
             case PlayerState.SelectMode.SetPosition:
-                gridSystemComp.HighLightGrid(posID,tf);
+                //配置可能領域なら(左右ID1~4,前後ID01 or 45)。相手領域は壁があるから選択されない
+                if(0<posID[0] && posID[0]<5 && (4<=posID[1] || posID[1]<=1) ){
+                    gridSystemComp.HighLightGrid(posID,tf);
+                }
                 break;
             case PlayerState.SelectMode.MovePiece:
                 gridSystemComp.HighLightWASDGrid(posID,tf);

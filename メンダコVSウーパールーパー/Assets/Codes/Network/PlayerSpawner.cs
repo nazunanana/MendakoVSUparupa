@@ -1,78 +1,64 @@
-using System;
+using Fusion;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Fusion;
-using Fusion.Sockets;
-using UnityEngine;
 
-public class PlayerSpawner : SimulationBehaviour, INetworkRunnerCallbacks
+public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
 {
-    [SerializeField]
-    private NetworkPrefabRef playerPrefab;
-    private NetworkRunner runner;
-    private bool isPlayerSpawned = false;
+    public GameObject PlayerPrefab;
 
-    private void Start()
+    public void PlayerJoined(PlayerRef player)
     {
-        if (!playerPrefab.IsValid)
+        if (player == Runner.LocalPlayer)
         {
-            Debug.LogError("Player Prefabが設定されていません。インスペクターで設定してください。");
-            return;
-        }
-        runner = NetworkManager.Instance.Runner;
+            var playerObj = Runner.Spawn(PlayerPrefab);
+            if (playerObj != null)
+            {
+                Debug.Log("プレイヤー" + player.PlayerId + " がスポーンしました。");
+            }
+            // runner.ActivePlayers.Countで現在参加しているプレイヤー数が確認できる
+            if (Runner.SessionInfo.PlayerCount == 1)
+            {
+                // プレイヤーがまだ1人だけなら待機
+                Debug.Log("プレイヤーを探しています…");
+            }
 
-        if (runner == null)
-        {
-            Debug.LogError("NetworkRunnerが見つかりません。NetworkManagerが正しく初期化されているか確認してください。");
-            return;
-        }
+            // コルーチンを開始してプレイヤー数が2人になるのを待つ
+            StartCoroutine(WaitForPlayers());
 
-        Debug.Log("NetworkRunnerが見つかりました");
+            IEnumerator WaitForPlayers()
+            {
+                while (Runner.SessionInfo.PlayerCount != 2)
+                {
+                    yield return null; // 1フレーム待つ
+                }
 
-        runner.AddCallbacks(this);
-    }
-    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
-    {
-        if (isPlayerSpawned)
-        {
-            return;
-        }
+                // プレイヤーが2人集まったら陣営決め
+                Debug.Log("マッチ成功！");
+                string team = setPlayerState(playerObj, player);
+                Debug.Log("あなたは"+team+"チームです");
 
-        //PlayerRef player = runner.LocalPlayer;
-
-        Debug.Log("ローカルプレイヤー: " + player.PlayerId);
-
-        try
-        {
-            // ローカルプレイヤーの場合にのみスポーンする
-            runner.Spawn(playerPrefab);
-            Debug.Log(player.PlayerId + "人目のプレイヤーをスポーンしました");
-            isPlayerSpawned = true;
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError("プレイヤーのスポーンに失敗しました: " + ex.Message);
-            Debug.LogError("詳細: " + ex.ToString());
+                //SceneManager.LoadScene("SC_Ready");
+            }
         }
     }
 
-    public void OnConnectedToServer(NetworkRunner runner) { }
-    public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }
-    public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
-    public void OnCustomAuthenticationResponse (NetworkRunner runner, Dictionary< string, object > data) { }
-    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { }
-    public void OnInput(NetworkRunner runner, NetworkInput input) { }
-    public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
-    public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress){ }
-    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) { }
-    public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }
-    public void OnSceneLoadDone(NetworkRunner runner) { }
-    public void OnSceneLoadStart(NetworkRunner runner) { }
-    public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
-    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
-    public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
-    public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
-    public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player){ }
-    public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player){ }
+    private string setPlayerState(NetworkObject playerObj, PlayerRef playerRef)
+    {
+        //プレイヤーごとにisUparupaTeam設定
+        var playerData = playerObj.GetComponent<SettingGame>();
 
+        playerData.setTeam(playerRef.PlayerId);
+        if (playerData.getTeam())
+        {
+            if(playerRef.PlayerId!=1){
+                return "[Null]";
+            }
+            return "[ウーパールーパー]";
+        }
+        else
+        {
+            return "[メンダコ]";
+        }
+    }
 }

@@ -88,4 +88,15 @@ public class SettingGame : MonoBehaviour
             cam.transform.rotation = Quaternion.Euler(48, MEN_CAMERA_ROTATION_Y, 0);
         }
     }
+
+    public void setTeam(int num){ // 陣営決め
+        if(num == 1){
+            isUparupaTeam = true;
+        }else if(num == 2){
+            isUparupaTeam = false;
+        }
+    }
+    public bool getTeam(){
+        return isUparupaTeam;
+    }
 }

@@ -649,6 +649,7 @@ namespace Fusion {
       return runner.StartGame(new StartGameArgs {
         GameMode       = gameMode,
         Address        = address,
+        PlayerCount    = 2,
         Scene          = sceneInfo,
         SessionName    = DefaultRoomName,
         OnGameStarted    = onGameStarted,

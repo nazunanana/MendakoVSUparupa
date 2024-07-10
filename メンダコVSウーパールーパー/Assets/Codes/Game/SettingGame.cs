@@ -31,7 +31,9 @@ public class SettingGame : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log("Loaded. Initialize");
-        Initialize();
+        Debug.Log("team : "+isUparupaTeam);
+        //Initialize();
+
     }
     void OnDestroy()
     {

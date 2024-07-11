@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using Fusion;
 
 /// <summary>
 /// プレイヤーの状態
@@ -9,13 +10,15 @@ using UnityEngine.PlayerLoop;
 public class PlayerState : MonoBehaviour
 {
     // ウパルパ陣営かメンダコ陣営か
-    public enum Team{
+    public enum Team
+    {
         uparupa,
         mendako,
     }
     private Team team;
     /// <summary> 状態遷移 </summary>
-    public enum SelectMode{
+    public enum SelectMode
+    {
         SetPiece, // 駒選択中
         SetPosition, //駒配置マス選択中
         SetAllPieces, //駒配置完了
@@ -24,7 +27,7 @@ public class PlayerState : MonoBehaviour
         NoMyTurn // 相手ターン中
     }
     public SelectMode selectMode;
-    
+
     /// <summary> 得点 </summary>
     // 本物得点 (相手の本物を取ると+1)
     private int realPoint = 0;
@@ -51,49 +54,105 @@ public class PlayerState : MonoBehaviour
     private Vector2Int piecePos;
     // 選択した移動先
     private Vector2Int moveToPos;
-    
-    public GameObject setManageGrid{
-        set{ manageGrid = value; }
+    // ネットワークオブジェクト(スポーンしたプレイヤーオブジェクト)
+    private NetworkObject playerObj;
+
+
+    /// <summary>
+    /// ゲーム開始
+    /// </summary>
+    public void StartGameSetting(Team team)
+    {
+        myPieces = new List<GameObject>();
+        activePieces = new Dictionary<Vector2Int, GameObject>();
+        if (team == Team.uparupa)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                piece = Instantiate(realUparupaPrehab, realUparupaPrehab.transform.position, Quaternion.identity);
+                myPieces.Add(piece);
+                activePieces.Add(new Vector2Int(2 * i, 1), piece);
+                piece = Instantiate(fakeUparupaPrehab, fakeUparupaPrehab.transform.position, Quaternion.identity);
+                myPieces.Add(piece);
+                activePieces.Add(new Vector2Int(2 * i + 1, 1), piece);
+            }
+            selectMode = SelectMode.MovePiece;
+            Debug.Log("相手ターン開始");
+        }
+        else
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                piece = Instantiate(realMendakoPrehab, realMendakoPrehab.transform.position, Quaternion.identity);
+                myPieces.Add(piece);
+                activePieces.Add(new Vector2Int(2 * i, 1), piece);
+                piece = Instantiate(fakeMendakoPrehab, fakeMendakoPrehab.transform.position, Quaternion.identity);
+                myPieces.Add(piece);
+                activePieces.Add(new Vector2Int(2 * i + 1, 1), piece);
+            }
+            selectMode = SelectMode.NoMyTurn;
+            Debug.Log("自分のターン開始");
+        }
     }
-    public GameObject setManager{
-        set{ manager = value; }
+    public GameObject setManageGrid
+    {
+        set { manageGrid = value; }
     }
-    public Team getsetTeam{
-        get{ return team; }
-        set{
+    public GameObject setManager
+    {
+        set { manager = value; }
+    }
+    public Team getsetTeam
+    {
+        get { return team; }
+        set
+        {
             team = value;
             myPieces = new List<GameObject>();
             activePieces = new Dictionary<Vector2Int, GameObject>();
         }
     }
 
-    public int getsetRealPoint{
-        get{ return realPoint; }
-        set{ realPoint = value; }
+    public int getsetRealPoint
+    {
+        get { return realPoint; }
+        set { realPoint = value; }
     }
 
-    public List<GameObject> getsetMyPieces{
-        get{ return myPieces; }
-        set{ myPieces = value; }
+    public List<GameObject> getsetMyPieces
+    {
+        get { return myPieces; }
+        set { myPieces = value; }
     }
 
-    public int getsetFakePoint{
-        get{ return fakePoint; }
-        set{ fakePoint = value; }
+    public int getsetFakePoint
+    {
+        get { return fakePoint; }
+        set { fakePoint = value; }
     }
 
-    public Vector2Int getPiecePosition{
-        get{ return piecePos; }
+    public Vector2Int getPiecePosition
+    {
+        get { return piecePos; }
     }
 
-    public Vector2Int getMoveToPos{
-        get{ return moveToPos; }
+    public Vector2Int getMoveToPos
+    {
+        get { return moveToPos; }
     }
 
-    public SelectMode getsetSelectMode{
-        get{ return selectMode; }
-        set{ selectMode = value; }
+    public SelectMode getsetSelectMode
+    {
+        get { return selectMode; }
+        set { selectMode = value; }
     }
+
+    public NetworkObject getsetObject
+    {
+        get { return playerObj; }
+        set { playerObj = value; }
+    }
+
 
 
 
@@ -104,20 +163,23 @@ public class PlayerState : MonoBehaviour
     /// <summary>
     /// 駒選択開始に
     /// </summary>
-    public void toStartSetPieces(){
+    public void toStartSetPieces()
+    {
         selectMode = SelectMode.SetPiece;
     }
     /// <summary>
     /// 配置マス選択に
     /// </summary>
-    public void toSelectSetPosition(Vector2Int posID){
+    public void toSelectSetPosition(Vector2Int posID)
+    {
         piecePos = posID;
         selectMode = SelectMode.SetPosition;
     }
     /// <summary>
     /// 配置駒の移動をして駒選択状態に
     /// </summary>
-    public void toMoveSetPosition(Vector2Int posID){
+    public void toMoveSetPosition(Vector2Int posID)
+    {
         moveToPos = posID;
         // 配列の登録変更
         //activePieces.Add(moveToPos, piece); //選択位置で登録 //pieceを設定してないからおかしいはず
@@ -127,7 +189,8 @@ public class PlayerState : MonoBehaviour
     /// <summary>
     /// 4駒配置完了状態に
     /// </summary>
-    public void toFinishSet(){
+    public void toFinishSet()
+    {
         Debug.Log(team + "が8駒配置完了");
         // UI差し替え
         this.gameObject.GetComponent<SettingUI>().FinishSetting();
@@ -144,7 +207,8 @@ public class PlayerState : MonoBehaviour
     /// <summary>
     /// ターン開始時に
     /// </summary>
-    public void toStartMyTurn(){
+    public void toStartMyTurn()
+    {
         selectMode = SelectMode.MovePiece;
     }
 
@@ -157,23 +221,26 @@ public class PlayerState : MonoBehaviour
         selectMode = SelectMode.MovePosition;
         // Debug.Log("select piece on "+piecePos[0]+","+piecePos[1]);
     }
-    
+
     /// <summary>
     /// 移動マス選択してターンエンドする時の処理
     /// </summary>
-    public void toMovePiece(Vector2Int posID){
+    public void toMovePiece(Vector2Int posID)
+    {
         moveToPos = posID;
         activePieces.Remove(piecePos); //現在位置の登録解除
         activePieces.Add(moveToPos, piece); //移動先で登録
-        Debug.Log("move to "+moveToPos[0]+","+moveToPos[1]);
+        Debug.Log("move to " + moveToPos[0] + "," + moveToPos[1]);
         selectMode = SelectMode.NoMyTurn;
     }
     /// <summary>
     /// あらゆるハイライトをクリア
     /// </summary>
-    public void ClearAllHighLight(){
-        foreach(GameObject obj in myPieces){
-            if(obj!=null) obj.GetComponent<PieceState>().HighLightPiece(false);
+    public void ClearAllHighLight()
+    {
+        foreach (GameObject obj in myPieces)
+        {
+            if (obj != null) obj.GetComponent<PieceState>().HighLightPiece(false);
         }
         manageGrid.GetComponent<ManageGrid>().ClearHighLight();
     }

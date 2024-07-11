@@ -32,7 +32,9 @@ public class SettingGame : MonoBehaviour
     {
         Debug.Log("Loaded. Initialize");
         cam = GameObject.FindGameObjectWithTag("MainCamera");
-        Initialize();
+        Debug.Log("team : "+isUparupaTeam);
+        //Initialize();
+
     }
     void OnDestroy()
     {
@@ -96,5 +98,16 @@ public class SettingGame : MonoBehaviour
             cam.transform.position = new Vector3(0, 10, MEN_CAMERA_POSITION_Z);
             cam.transform.rotation = Quaternion.Euler(48, MEN_CAMERA_ROTATION_Y, 0);
         }
+    }
+
+    public void setTeam(int num){ // 陣営決め
+        if(num == 1){
+            isUparupaTeam = true;
+        }else if(num == 2){
+            isUparupaTeam = false;
+        }
+    }
+    public bool getTeam(){
+        return isUparupaTeam;
     }
 }

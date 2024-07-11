@@ -440,9 +440,10 @@ GameObject:
   - component: {fileID: 567178794}
   - component: {fileID: 567178796}
   - component: {fileID: 567178795}
+  - component: {fileID: 567178797}
   m_Layer: 5
   m_Name: "\u3042\u306A\u305F\u306F\u3007\u3007\u9663\u55B6\u3067\u3059"
-  m_TagString: Untagged
+  m_TagString: teamUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -564,6 +565,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 567178793}
   m_CullTransparentMesh: 1
+--- !u!114 &567178797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567178793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faf1b8b3c1f833842adbcac69aadd7f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &570035235
 GameObject:
   m_ObjectHideFlags: 0

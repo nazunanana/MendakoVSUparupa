@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - GridSystem
+  - teamUI
   layers:
   - Default
   - TransparentFX

@@ -79,12 +79,12 @@ public class ChangeSceneByButton : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("反転");
+        //Debug.Log("反転");
         buttonText.color = Color.black;
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("反転");
+        //Debug.Log("反転");
         buttonText.color = Color.white;
     }
 

@@ -74,7 +74,7 @@ public class ChangeSceneByButton : MonoBehaviour, IPointerEnterHandler, IPointer
             SceneManager.LoadScene("SC_Game");
         }
 
-        Debug.Log("Button text: " + textValue);
+        //Debug.Log("Button text: " + textValue);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

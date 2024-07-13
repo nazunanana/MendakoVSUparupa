@@ -30,7 +30,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
             }
 
             // シーン遷移してもプレイヤーオブジェクトが消えないようにする
-            DontDestroyOnLoad(playerObj.gameObject);
+            //DontDestroyOnLoad(playerObj.gameObject);
 
             // runner.ActivePlayers.Countで現在参加しているプレイヤー数が確認できる
             if (Runner.SessionInfo.PlayerCount == 1)
@@ -55,21 +55,21 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
                 Debug.Log("あなたは" + team + "チームです");
 
                 //readyBtn.interactable = true;
-                //StartCoroutine(WaitLoading());
-                
+                StartCoroutine(WaitLoading());
+
                 SceneManager.LoadScene("SC_SetPieces");
 
 
             }
 
-            // IEnumerator WaitLoading()
-            // {
-            //     // 3秒間待つ
-            //     yield return new WaitForSeconds(3);
+            IEnumerator WaitLoading()
+            {
+                // 3秒間待つ
+                yield return new WaitForSeconds(3);
 
-            //     // 3秒後にシーン遷移
-            //     SceneManager.LoadScene("SC_SetPieces");
-            // }
+                // 3秒後にシーン遷移
+                SceneManager.LoadScene("SC_SetPieces");
+            }
 
         }
     }
@@ -78,10 +78,18 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
     private string setPlayerState(NetworkObject playerObj, PlayerRef playerRef)
     {
         //プレイヤーごとにisUparupaTeam設定
-        var plSettingGame = playerObj.GetComponent<SettingGame>();
+        // var plSettingGame = playerObj.GetComponent<SettingGame>();
 
-        plSettingGame.setTeam(playerRef.PlayerId);
-        if (plSettingGame.getTeam())
+        // plSettingGame.setTeam(playerRef.PlayerId);
+
+        playerObj.GetComponent<PlayerState>().getsetTeam = (playerRef.PlayerId == 1) ? PlayerState.Team.uparupa : PlayerState.Team.mendako;
+
+        // PlayerRefとNetworkObjectの関連付け
+        Runner.SetPlayerObject(playerRef, playerObj);
+        var playerData = playerObj.GetComponent<PlayerState>();
+
+        playerData.getsetObject = playerObj;
+        if (playerObj.GetComponent<PlayerState>().getsetTeam == PlayerState.Team.uparupa)
         {
             if (playerRef.PlayerId != 1)
             {
@@ -93,12 +101,6 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
         {
             return "[メンダコ]";
         }
-
-        // PlayerRefとNetworkObjectの関連付け
-        Runner.SetPlayerObject(playerRef, playerObj);
-        var playerData = playerObj.GetComponent<PlayerState>();
-
-        playerData.getsetObject = playerObj;
     }
 
     // void PlayersReady()

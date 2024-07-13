@@ -15,7 +15,7 @@ public class PlayerState : MonoBehaviour
         uparupa,
         mendako,
     }
-    private Team team;
+    public Team team;
     /// <summary> 状態遷移 </summary>
     public enum SelectMode
     {
@@ -39,7 +39,7 @@ public class PlayerState : MonoBehaviour
     public GameObject fakeUparupaPrehab; // インスペクターで指定
     public GameObject realMendakoPrehab; // インスペクターで指定
     public GameObject fakeMendakoPrehab; // インスペクターで指定
-    private GameObject manager;
+    private GameObject manager; //SC_SetPiecesのSetPieceManager
     // 自陣営の駒生成
     private GameObject piece;
     // グリッドマネージャー
@@ -57,6 +57,10 @@ public class PlayerState : MonoBehaviour
     // ネットワークオブジェクト(スポーンしたプレイヤーオブジェクト)
     private NetworkObject playerObj;
 
+    public void Start()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
 
     /// <summary>
     /// ゲーム開始
@@ -102,15 +106,19 @@ public class PlayerState : MonoBehaviour
     {
         set { manager = value; }
     }
+    // 陣営をSC_Readyでスポーン時に決定
     public Team getsetTeam
     {
         get { return team; }
         set
         {
             team = value;
-            myPieces = new List<GameObject>();
-            activePieces = new Dictionary<Vector2Int, GameObject>();
         }
+    }
+    public void InitArray()
+    {
+        myPieces = new List<GameObject>();
+        activePieces = new Dictionary<Vector2Int, GameObject>();
     }
 
     public int getsetRealPoint
@@ -201,7 +209,8 @@ public class PlayerState : MonoBehaviour
     /// <summary>
     /// ターンではない
     /// </summary>
-    public void toNoMyTurn(){
+    public void toNoMyTurn()
+    {
         selectMode = SelectMode.NoMyTurn;
     }
     /// <summary>
@@ -215,7 +224,8 @@ public class PlayerState : MonoBehaviour
     /// <summary>
     /// 駒選択した時の処理
     /// </summary>
-    public void toSelectPiece(Vector2Int posID){ //TODO:どれがどの状況か分かってない！！！
+    public void toSelectPiece(Vector2Int posID)
+    { //TODO:どれがどの状況か分かってない！！！
         piecePos = posID;
         piece = activePieces[piecePos]; // 選択中の駒
         selectMode = SelectMode.MovePosition;

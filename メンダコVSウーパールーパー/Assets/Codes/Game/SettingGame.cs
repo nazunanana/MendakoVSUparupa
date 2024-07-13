@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Fusion;
 
 public class SettingGame : MonoBehaviour
 {
@@ -43,12 +44,13 @@ public class SettingGame : MonoBehaviour
     }
     private void Initialize()
     {
-        // プレイヤーオブジェクトを作成
-        player = Instantiate(playerPrehab, playerPrehab.transform.position, Quaternion.identity);
-        DontDestroyOnLoad(player);
-        player.name = (isUparupaTeam) ? "PL_uparupa" : "PL_mendako";
-        // チーム設定
-        player.GetComponent<PlayerState>().getsetTeam = (isUparupaTeam) ? PlayerState.Team.uparupa : PlayerState.Team.mendako;
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        NetworkRunner runner = GameObject.FindGameObjectWithTag("Runner").GetComponent<NetworkRunner>();
+        if (runner.TryGetPlayerObject(runner.LocalPlayer, out var plObject)){
+            player = plObject.gameObject;
+        }
+    
+        player.GetComponent<PlayerState>().InitArray();
         // マネージャーを通知
         player.GetComponent<PlayerState>().setManager = this.gameObject;
         // UIを渡す

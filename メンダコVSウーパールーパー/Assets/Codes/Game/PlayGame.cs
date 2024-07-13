@@ -1,13 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayGame : MonoBehaviour
 {
     private GameObject PL_uparupa;
     private GameObject PL_mendako;
     private GameObject manageGrid;
-    void Start()
+    void Awake()
+    {
+        Debug.Log("Awake SC_Game");
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // プレイヤーオブジェクトを作成
         PL_uparupa = GameObject.FindGameObjectsWithTag("Player")[0];
@@ -22,11 +28,5 @@ public class PlayGame : MonoBehaviour
         PL_uparupa.GetComponent<PlayerState>().toStartMyTurn();
         PL_mendako.GetComponent<PlayerState>().toNoMyTurn();
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

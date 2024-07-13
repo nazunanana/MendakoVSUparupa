@@ -44,7 +44,7 @@ public class ReadyUI : MonoBehaviour
             {
                 Debug.LogError("Player objectがnullです");
             }
-        }, 3.5f));
+        }, 0f));
         // Observable.Timer(TimeSpan.FromMilliseconds(100))
         //     .Subscribe(_ => Debug.Log(player.GetComponent<PlayerState>().getsetTeam));
 

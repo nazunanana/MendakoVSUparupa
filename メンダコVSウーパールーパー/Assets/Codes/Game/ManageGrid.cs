@@ -9,6 +9,7 @@ public class ManageGrid : MonoBehaviour
     public GameObject oneGridPrehab = null;
     private GameObject[,] gridArray;
     private GameObject[] players;
+    private GameObject player;
     public bool ImUparupa;
     
     private const float FIRST_X = -6.48f; //ウパルパ陣営側
@@ -28,6 +29,12 @@ public class ManageGrid : MonoBehaviour
             Init();
         }
     }
+    public GameObject SetPlayer{
+        set{
+            player = value;
+            Init();
+        }
+    }
     public bool setImUparupa{
         set{
             ImUparupa = value;
@@ -35,6 +42,9 @@ public class ManageGrid : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// マスのコライダーオブジェクトを生成
+    /// </summary>
     void CreateGrids()
     {
         for(int i=0; i<GRID_NUM; ++i){
@@ -48,9 +58,11 @@ public class ManageGrid : MonoBehaviour
                 gridComponent.SetGridSystemObj = this.gameObject;
                 // 配置中なら自分  最初のプレイヤーはウパルパ
                 if(SceneManager.GetActiveScene().name == "SC_SetPieces"){
-                    gridComponent.SetNowPlayer =  ImUparupa ? this.players[0] : this.players[1];
+                    //gridComponent.SetNowPlayer = ImUparupa ? this.players[0] : this.players[1];
+                    gridComponent.SetNowPlayer = player;
                 } else {
-                    gridComponent.SetNowPlayer = this.players[0];
+                    //gridComponent.SetNowPlayer = this.players[0];
+                    gridComponent.SetNowPlayer = player;
                 }
                 // 生成したマスを配列に登録
                 gridArray[j,i] = newGridObj;
@@ -67,12 +79,16 @@ public class ManageGrid : MonoBehaviour
         }
     }
 
-    // カーソル位置のみ強調
+    /// <summary>
+    /// カーソル位置ハイライト
+    /// </summary>
     public void HighLightGrid(Vector2Int posID, bool highlight){
         //Debug.Log("HighLight: " + posID.x + ", " + posID.y + " : " + highlight);
         EnableUnEnableGrid(new Vector2Int(posID.x, posID.y), highlight);
     }
-    // 前後左右を強調
+    /// <summary>
+    /// 前後左右のハイライト
+    /// </summary>
     public void HighLightWASDGrid(Vector2Int posID, bool highlight){
         //Debug.Log("HighLightWASD: " + posID.x + ", " + posID.y + " : " + highlight);
         int id_x = posID.x;
@@ -84,7 +100,9 @@ public class ManageGrid : MonoBehaviour
         if(0 <= id_z-1) EnableUnEnableGrid(new Vector2Int(id_x, id_z - 1), highlight); // 左のマス
         if(id_z+1 < GRID_NUM) EnableUnEnableGrid(new Vector2Int(id_x, id_z + 1), highlight); // 右のマス
     }
-    // 指定位置のマスを 強調する・強調を解除
+    /// <summary>
+    /// 指定位置のマスを 強調する・強調を解除
+    /// </summary>
     private void EnableUnEnableGrid(Vector2Int posID, bool enable){
         //Debug.Log(gridArray[posID.x, posID.y]);
         BoardGrid grid = gridArray[posID.x, posID.y].GetComponent<BoardGrid>();
@@ -93,6 +111,9 @@ public class ManageGrid : MonoBehaviour
             grid.EnableUnEnebleMyGrid(enable);
         }
     }
+    /// <summary>
+    /// 全てのマスのハイライトを解除
+    /// </summary>
     public void ClearHighLight(){
         foreach(GameObject gridObj in gridArray){
             gridObj.GetComponent<BoardGrid>().EnableUnEnebleMyGrid(false);

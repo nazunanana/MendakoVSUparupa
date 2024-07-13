@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
 /// <summary>
 /// 駒の状態
 /// </summary>
-public class PieceState : MonoBehaviour
+public class PieceState : NetworkBehaviour
 {
     private GameObject player;
     // 駒が本物である
@@ -14,14 +15,18 @@ public class PieceState : MonoBehaviour
     private PlayerState.Team team;
     // 駒ID
     private int pieceID;
+    private bool wait;
     // どのマスにいるか
-    private Vector2Int posID;
+    [Networked, OnChangedRender(nameof(SyncPos))]
+    private Vector2Int posID { get; set; }
+    [Networked, OnChangedRender(nameof(SyncPos))]
+    private Vector3 absPos { get; set; }
     // グローバル位置換算
     private const float FIRST_X = -6.48f; //ウパルパ陣営側
     private const float FIRST_Z = -6.48f;
     private const float Y_POS = 0.04f;
     private const int GRID_NUM = 6;
-    private float gridSize = Mathf.Abs(FIRST_X*2/5);
+    private float gridSize = Mathf.Abs(FIRST_X * 2 / 5);
 
     public bool getsetIsReal
     {
@@ -34,12 +39,6 @@ public class PieceState : MonoBehaviour
         get { return team; }
         set { team = value; }
     }
-
-    public Vector2Int getsetPosID
-    {
-        get { return posID; }
-        set { posID = value; }
-    }
     public int getsetPieceID
     {
         get { return pieceID; }
@@ -50,13 +49,19 @@ public class PieceState : MonoBehaviour
         set { player = value; }
     }
 
+    void Start()
+    {
+        //WaitLoading(1.0f);
+        wait = true;
+    }
+
     void OnMouseOver()
     {
         // Debug.Log("piece over");
         // マテリアルをハイライト
-        if (team == player.GetComponent<PlayerState>().getsetTeam) //自陣の駒なら
+        if (wait && (team == player.GetComponent<PlayerState>().getsetTeam)) //自陣の駒なら
         {
-            switch (player.GetComponent<PlayerState>().getsetSelectMode)
+            switch (player.GetComponent<PlayerState>().selectMode)
             {
                 case PlayerState.SelectMode.SetPiece: //設置駒選択なら
                     HighLightPiece(true);
@@ -67,14 +72,15 @@ public class PieceState : MonoBehaviour
                 default:
                     break;
             }
-        }else{ Debug.Log("not my team's piece"); }
+        }
+        else { Debug.Log("not my team's piece"); }
     }
     void OnMouseExit()
     {
         // ハイライトを解除
-        if (team == player.GetComponent<PlayerState>().getsetTeam) //自陣の駒なら
+        if (wait && (team == player.GetComponent<PlayerState>().getsetTeam)) //自陣の駒なら
         {
-            switch (player.GetComponent<PlayerState>().getsetSelectMode)
+            switch (player.GetComponent<PlayerState>().selectMode)
             {
                 case PlayerState.SelectMode.SetPiece: //設置駒選択なら
                     HighLightPiece(false);
@@ -89,9 +95,9 @@ public class PieceState : MonoBehaviour
     }
     void OnMouseDown()
     {
-        if (team == player.GetComponent<PlayerState>().getsetTeam) //自陣の駒なら
+        if (wait && (team == player.GetComponent<PlayerState>().getsetTeam)) //自陣の駒なら
         {
-            switch (player.GetComponent<PlayerState>().getsetSelectMode)
+            switch (player.GetComponent<PlayerState>().selectMode)
             {
                 case PlayerState.SelectMode.SetPiece: //設置駒選択なら
                     player.GetComponent<CreatePiece>().SelectPiece(posID, getsetIsReal); // 状態遷移
@@ -106,7 +112,13 @@ public class PieceState : MonoBehaviour
                 default:
                     break;
             }
-        }else{ Debug.Log("not my team's piece"); }
+        }
+        else { Debug.Log("not my team's piece"); }
+    }
+    IEnumerator WaitLoading(float time)
+    {
+        // 待つ
+        yield return new WaitForSeconds(time);
     }
 
     // マテリアルを強調
@@ -130,14 +142,27 @@ public class PieceState : MonoBehaviour
     // 位置を変更
     public void MovePiecePos(Vector2Int posID)
     {
-        getsetPosID = posID;
+        this.posID = posID;
+        //Debug.Log("移動"+posID[0]+":"+posID[1]);
         // 移動させる
         this.gameObject.transform.position = Id2Pos(posID);
     }
+    public void SyncPos()
+    {
+        //Debug.Log("移動"+posID[0]+":"+posID[1]);
+        // 移動させる
+        this.gameObject.transform.position = absPos;
+    }
+    public void SetAbsPos(Vector3 pos)
+    {
+        absPos = pos;
+    }
     /// <summary>
-    /// 位置換算
+    /// ID:位置の換算
     /// </summary>
-    public Vector3 Id2Pos(Vector2Int posID){
-        return new Vector3(FIRST_X+posID[0]*gridSize, Y_POS, FIRST_Z+posID[1]*gridSize);
+    public Vector3 Id2Pos(Vector2Int posID)
+    {
+        absPos = new Vector3(FIRST_X + posID[0] * gridSize, Y_POS, FIRST_Z + posID[1] * gridSize);
+        return absPos;
     }
 }

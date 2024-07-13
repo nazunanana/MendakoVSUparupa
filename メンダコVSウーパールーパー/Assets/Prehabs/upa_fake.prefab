@@ -160,9 +160,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortKey: 9638102
   ObjectInterest: 1
-  Flags: 1
+  Flags: 262145
   NestedObjects: []
-  NetworkedBehaviours: []
+  NetworkedBehaviours:
+  - {fileID: -1526007378154517128}
 --- !u!1 &5864370296695958007
 GameObject:
   m_ObjectHideFlags: 0

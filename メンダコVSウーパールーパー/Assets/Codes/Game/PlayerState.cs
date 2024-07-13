@@ -117,10 +117,7 @@ public class PlayerState : MonoBehaviour
     public Team getsetTeam
     {
         get { return team; }
-        set
-        {
-            team = value;
-        }
+        set { team = value; }
     }
     public void InitArray()
     {

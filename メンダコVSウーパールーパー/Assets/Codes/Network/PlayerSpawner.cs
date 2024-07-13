@@ -21,97 +21,109 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
     //     readyBtn.onClick.AddListener(OnReadyButtonClicked);
     // }
 
+    public NetworkRunner getRunner{
+    get { return Runner; }
+}
     public void PlayerJoined(PlayerRef player)
+{
+    if (player == Runner.LocalPlayer)
     {
-        if (player == Runner.LocalPlayer)
+        var playerObj = Runner.Spawn(PlayerPrefab);
+        if (playerObj != null)
         {
-            var playerObj = Runner.Spawn(PlayerPrefab);
-            if (playerObj != null)
+            OnSpawnComplete?.Invoke();
+            Debug.Log("プレイヤー" + player.PlayerId + " がスポーンしました。");
+        }
+
+        // シーン遷移してもプレイヤーオブジェクトが消えないようにする
+        //DontDestroyOnLoad(playerObj.gameObject);
+
+        //オブジェクト名設定
+        if (player.PlayerId == 1)
+        {
+            playerObj.gameObject.name = "PL_uparupa";
+        }
+        else if (player.PlayerId == 2)
+        {
+            playerObj.gameObject.name = "PL_mendako";
+        }
+        // runner.ActivePlayers.Countで現在参加しているプレイヤー数が確認できる
+        if (Runner.SessionInfo.PlayerCount == 1)
+        {
+            // プレイヤーがまだ1人だけなら待機
+            Debug.Log("プレイヤーを探しています…");
+        }
+
+        // コルーチンを開始してプレイヤー数が2人になるのを待つ
+        StartCoroutine(WaitForPlayers());
+
+        IEnumerator WaitForPlayers()
+        {
+            while (Runner.SessionInfo.PlayerCount != 2)
             {
-                OnSpawnComplete?.Invoke();
-                Debug.Log("プレイヤー" + player.PlayerId + " がスポーンしました。");
+                yield return null; // 1フレーム待つ
             }
 
-            // シーン遷移してもプレイヤーオブジェクトが消えないようにする
-            //DontDestroyOnLoad(playerObj.gameObject);
+            // プレイヤーが2人集まったら陣営決め
+            Debug.Log("マッチ成功！");
+            string team = setPlayerState(playerObj, player);
+            Debug.Log("あなたは" + team + "チームです");
 
-            //オブジェクト名設定
-            if(player.PlayerId==1){
-                playerObj.gameObject.name = "PL_uparupa";
-            }else if(player.PlayerId==2){
-                playerObj.gameObject.name = "PL_mendako";
-            }
-            // runner.ActivePlayers.Countで現在参加しているプレイヤー数が確認できる
-            if (Runner.SessionInfo.PlayerCount == 1)
-            {
-                // プレイヤーがまだ1人だけなら待機
-                Debug.Log("プレイヤーを探しています…");
-            }
+            //readyBtn.interactable = true;
+            Debug.Log("SC_SetPiecesへ");
+            StartCoroutine(WaitLoading());
 
-            // コルーチンを開始してプレイヤー数が2人になるのを待つ
-            StartCoroutine(WaitForPlayers());
-
-            IEnumerator WaitForPlayers()
-            {
-                while (Runner.SessionInfo.PlayerCount != 2)
-                {
-                    yield return null; // 1フレーム待つ
-                }
-
-                // プレイヤーが2人集まったら陣営決め
-                Debug.Log("マッチ成功！");
-                string team = setPlayerState(playerObj, player);
-                Debug.Log("あなたは" + team + "チームです");
-
-                //readyBtn.interactable = true;
-                Debug.Log("SC_SetPiecesへ");
-                StartCoroutine(WaitLoading());
-
-
-            }
-
-            IEnumerator WaitLoading()
-            {
-                // 待つ
-                yield return new WaitForSeconds(1);
-
-                // 3秒後にシーン遷移
-                SceneManager.LoadScene("SC_SetPieces");
-            }
 
         }
-    }
 
-    // プレイヤー陣営決め
-    private string setPlayerState(NetworkObject playerObj, PlayerRef playerRef)
+        IEnumerator WaitLoading()
+        {
+            // 待つ
+            yield return new WaitForSeconds(3);
+
+            // 3秒後にシーン遷移
+            SceneManager.LoadScene("SC_SetPieces");
+        }
+
+    }
+}
+
+// プレイヤー陣営決め
+private string setPlayerState(NetworkObject playerObj, PlayerRef playerRef)
+{
+    //プレイヤーごとにisUparupaTeam設定
+    // var plSettingGame = playerObj.GetComponent<SettingGame>();
+
+    // plSettingGame.setTeam(playerRef.PlayerId);
+
+    playerObj.GetComponent<PlayerState>().getsetTeam = (playerRef.PlayerId == 1) ? PlayerState.Team.uparupa : PlayerState.Team.mendako;
+
+    // PlayerRefとNetworkObjectの関連付け
+    Runner.SetPlayerObject(playerRef, playerObj);
+    var playerData = playerObj.GetComponent<PlayerState>();
+
+    playerData.getsetObject = playerObj;
+    Debug.Log("プレイヤー名" + playerObj.gameObject.name);
+
+    Debug.Log("ready runner runnning:"+Runner.IsRunning + "方は"+Runner.GetType());
+
+    if (playerObj.GetComponent<PlayerState>().getsetTeam == PlayerState.Team.uparupa)
     {
-        //プレイヤーごとにisUparupaTeam設定
-        // var plSettingGame = playerObj.GetComponent<SettingGame>();
-
-        // plSettingGame.setTeam(playerRef.PlayerId);
-
-        playerObj.GetComponent<PlayerState>().getsetTeam = (playerRef.PlayerId == 1) ? PlayerState.Team.uparupa : PlayerState.Team.mendako;
-
-        // PlayerRefとNetworkObjectの関連付け
-        Runner.SetPlayerObject(playerRef, playerObj);
-        var playerData = playerObj.GetComponent<PlayerState>();
-
-        playerData.getsetObject = playerObj;
-        Debug.Log("プレイヤー名"+playerObj.gameObject.name);
-
-        if (playerObj.GetComponent<PlayerState>().getsetTeam == PlayerState.Team.uparupa)
+        if (playerRef.PlayerId != 1)
         {
-            if (playerRef.PlayerId != 1)
-            {
-                return "[Null]";
-            }
-            return "[ウーパールーパー]";
+            return "[Null]";
         }
-        else
-        {
-            return "[メンダコ]";
-        }
+        return "[ウーパールーパー]";
     }
+    else if (playerObj.GetComponent<PlayerState>().getsetTeam == PlayerState.Team.mendako)
+    {
+        return "[メンダコ]";
+    }
+    else
+    {
+        return "[Null]";
+    }
+}
 
     // void PlayersReady()
     // {

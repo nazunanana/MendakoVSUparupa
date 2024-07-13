@@ -57,7 +57,6 @@ public class PlayerState : MonoBehaviour
     // ネットワークオブジェクト(スポーンしたプレイヤーオブジェクト)
     private NetworkObject playerObj;
 
-
     /// <summary>
     /// ゲーム開始
     /// </summary>

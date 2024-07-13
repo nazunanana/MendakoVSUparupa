@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Fusion;
 
 public class SettingGame : MonoBehaviour
 {
@@ -31,7 +32,6 @@ public class SettingGame : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log("Loaded. Initialize");
-        Debug.Log("team : "+isUparupaTeam);
         //Initialize();
 
     }

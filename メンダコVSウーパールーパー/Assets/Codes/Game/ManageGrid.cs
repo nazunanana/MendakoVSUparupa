@@ -31,7 +31,7 @@ public class ManageGrid : MonoBehaviour
     public bool setImUparupa{
         set{
             ImUparupa = value;
-            Debug.Log("Upa?"+ImUparupa);
+            //Debug.Log("Upa?"+ImUparupa);
         }
     }
 
@@ -41,6 +41,7 @@ public class ManageGrid : MonoBehaviour
             for(int j=0; j<GRID_NUM; ++j){
                 Vector3 position = new Vector3(FIRST_X+j*gridSize, Y_POS, FIRST_Z+i*gridSize);
                 GameObject newGridObj = Instantiate(oneGridPrehab, position, Quaternion.identity);
+                DontDestroyOnLoad(newGridObj);
                 BoardGrid gridComponent = newGridObj.GetComponent<BoardGrid>();
                 // それぞれのIDと位置を教える
                 gridComponent.SetPosition(new Vector2Int(j,i), position);
@@ -76,6 +77,7 @@ public class ManageGrid : MonoBehaviour
         //Debug.Log("HighLightWASD: " + posID.x + ", " + posID.y + " : " + highlight);
         int id_x = posID.x;
         int id_z = posID.y;
+
         EnableUnEnableGrid(new Vector2Int(id_x, id_z), highlight); // 中心のマス
         if(0 <= id_x-1) EnableUnEnableGrid(new Vector2Int(id_x - 1, id_z), highlight); // 上のマス
         if(id_x+1 < GRID_NUM) EnableUnEnableGrid(new Vector2Int(id_x + 1, id_z), highlight); // 下のマス

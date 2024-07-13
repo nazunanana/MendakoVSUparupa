@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -8176334970674564642}
   m_Layer: 0
   m_Name: GridSystem
-  m_TagString: Untagged
+  m_TagString: GridSystem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,3 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   oneGridPrehab: {fileID: 8824002044893407301, guid: 504db0dc73840e543934efe769a7b497, type: 3}
+  ImUparupa: 0

@@ -68,17 +68,23 @@ public class ChangeSceneByButton : MonoBehaviour, IPointerEnterHandler, IPointer
         {
             SceneManager.LoadScene("SC_SetPieces");
         }
-        Debug.Log("Button text: " + textValue);
+        // [debug]
+        else if (textValue == "ゲームシーンへ")
+        {
+            SceneManager.LoadScene("SC_Game");
+        }
+
+        //Debug.Log("Button text: " + textValue);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("反転");
+        //Debug.Log("反転");
         buttonText.color = Color.black;
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("反転");
+        //Debug.Log("反転");
         buttonText.color = Color.white;
     }
 

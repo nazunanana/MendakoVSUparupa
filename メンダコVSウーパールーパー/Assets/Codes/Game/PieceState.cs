@@ -99,7 +99,7 @@ public class PieceState : MonoBehaviour
                     Debug.Log("Select Piece");
                     break;
                 case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
-                    player.GetComponent<PlayerState>().toMoveSetPosition(posID); // 状態遷移
+                    player.GetComponent<PlayerState>().toMovePiece(posID); // 状態遷移
                     HighLightPiece(false);
                     Debug.Log("Select Piece");
                     break;

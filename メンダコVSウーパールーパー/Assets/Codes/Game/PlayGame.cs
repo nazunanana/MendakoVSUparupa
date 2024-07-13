@@ -6,19 +6,22 @@ public class PlayGame : MonoBehaviour
 {
     private GameObject PL_uparupa;
     private GameObject PL_mendako;
-    public GameObject playerPrehab;
     private GameObject manageGrid;
-    public GameObject gridSystemPrehab;
     void Start()
     {
         // プレイヤーオブジェクトを作成
-        PL_uparupa = Instantiate(playerPrehab, playerPrehab.transform.position, Quaternion.identity);
-        PL_mendako = Instantiate(playerPrehab, playerPrehab.transform.position, Quaternion.identity);
-        PL_uparupa.GetComponent<PlayerState>().getsetTeam = PlayerState.Team.uparupa;
-        PL_mendako.GetComponent<PlayerState>().getsetTeam = PlayerState.Team.mendako;
+        PL_uparupa = GameObject.FindGameObjectsWithTag("Player")[0];
+        PL_mendako = GameObject.FindGameObjectsWithTag("Player")[1];
+        Destroy(PL_uparupa.GetComponent<CreatePiece>());
+        Destroy(PL_mendako.GetComponent<CreatePiece>());
+        Destroy(PL_uparupa.GetComponent<SettingUI>());
+        Destroy(PL_mendako.GetComponent<SettingUI>());
         // 管理オブジェクト生成
-        manageGrid = Instantiate(gridSystemPrehab, gridSystemPrehab.transform.position, Quaternion.identity);
-        manageGrid.GetComponent<ManageGrid>().SetPlayers = new GameObject[]{PL_uparupa, PL_mendako};
+        manageGrid = GameObject.FindGameObjectWithTag("GridSystem");
+
+        PL_uparupa.GetComponent<PlayerState>().toStartMyTurn();
+        PL_mendako.GetComponent<PlayerState>().toNoMyTurn();
+
     }
 
     // Update is called once per frame

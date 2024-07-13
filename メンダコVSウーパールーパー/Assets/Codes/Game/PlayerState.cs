@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 using Fusion;
 
 /// <summary>
@@ -57,8 +58,14 @@ public class PlayerState : MonoBehaviour
     // ネットワークオブジェクト(スポーンしたプレイヤーオブジェクト)
     private NetworkObject playerObj;
 
+    /// <summary>
+    /// SC_SetPieces開始時
+    /// </summary>
     public void Start()
     {
+        // マルチピアモードのとき親がある
+        // Debug.Log("このシーンは"+SceneManager.GetActiveScene().name);
+        // Debug.Log("親オブジェクトは"+this.gameObject.transform.parent.gameObject.name);
         DontDestroyOnLoad(this.gameObject);
     }
 

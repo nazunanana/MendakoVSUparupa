@@ -6,13 +6,20 @@ using TMPro;
 
 public class ReadyUI : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private GameObject PrototypeRunner;
     void Awake()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        // SceneManager.sceneLoaded += OnSceneLoaded;
+        PlayerSpawner.OnSpawnComplete += CompleteSpawn;
+    }
+    void OnDestroy()
+    {
+        // SceneManager.sceneLoaded -= OnSceneLoaded;
+        PlayerSpawner.OnSpawnComplete -= CompleteSpawn; // イベントから登録解除
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    // void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    void CompleteSpawn()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
@@ -22,37 +29,27 @@ public class ReadyUI : MonoBehaviour
             if (player != null)
             {
                 var playerState = player.GetComponent<PlayerState>();
-                if (playerState != null)
+                Debug.Log("UIがチームを取得" + playerState.getsetTeam);
+                // 文字を変える
+                if (player.GetComponent<PlayerState>().getsetTeam == PlayerState.Team.uparupa)
                 {
-                    Debug.Log("UIがチームを取得！" + playerState.getsetTeam);
-                    // 文字を変える
-                    if (player.GetComponent<PlayerState>().getsetTeam == PlayerState.Team.uparupa)
-                    {
-                        this.gameObject.GetComponent<TextMeshProUGUI>().text = "あなたはウパルパ陣営です！";
-                    }
-                    else
-                    {
-                        this.gameObject.GetComponent<TextMeshProUGUI>().text = "あなたはメンダコ陣営です！";
-                    }
+                    this.gameObject.GetComponent<TextMeshProUGUI>().text = "マッチ完了！\nあなたはウパルパ陣営です！";
                 }
                 else
                 {
-                    Debug.LogError("PlayerState component is not found on the player object.");
+                    this.gameObject.GetComponent<TextMeshProUGUI>().text = "マッチ完了！\nあなたはメンダコ陣営です！";
                 }
             }
             else
             {
-                Debug.LogError("Player object is null in the delayed action.");
+                Debug.LogError("Player objectがnullです");
             }
         }, 3.5f));
         // Observable.Timer(TimeSpan.FromMilliseconds(100))
         //     .Subscribe(_ => Debug.Log(player.GetComponent<PlayerState>().getsetTeam));
 
     }
-    void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
+
     private IEnumerator InvokeAfterDelay(System.Action action, float delay)
     {
         yield return new WaitForSeconds(delay);

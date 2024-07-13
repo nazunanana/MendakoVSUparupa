@@ -32,10 +32,10 @@ public class SettingGame : MonoBehaviour
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("Loaded. Initialize");
+        Debug.Log("シーンロード完了。初期化処理を行います。");
         cam = GameObject.FindGameObjectWithTag("MainCamera");
         Debug.Log("team : "+isUparupaTeam);
-        //Initialize();
+        Initialize();
 
     }
     void OnDestroy()

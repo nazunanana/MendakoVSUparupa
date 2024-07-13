@@ -2,11 +2,13 @@ using Fusion;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
 {
+    public static event Action OnSpawnComplete;
     public GameObject PlayerPrefab;
     private Button readyBtn;
     private Dictionary<PlayerRef, bool> playerReadyStates = new Dictionary<PlayerRef, bool>();
@@ -26,12 +28,19 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
             var playerObj = Runner.Spawn(PlayerPrefab);
             if (playerObj != null)
             {
+                OnSpawnComplete?.Invoke();
                 Debug.Log("プレイヤー" + player.PlayerId + " がスポーンしました。");
             }
 
             // シーン遷移してもプレイヤーオブジェクトが消えないようにする
             //DontDestroyOnLoad(playerObj.gameObject);
 
+            //オブジェクト名設定
+            if(player.PlayerId==1){
+                playerObj.gameObject.name = "PL_uparupa";
+            }else if(player.PlayerId==2){
+                playerObj.gameObject.name = "PL_mendako";
+            }
             // runner.ActivePlayers.Countで現在参加しているプレイヤー数が確認できる
             if (Runner.SessionInfo.PlayerCount == 1)
             {
@@ -55,17 +64,16 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
                 Debug.Log("あなたは" + team + "チームです");
 
                 //readyBtn.interactable = true;
+                Debug.Log("SC_SetPiecesへ");
                 StartCoroutine(WaitLoading());
-
-                SceneManager.LoadScene("SC_SetPieces");
 
 
             }
 
             IEnumerator WaitLoading()
             {
-                // 3秒間待つ
-                yield return new WaitForSeconds(3);
+                // 待つ
+                yield return new WaitForSeconds(1);
 
                 // 3秒後にシーン遷移
                 SceneManager.LoadScene("SC_SetPieces");
@@ -89,6 +97,8 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
         var playerData = playerObj.GetComponent<PlayerState>();
 
         playerData.getsetObject = playerObj;
+        Debug.Log("プレイヤー名"+playerObj.gameObject.name);
+
         if (playerObj.GetComponent<PlayerState>().getsetTeam == PlayerState.Team.uparupa)
         {
             if (playerRef.PlayerId != 1)

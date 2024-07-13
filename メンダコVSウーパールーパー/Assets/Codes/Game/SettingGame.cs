@@ -35,10 +35,7 @@ public class SettingGame : NetworkBehaviour
     {
         Debug.Log("シーンロード完了。初期化処理を行います。");
         cam = GameObject.FindGameObjectWithTag("MainCamera");
-        Debug.Log("team : " + isUparupaTeam);
         WaitLoading(2);
-        NetworkRunner runner = GameObject.FindGameObjectWithTag("Runner").GetComponent<NetworkRunner>();
-        Debug.Log("runnning:"+runner.IsRunning);
         Initialize();
 
     }
@@ -69,21 +66,21 @@ public class SettingGame : NetworkBehaviour
         {
             player = plObject.gameObject;
         }
-
-        player.GetComponent<PlayerState>().InitArray();
+        PlayerState playerState = player.GetComponent<PlayerState>();
+        playerState.InitArray();
         // マネージャーを通知
-        player.GetComponent<PlayerState>().setManager = this.gameObject;
+        playerState.setManager = this.gameObject;
         // UIを渡す
         GameObject[] UIarray = new GameObject[] { UI_message, UI_finishMessage, UI_real, UI_fake };
         player.GetComponent<SettingUI>().setUIObject(UIarray);
         // カメラ位置設定
-        SetCameraPos(isUparupaTeam);
+        SetCameraPos(playerState.getsetTeam==PlayerState.Team.uparupa);
         // ピース配置開始
         player.GetComponent<CreatePiece>().CreateInitPieces();
         // グリッド管理オブジェクト生成、プレイヤーオブジェクトを伝達
         manageGrid = Instantiate(gridSystemPrehab, gridSystemPrehab.transform.position, Quaternion.identity);
         DontDestroyOnLoad(manageGrid);
-        manageGrid.GetComponent<ManageGrid>().setImUparupa = getTeam();
+        manageGrid.GetComponent<ManageGrid>().setImUparupa = playerState.getsetTeam==PlayerState.Team.uparupa;
         manageGrid.GetComponent<ManageGrid>().SetPlayers = GameObject.FindGameObjectsWithTag("Player"); //グリッド生成
         player.GetComponent<PlayerState>().setManageGrid = manageGrid;
 
@@ -166,19 +163,19 @@ public class SettingGame : NetworkBehaviour
         }
     }
 
-    public void setTeam(int num)
-    { // 陣営決め
-        if (num == 1)
-        {
-            isUparupaTeam = true;
-        }
-        else if (num == 2)
-        {
-            isUparupaTeam = false;
-        }
-    }
-    public bool getTeam()
-    {
-        return isUparupaTeam;
-    }
+    // public void setTeam(int num)
+    // { // 陣営決め
+    //     if (num == 1)
+    //     {
+    //         isUparupaTeam = true;
+    //     }
+    //     else if (num == 2)
+    //     {
+    //         isUparupaTeam = false;
+    //     }
+    // }
+    // public bool getTeam()
+    // {
+    //     return isUparupaTeam;
+    // }
 }

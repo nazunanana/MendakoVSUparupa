@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Fusion;
 
-public class SettingGame : MonoBehaviour
+public class SettingGame : NetworkBehaviour
 {
     // private GameObject PL_uparupa;
     // private GameObject PL_mendako;
@@ -26,17 +26,26 @@ public class SettingGame : MonoBehaviour
     private const int MEN_CAMERA_POSITION_Z = -13;
     private const int MEN_CAMERA_ROTATION_Y = 0;
     private bool isInitialized = false; // 初期化完了フラグ
-    void Awake(){
+    void Awake()
+    {
         Debug.Log("Awake");
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("Loaded. Initialize");
+        Debug.Log("シーンロード完了。初期化処理を行います。");
         cam = GameObject.FindGameObjectWithTag("MainCamera");
-        Debug.Log("team : "+isUparupaTeam);
-        //Initialize();
+        Debug.Log("team : " + isUparupaTeam);
+        WaitLoading(2);
+        NetworkRunner runner = GameObject.FindGameObjectWithTag("Runner").GetComponent<NetworkRunner>();
+        Debug.Log("runnning:"+runner.IsRunning);
+        Initialize();
 
+    }
+    IEnumerator WaitLoading(float time)
+    {
+        // 待つ
+        yield return new WaitForSeconds(time);
     }
     void OnDestroy()
     {
@@ -45,16 +54,27 @@ public class SettingGame : MonoBehaviour
     private void Initialize()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        NetworkRunner runner = GameObject.FindGameObjectWithTag("Runner").GetComponent<NetworkRunner>();
-        if (runner.TryGetPlayerObject(runner.LocalPlayer, out var plObject)){
+        GameObject[] runners = GameObject.FindGameObjectsWithTag("Runner");
+        NetworkRunner runner = runners[0].GetComponent<NetworkRunner>();
+        foreach(GameObject g in runners){
+            if(g.GetComponent<NetworkRunner>().IsRunning){
+                runner = g.GetComponent<NetworkRunner>();
+                break;
+            }
+        }
+        //Debug.Log("runnning:"+runner.IsRunning);
+        
+        //NetworkRunner plyerred = GameObject.FindGameObjectsWithTag("Runner").GetComponent<PlayerSpawner>().getRunner;
+        if (runner.TryGetPlayerObject(runner.LocalPlayer, out var plObject))
+        {
             player = plObject.gameObject;
         }
-    
+
         player.GetComponent<PlayerState>().InitArray();
         // マネージャーを通知
         player.GetComponent<PlayerState>().setManager = this.gameObject;
         // UIを渡す
-        GameObject[] UIarray = new GameObject[]{UI_message, UI_finishMessage, UI_real, UI_fake};
+        GameObject[] UIarray = new GameObject[] { UI_message, UI_finishMessage, UI_real, UI_fake };
         player.GetComponent<SettingUI>().setUIObject(UIarray);
         // カメラ位置設定
         SetCameraPos(isUparupaTeam);
@@ -115,10 +135,14 @@ public class SettingGame : MonoBehaviour
     {
         if (!isInitialized) return; // 初期化が完了していない場合は何もしない
         bool finishSet = false;
-        foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Player")){
-            if(obj.GetComponent<PlayerState>().selectMode == PlayerState.SelectMode.SetAllPieces){
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            if (obj.GetComponent<PlayerState>().selectMode == PlayerState.SelectMode.SetAllPieces)
+            {
                 finishSet = true;
-            }else{
+            }
+            else
+            {
                 finishSet = false;
             }
         }
@@ -128,24 +152,33 @@ public class SettingGame : MonoBehaviour
         }
     }
 
-    private void SetCameraPos(bool isUparupaTeam){
-        if(isUparupaTeam){
+    private void SetCameraPos(bool isUparupaTeam)
+    {
+        if (isUparupaTeam)
+        {
             cam.transform.position = new Vector3(0, 10, UPA_CAMERA_POSITION_Z);
             cam.transform.rotation = Quaternion.Euler(48, UPA_CAMERA_ROTATION_Y, 0);
-        }else{
+        }
+        else
+        {
             cam.transform.position = new Vector3(0, 10, MEN_CAMERA_POSITION_Z);
             cam.transform.rotation = Quaternion.Euler(48, MEN_CAMERA_ROTATION_Y, 0);
         }
     }
 
-    public void setTeam(int num){ // 陣営決め
-        if(num == 1){
+    public void setTeam(int num)
+    { // 陣営決め
+        if (num == 1)
+        {
             isUparupaTeam = true;
-        }else if(num == 2){
+        }
+        else if (num == 2)
+        {
             isUparupaTeam = false;
         }
     }
-    public bool getTeam(){
+    public bool getTeam()
+    {
         return isUparupaTeam;
     }
 }

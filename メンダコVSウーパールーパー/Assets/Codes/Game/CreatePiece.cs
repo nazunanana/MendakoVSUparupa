@@ -38,11 +38,13 @@ public class CreatePiece : MonoBehaviour
             myFakePrehab = fakeUparupaPrehab;
             for(int i=0; i<PIECE_NUM; i++){
                 GameObject realPiece = Instantiate(myRealPrehab, new Vector3(4f,0.15f,9.3f), myRealPrehab.transform.rotation);
+                DontDestroyOnLoad(realPiece);
                 realPiece.GetComponent<PieceState>().setPlayer = player;
                 realPiece.GetComponent<PieceState>().getsetTeam = PlayerState.Team.uparupa;
                 realPiece.GetComponent<PieceState>().getsetIsReal = true;
                 myPieces.Add(realPiece);
                 GameObject fakePiece = Instantiate(myFakePrehab, new Vector3(-4f,0.15f,9.3f), myFakePrehab.transform.rotation);
+                DontDestroyOnLoad(fakePiece);
                 fakePiece.GetComponent<PieceState>().setPlayer = player;
                 fakePiece.GetComponent<PieceState>().getsetTeam = PlayerState.Team.uparupa;
                 fakePiece.GetComponent<PieceState>().getsetIsReal = false;
@@ -54,11 +56,13 @@ public class CreatePiece : MonoBehaviour
             myFakePrehab = fakeMendakoPrehab;
             for(int i=0; i<PIECE_NUM; i++){
                 GameObject realPiece = Instantiate(myRealPrehab, new Vector3(-4f,0.15f,-9.3f), myRealPrehab.transform.rotation);
+                DontDestroyOnLoad(realPiece);
                 realPiece.GetComponent<PieceState>().setPlayer = player;
                 realPiece.GetComponent<PieceState>().getsetTeam = PlayerState.Team.mendako;
                 realPiece.GetComponent<PieceState>().getsetIsReal = true;
                 myPieces.Add(realPiece);
                 GameObject fakePiece = Instantiate(myFakePrehab, new Vector3(4f,0.15f,-9.3f), myFakePrehab.transform.rotation);
+                DontDestroyOnLoad(fakePiece);
                 fakePiece.GetComponent<PieceState>().setPlayer = player;
                 fakePiece.GetComponent<PieceState>().getsetTeam = PlayerState.Team.mendako;
                 fakePiece.GetComponent<PieceState>().getsetIsReal = false;

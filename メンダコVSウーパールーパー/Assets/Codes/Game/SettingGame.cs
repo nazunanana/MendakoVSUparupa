@@ -6,12 +6,13 @@ using Fusion;
 
 public class SettingGame : MonoBehaviour
 {
-    private GameObject PL_uparupa;
-    private GameObject PL_mendako;
+    // private GameObject PL_uparupa;
+    // private GameObject PL_mendako;
+    private GameObject player;
     [SerializeField] private GameObject playerPrehab;
     private GameObject manageGrid;
     [SerializeField] private GameObject gridSystemPrehab;
-    [SerializeField] private GameObject cam;
+    private GameObject cam;
     [SerializeField] private bool isUparupaTeam = true;
     // UI
     [SerializeField] private GameObject UI_message;
@@ -32,6 +33,8 @@ public class SettingGame : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log("Loaded. Initialize");
+        cam = GameObject.FindGameObjectWithTag("MainCamera");
+        Debug.Log("team : "+isUparupaTeam);
         //Initialize();
 
     }
@@ -41,41 +44,85 @@ public class SettingGame : MonoBehaviour
     }
     private void Initialize()
     {
-        // プレイヤーオブジェクトを作成
-        PL_uparupa = Instantiate(playerPrehab, playerPrehab.transform.position, Quaternion.identity);
-        PL_uparupa.name = "PL_uparupa";
-        PL_mendako = Instantiate(playerPrehab, playerPrehab.transform.position, Quaternion.identity);
-        PL_mendako.name = "PL_mendako";
-        // チーム設定
-        PL_uparupa.GetComponent<PlayerState>().getsetTeam = PlayerState.Team.uparupa;
-        PL_mendako.GetComponent<PlayerState>().getsetTeam = PlayerState.Team.mendako;
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        NetworkRunner runner = GameObject.FindGameObjectWithTag("Runner").GetComponent<NetworkRunner>();
+        if (runner.TryGetPlayerObject(runner.LocalPlayer, out var plObject)){
+            player = plObject.gameObject;
+        }
+    
+        player.GetComponent<PlayerState>().InitArray();
         // マネージャーを通知
-        PL_uparupa.GetComponent<PlayerState>().setManager = this.gameObject;
-        PL_mendako.GetComponent<PlayerState>().setManager = this.gameObject;
+        player.GetComponent<PlayerState>().setManager = this.gameObject;
         // UIを渡す
-        PL_uparupa.GetComponent<SettingUI>().setUIObject(new GameObject[]{UI_message, UI_finishMessage, UI_real, UI_fake});
-        PL_mendako.GetComponent<SettingUI>().setUIObject(new GameObject[]{UI_message, UI_finishMessage, UI_real, UI_fake});
+        GameObject[] UIarray = new GameObject[]{UI_message, UI_finishMessage, UI_real, UI_fake};
+        player.GetComponent<SettingUI>().setUIObject(UIarray);
         // カメラ位置設定
         SetCameraPos(isUparupaTeam);
         // ピース配置開始
-        PL_uparupa.GetComponent<CreatePiece>().CreateInitPieces();
-        PL_mendako.GetComponent<CreatePiece>().CreateInitPieces();
+        player.GetComponent<CreatePiece>().CreateInitPieces();
         // グリッド管理オブジェクト生成、プレイヤーオブジェクトを伝達
         manageGrid = Instantiate(gridSystemPrehab, gridSystemPrehab.transform.position, Quaternion.identity);
-        manageGrid.GetComponent<ManageGrid>().setImUparupa = isUparupaTeam ? true : false;
-        manageGrid.GetComponent<ManageGrid>().SetPlayers = new GameObject[]{PL_uparupa, PL_mendako}; //グリッド生成
-        PL_uparupa.GetComponent<PlayerState>().setManageGrid = manageGrid;
-        PL_mendako.GetComponent<PlayerState>().setManageGrid = manageGrid;
+        DontDestroyOnLoad(manageGrid);
+        manageGrid.GetComponent<ManageGrid>().setImUparupa = getTeam();
+        manageGrid.GetComponent<ManageGrid>().SetPlayers = GameObject.FindGameObjectsWithTag("Player"); //グリッド生成
+        player.GetComponent<PlayerState>().setManageGrid = manageGrid;
 
         isInitialized = true; // 初期化完了
     }
+
+    // バックアップ！！！！！！！！！
+    // private void Initialize_backup()
+    // {
+    //     // プレイヤーオブジェクトを作成
+    //     PL_uparupa = Instantiate(playerPrehab, playerPrehab.transform.position, Quaternion.identity);
+    //     DontDestroyOnLoad(PL_uparupa);
+    //     //GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+    //     //PL_uparupa = players[0];
+    //     //players[0].name = "PL_uparupa";
+    //     PL_uparupa.name = "PL_uparupa";
+    //     PL_mendako = Instantiate(playerPrehab, playerPrehab.transform.position, Quaternion.identity);
+    //     DontDestroyOnLoad(PL_mendako);
+    //     //PL_mendako = players[1];
+    //     PL_mendako.name = "PL_mendako";
+    //     // チーム設定
+    //     PL_uparupa.GetComponent<PlayerState>().getsetTeam = PlayerState.Team.uparupa;
+    //     PL_mendako.GetComponent<PlayerState>().getsetTeam = PlayerState.Team.mendako;
+    //     // マネージャーを通知
+    //     PL_uparupa.GetComponent<PlayerState>().setManager = this.gameObject;
+    //     PL_mendako.GetComponent<PlayerState>().setManager = this.gameObject;
+    //     // UIを渡す
+    //     GameObject[] UIarray = new GameObject[]{UI_message, UI_finishMessage, UI_real, UI_fake};
+    //     PL_uparupa.GetComponent<SettingUI>().setUIObject(UIarray);
+    //     PL_mendako.GetComponent<SettingUI>().setUIObject(UIarray);
+    //     // カメラ位置設定
+    //     SetCameraPos(isUparupaTeam);
+    //     // ピース配置開始
+    //     PL_uparupa.GetComponent<CreatePiece>().CreateInitPieces();
+    //     PL_mendako.GetComponent<CreatePiece>().CreateInitPieces();
+    //     // グリッド管理オブジェクト生成、プレイヤーオブジェクトを伝達
+    //     manageGrid = Instantiate(gridSystemPrehab, gridSystemPrehab.transform.position, Quaternion.identity);
+    //     DontDestroyOnLoad(manageGrid);
+    //     manageGrid.GetComponent<ManageGrid>().setImUparupa = isUparupaTeam ? true : false;
+    //     manageGrid.GetComponent<ManageGrid>().SetPlayers = new GameObject[]{PL_uparupa, PL_mendako}; //グリッド生成
+    //     PL_uparupa.GetComponent<PlayerState>().setManageGrid = manageGrid;
+    //     PL_mendako.GetComponent<PlayerState>().setManageGrid = manageGrid;
+
+    //     isInitialized = true; // 初期化完了
+    // }
 
     // Update is called once per frame
     void Update()
     {
         if (!isInitialized) return; // 初期化が完了していない場合は何もしない
-        if (PL_uparupa.GetComponent<PlayerState>().selectMode == PlayerState.SelectMode.SetAllPieces &&
-            PL_mendako.GetComponent<PlayerState>().selectMode == PlayerState.SelectMode.SetAllPieces)
+        bool finishSet = false;
+        foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Player")){
+            if(obj.GetComponent<PlayerState>().selectMode == PlayerState.SelectMode.SetAllPieces){
+                finishSet = true;
+            }else{
+                finishSet = false;
+            }
+        }
+        if (finishSet)
         {
             SceneManager.LoadScene("SC_Game");
         }

@@ -10,7 +10,7 @@ Shader "MyShader/SH_SetArea"
     {
         Tags {
             "RenderType"="Transparent"
-            "Queue" = "Transparent"
+            "Queue" = "Transparent+1"
         }
         LOD 100
         Blend SrcAlpha OneMinusSrcAlpha

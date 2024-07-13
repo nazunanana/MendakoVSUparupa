@@ -59,7 +59,7 @@ public class BoardGrid : MonoBehaviour {
     // クリック時
     void OnMouseDown(){
         //Debug.Log(posID.x+","+posID.y+"click");
-        switch(nowPlayerComp.getsetSelectMode){
+        switch(nowPlayerComp.selectMode){
             case PlayerState.SelectMode.SetPosition: //配置シーン中
                 // 配置可能領域なら
                 if(0<posID[0] && posID[0]<5 && (4<=posID[1] || posID[1]<=1) ){
@@ -88,7 +88,7 @@ public class BoardGrid : MonoBehaviour {
     // 状態によって強調させる・解除する
     // 駒選択前なら前後左右 / 駒選択済みならこのマスだけ
     private void ChangeHighLight(bool tf){
-        switch(nowPlayerComp.getsetSelectMode){
+        switch(nowPlayerComp.selectMode){
             case PlayerState.SelectMode.SetPosition: //位置決め
                 //配置可能領域なら(左右ID1~4,前後ID01 or 45)。相手領域は壁があるから選択されない
                 if(0<posID[0] && posID[0]<5 && (4<=posID[1] || posID[1]<=1) ){

@@ -47,7 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ed4a468584b7945969dd8c482e8369, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectMode: 0
+  team: 0
+  _selectMode: 0
   realUparupaPrehab: {fileID: 5538709557641451423, guid: a66a4f26450eca74b9f8ffa7b098e2c2, type: 3}
   fakeUparupaPrehab: {fileID: 2227620648359408402, guid: cdaa84a0f8ab4df41bc36dbe2166fae0, type: 3}
   realMendakoPrehab: {fileID: 1644011147557011213, guid: f14032dc8c941c44f82588b14cd55c18, type: 3}
@@ -84,7 +85,9 @@ MonoBehaviour:
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
-  NetworkedBehaviours: []
+  NetworkedBehaviours:
+  - {fileID: -8496724235990915845}
+  - {fileID: -6841728820833063937}
 --- !u!114 &-547550017124657049
 MonoBehaviour:
   m_ObjectHideFlags: 0

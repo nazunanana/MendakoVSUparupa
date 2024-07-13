@@ -460,7 +460,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3001
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -1041,7 +1041,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrehab: {fileID: 4531802201551302878, guid: a2dc6325c07c2794c9c806713feb4122, type: 3}
   gridSystemPrehab: {fileID: 387623249586609869, guid: 0220d0facf853594ba7cfb0a216bf461, type: 3}
-  isUparupaTeam: 1
+  debug: 0
+  debug_upa: 0
   UI_message: {fileID: 818081805}
   UI_finishMessage: {fileID: 1459775042}
   UI_real: {fileID: 277422616}

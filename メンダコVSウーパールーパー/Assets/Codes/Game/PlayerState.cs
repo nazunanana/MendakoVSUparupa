@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ using Fusion;
 /// <summary>
 /// プレイヤーの状態
 /// </summary>
-public class PlayerState : MonoBehaviour
+public class PlayerState : NetworkBehaviour
 {
     // ウパルパ陣営かメンダコ陣営か
     public enum Team
@@ -21,13 +22,17 @@ public class PlayerState : MonoBehaviour
     public enum SelectMode
     {
         SetPiece, // 駒選択中
-        SetPosition, //駒配置マス選択中
+        SetPosition, //駒を置くマスを選択中
         SetAllPieces, //駒配置完了
         MovePiece, // ゲーム中 動かす駒選択中
-        MovePosition, // ゲーム中 動かすマス選択中
+        MovePosition, // ゲーム中 移動先のマスを選択中
         NoMyTurn // 相手ターン中
     }
-    public SelectMode selectMode;
+    [Networked, OnChangedRender(nameof(ModeEvent))]
+    public SelectMode selectMode { get; set; }
+
+    // イベント
+    public static event Action OnFinishSetting;
 
     /// <summary> 得点 </summary>
     // 本物得点 (相手の本物を取ると+1)
@@ -67,10 +72,12 @@ public class PlayerState : MonoBehaviour
         // Debug.Log("このシーンは"+SceneManager.GetActiveScene().name);
         // Debug.Log("親オブジェクトは"+this.gameObject.transform.parent.gameObject.name);
         DontDestroyOnLoad(this.gameObject);
+
+        //Debug.Log("Spawn? "+this.gameObject.GetComponent<NetworkObject>().Spawned);
     }
 
     /// <summary>
-    /// ゲーム開始
+    /// SC_Game開始時
     /// </summary>
     public void StartGameSetting(Team team)
     {
@@ -153,12 +160,6 @@ public class PlayerState : MonoBehaviour
         get { return moveToPos; }
     }
 
-    public SelectMode getsetSelectMode
-    {
-        get { return selectMode; }
-        set { selectMode = value; }
-    }
-
     public NetworkObject getsetObject
     {
         get { return playerObj; }
@@ -207,6 +208,8 @@ public class PlayerState : MonoBehaviour
         // UI差し替え
         this.gameObject.GetComponent<SettingUI>().FinishSetting();
         selectMode = SelectMode.SetAllPieces;
+
+        Debug.Log(team+"は現在"+selectMode);
         ClearAllHighLight();
     }
 
@@ -257,5 +260,9 @@ public class PlayerState : MonoBehaviour
             if (obj != null) obj.GetComponent<PieceState>().HighLightPiece(false);
         }
         manageGrid.GetComponent<ManageGrid>().ClearHighLight();
+    }
+    private void ModeEvent(){
+        // イベント通知
+        OnFinishSetting?.Invoke();
     }
 }

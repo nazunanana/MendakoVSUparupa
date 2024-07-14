@@ -108,7 +108,7 @@ private string setPlayerState(NetworkObject playerObj, PlayerRef playerRef)
     Runner.SetPlayerObject(playerRef, playerObj);
     var playerData = playerObj.GetComponent<PlayerState>();
 
-    playerData.getsetObject = playerObj;
+    //playerData.getsetObject = playerObj;
     // Debug.Log("プレイヤー名" + playerObj.gameObject.name);
 
     // Debug.Log("ready runner runnning:"+Runner.IsRunning + "方は"+Runner.GetType());

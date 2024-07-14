@@ -78,8 +78,6 @@ public class SettingGame : NetworkBehaviour
         PlayerState playerState = player.GetComponent<PlayerState>();
         // DEBUG:
         Debug.Log("チームは" + playerState.team);
-        // 駒配列初期化
-        playerState.InitArray();
         // マネージャーを通知
         playerState.setManager = this.gameObject;
         // UIを渡す

@@ -47,18 +47,19 @@ public class PlayerState : NetworkBehaviour
     public GameObject realMendakoPrehab; // インスペクターで指定
     public GameObject fakeMendakoPrehab; // インスペクターで指定
     private GameObject manager; //SC_SetPiecesのSetPieceManager
-    // 自陣営の駒生成
-    private GameObject piece;
     // グリッドマネージャー
     private GameObject manageGrid;
-    private List<GameObject> myPieces;
-    // 場に出ている自陣営の駒 <位置のID, 駒オブジェクト>
-    private Dictionary<Vector2Int, GameObject> activePieces;
-    // 獲得した相手陣営の駒
-    private List<GameObject> getPieces;
+    // private List<GameObject> myPieces;
+    // // 場に出ている自陣営の駒 <位置のID, 駒オブジェクト>
+    // private Dictionary<Vector2Int, GameObject> activePieces;
+    // // 獲得した相手陣営の駒
+    // private List<GameObject> getPieces;
+    Dictionary<Vector2Int, PieceState> pieceDic;
 
     // 選択した駒位置
     private Vector2Int piecePos;
+    // 選択中の駒
+    private PieceState piece;
     // 選択した移動先
     private Vector2Int moveToPos;
     // ネットワークオブジェクト(スポーンしたプレイヤーオブジェクト)
@@ -82,11 +83,11 @@ public class PlayerState : NetworkBehaviour
     {
         set { manager = value; }
     }
-    public void InitArray()
-    {
-        myPieces = new List<GameObject>();
-        activePieces = new Dictionary<Vector2Int, GameObject>();
-    }
+    // public void InitArray()
+    // {
+    //     myPieces = new List<GameObject>();
+    //     activePieces = new Dictionary<Vector2Int, GameObject>();
+    // }
 
     public int getsetRealPoint
     {
@@ -94,11 +95,11 @@ public class PlayerState : NetworkBehaviour
         set { realPoint = value; }
     }
 
-    public List<GameObject> getsetMyPieces
-    {
-        get { return myPieces; }
-        set { myPieces = value; }
-    }
+    // public List<GameObject> getsetMyPieces
+    // {
+    //     get { return myPieces; }
+    //     set { myPieces = value; }
+    // }
 
     public int getsetFakePoint
     {
@@ -116,11 +117,11 @@ public class PlayerState : NetworkBehaviour
         get { return moveToPos; }
     }
 
-    public NetworkObject getsetObject
-    {
-        get { return playerObj; }
-        set { playerObj = value; }
-    }
+    // public NetworkObject getsetObject
+    // {
+    //     get { return playerObj; }
+    //     set { playerObj = value; }
+    // }
 
 
 
@@ -188,7 +189,7 @@ public class PlayerState : NetworkBehaviour
     public void toSelectPiece(Vector2Int posID)
     {
         piecePos = posID;
-        piece = activePieces[piecePos]; // 選択中の駒
+        piece = this.gameObject.GetComponent<ManagePiece>().pieceDic[piecePos];
         manageGrid.GetComponent<ManageGrid>().HighLightWASDGrid(piecePos, true);
         Debug.Log("playerState:駒選択中");
         selectMode = SelectMode.MovePosition;
@@ -201,8 +202,11 @@ public class PlayerState : NetworkBehaviour
     public void toMovePiece(Vector2Int posID)
     {
         moveToPos = posID;
-        activePieces.Remove(piecePos); //現在位置の登録解除
-        activePieces.Add(moveToPos, piece); //移動先で登録
+        // 入れる配列取得
+        pieceDic = this.gameObject.GetComponent<ManagePiece>().pieceDic;
+        pieceDic.Remove(piecePos); //現在位置の登録解除
+        pieceDic.Add(moveToPos, piece); //移動先で登録
+
         Debug.Log("move to " + moveToPos[0] + "," + moveToPos[1]);
         selectMode = SelectMode.NoMyTurn;
     }
@@ -211,16 +215,18 @@ public class PlayerState : NetworkBehaviour
     /// </summary>
     public void ClearAllHighLight()
     {
-        foreach (GameObject obj in myPieces)
+        pieceDic = this.gameObject.GetComponent<ManagePiece>().pieceDic;
+        foreach (PieceState piece in pieceDic.Values)
         {
-            if (obj != null) obj.GetComponent<PieceState>().HighLightPiece(false);
+            if (piece != null) piece.HighLightPiece(false);
         }
         manageGrid.GetComponent<ManageGrid>().ClearHighLight();
     }
-    private void ModeEvent(){
+    private void ModeEvent()
+    {
         // イベント通知
         OnChangeMode?.Invoke();
-        Debug.Log("現在"+team+"は"+selectMode+"です。");
+        Debug.Log("現在" + team + "は" + selectMode + "です。");
         // 位置同期
         GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
         foreach (GameObject p in pieces)

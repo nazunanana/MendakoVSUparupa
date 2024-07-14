@@ -12,10 +12,9 @@ public class PieceState : NetworkBehaviour
     // 駒が本物である
     private bool isReal;
     // 駒の種類
-    private PlayerState.Team team;
+    public PlayerState.Team team {get; set;}
     // 駒ID
     private int pieceID;
-    private bool wait;
     // どのマスにいるか
     [Networked, OnChangedRender(nameof(SyncPos))]
     public Vector2Int posID { get; set; }
@@ -33,12 +32,6 @@ public class PieceState : NetworkBehaviour
         get { return isReal; }
         set { isReal = value; }
     }
-
-    public PlayerState.Team getsetTeam
-    {
-        get { return team; }
-        set { team = value; }
-    }
     public int getsetPieceID
     {
         get { return pieceID; }
@@ -48,18 +41,13 @@ public class PieceState : NetworkBehaviour
     {
         set { player = value; }
     }
-
-    void Start()
-    {
-        //WaitLoading(1.0f);
-        wait = true;
-    }
-
     void OnMouseOver()
     {
         // Debug.Log("piece over");
+        Debug.Log("team"+team);
+        Debug.Log("comp"+player.GetComponent<PlayerState>().team);
         // マテリアルをハイライト
-        if (wait && (team == player.GetComponent<PlayerState>().team)) //自陣の駒なら
+        if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
         {
             switch (player.GetComponent<PlayerState>().selectMode)
             {
@@ -78,7 +66,7 @@ public class PieceState : NetworkBehaviour
     void OnMouseExit()
     {
         // ハイライトを解除
-        if (wait && (team == player.GetComponent<PlayerState>().team)) //自陣の駒なら
+        if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
         {
             switch (player.GetComponent<PlayerState>().selectMode)
             {
@@ -95,14 +83,14 @@ public class PieceState : NetworkBehaviour
     }
     void OnMouseDown()
     {
-        if (wait && (team == player.GetComponent<PlayerState>().team)) //自陣の駒なら
+        if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
         {
             switch (player.GetComponent<PlayerState>().selectMode)
             {
                 case PlayerState.SelectMode.SetPiece: //設置駒選択なら
                     player.GetComponent<CreatePiece>().SelectPiece(posID, getsetIsReal); // 状態遷移
                     HighLightPiece(true);
-                    Debug.Log("Select Piece");
+                    Debug.Log("設置する駒を選択");
                     break;
                 case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
                     player.GetComponent<PlayerState>().toSelectPiece(posID); // 状態遷移

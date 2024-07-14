@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 8579546467671568038}
   - component: {fileID: -8496724235990915845}
   - component: {fileID: -6841728820833063937}
-  - component: {fileID: 7496931906993790794}
   - component: {fileID: -547550017124657049}
+  - component: {fileID: -8589232937665555684}
+  - component: {fileID: 7496931906993790794}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -47,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ed4a468584b7945969dd8c482e8369, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 0
+  _team: 0
   _selectMode: 0
   realUparupaPrehab: {fileID: 5538709557641451423, guid: a66a4f26450eca74b9f8ffa7b098e2c2, type: 3}
   fakeUparupaPrehab: {fileID: 2227620648359408402, guid: cdaa84a0f8ab4df41bc36dbe2166fae0, type: 3}
@@ -69,6 +70,30 @@ MonoBehaviour:
   fakeUparupaPrehab: {fileID: 2227620648359408402, guid: cdaa84a0f8ab4df41bc36dbe2166fae0, type: 3}
   realMendakoPrehab: {fileID: 1644011147557011213, guid: f14032dc8c941c44f82588b14cd55c18, type: 3}
   fakeMendakoPrehab: {fileID: 2813001013815344755, guid: c5813fac108a7b9489085717ca36efb2, type: 3}
+--- !u!114 &-547550017124657049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4531802201551302878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 000acf94e19620447a327b7c35c559f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8589232937665555684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4531802201551302878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb3de58212d722f4ca391bc6aa6930ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7496931906993790794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,15 +113,3 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: -8496724235990915845}
   - {fileID: -6841728820833063937}
---- !u!114 &-547550017124657049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4531802201551302878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 000acf94e19620447a327b7c35c559f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

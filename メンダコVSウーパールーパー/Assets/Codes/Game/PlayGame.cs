@@ -50,8 +50,8 @@ public class PlayGame : NetworkBehaviour
         PlayerState playerState = myplayer.GetComponent<PlayerState>();
 
         // 生成系コンポネントを破棄
-        Destroy(myplayer.GetComponent<CreatePiece>());
-        Destroy(partnerplayer.GetComponent<CreatePiece>());
+        // Destroy(myplayer.GetComponent<CreatePiece>());
+        // Destroy(partnerplayer.GetComponent<CreatePiece>());
         Destroy(myplayer.GetComponent<SettingUI>());
         Destroy(partnerplayer.GetComponent<SettingUI>());
         // 管理オブジェクト検索

@@ -31,7 +31,7 @@ public class ManagePiece : MonoBehaviour
         return new int[] { w, a, s, d }; //上左下右 -1:範囲外 0:null 1:自陣の駒 2:相手の駒
     }
 
-    private int SearchPieceByPos(Vector2Int posID)
+    public int SearchPieceByPos(Vector2Int posID)
     {
         bool imUparupa = player.GetComponent<PlayerState>().team == PlayerState.Team.uparupa;
         if (pieceDic[posID] == null) return 0;

@@ -178,4 +178,18 @@ public class PieceState : NetworkBehaviour
         absPos = new Vector3(FIRST_X + posID[0] * gridSize, Y_POS, FIRST_Z + posID[1] * gridSize);
         return absPos;
     }
+
+    // public void PieceDespawn(){
+    //     GameObject[] runners = GameObject.FindGameObjectsWithTag("Runner");
+    //     NetworkRunner runner = runners[0].GetComponent<NetworkRunner>();
+    //     foreach (GameObject g in runners)
+    //     {
+    //         if (g.GetComponent<NetworkRunner>().IsRunning)
+    //         { //アクティブのものを検出
+    //             runner = g.GetComponent<NetworkRunner>();
+    //             break;
+    //         }
+    //     }
+    //     runner.Despawn()
+    // }
 }

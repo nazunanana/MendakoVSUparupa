@@ -57,7 +57,7 @@ public class PieceState : NetworkBehaviour
     }
     void OnMouseOver()
     {
-        if (player.GetComponent<PlayerState>()!=null)
+        if (player!=null&&player.GetComponent<PlayerState>()!=null)
         {
             // Debug.Log("piece over");
             Debug.Log("team" + team);
@@ -84,7 +84,7 @@ public class PieceState : NetworkBehaviour
     }
     void OnMouseExit()
     {
-        if (player.GetComponent<PlayerState>()!=null)
+        if (player!=null&&player.GetComponent<PlayerState>()!=null)
         {
             // ハイライトを解除
             if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら

@@ -102,6 +102,29 @@ public class PlayGame : NetworkBehaviour
             nowPlayer = partnerplayer;
         }
     }
+
+    /// <summary>
+    /// 前後左右の駒を検索
+    /// </summary>
+    public int[] SearchWASD(Vector2Int posID)
+    {
+        int id_x = posID.x;
+        int id_z = posID.y;
+        int w = -1, a = -1, s = -1, d = -1;
+
+        if (0 <= id_x - 1) w = SearchPieceByPos(new Vector2Int(id_x - 1, id_z)); // 上のマス
+        if (0 <= id_z - 1) a = SearchPieceByPos(new Vector2Int(id_x, id_z - 1)); // 左のマス
+        if (id_x + 1 < GRID_NUM) s = SearchPieceByPos(new Vector2Int(id_x + 1, id_z)); // 下のマス
+        if (id_z + 1 < GRID_NUM) d = SearchPieceByPos(new Vector2Int(id_x, id_z + 1)); // 右のマス
+        return new int[] { w, a, s, d }; //上左下右 -1:範囲外 0:null 1:自陣の駒 2:相手の駒
+    }
+    public int SearchPieceByPos(Vector2Int posID)
+    {
+        if(myplayer.GetComponent<ManagePiece>().ContainsKey(posID)) return 1;
+        else if(partnerplayer.GetComponent<ManagePiece>().ContainsKey(posID)) return 2;
+        else return 0;
+    }
+
     IEnumerator WaitLoading(float time)
     {
         // 待つ

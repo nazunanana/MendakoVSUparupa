@@ -32,7 +32,7 @@ public class PlayerState : NetworkBehaviour
     [Networked, OnChangedRender(nameof(ModeEvent))]
     public SelectMode selectMode { get; set; }
 
-    // イベント
+    // モード遷移イベント
     public static event Action OnChangeMode;
 
     /// <summary> 得点 </summary>
@@ -174,8 +174,6 @@ public class PlayerState : NetworkBehaviour
     public void toNoMyTurn()
     {
         selectMode = SelectMode.NoMyTurn;
-        // 相手ターン開始処理
-        
     }
     /// <summary>
     /// ターン開始時に

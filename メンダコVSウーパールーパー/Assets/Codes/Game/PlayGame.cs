@@ -18,6 +18,11 @@ public class PlayGame : NetworkBehaviour
     {
         Debug.Log("Awake SC_Game");
         SceneManager.sceneLoaded += OnSceneLoaded;
+        PlayerState.OnChangeMode += ChangeToMyTurn;
+    }
+    void OnDestroy()
+    {
+        PlayerState.OnChangeMode -= ChangeToMyTurn; // イベントから登録解除
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -63,6 +68,7 @@ public class PlayGame : NetworkBehaviour
             this.gameObject.GetComponent<GameUI>().SetUIPosition(true);
             myplayer.GetComponent<PlayerState>().toStartMyTurn();
             partnerplayer.GetComponent<PlayerState>().toNoMyTurn();
+            nowPlayer = myplayer;
         }
         else
         {
@@ -71,6 +77,7 @@ public class PlayGame : NetworkBehaviour
             this.gameObject.GetComponent<GameUI>().SetUIPosition(false);
             myplayer.GetComponent<PlayerState>().toNoMyTurn();
             partnerplayer.GetComponent<PlayerState>().toStartMyTurn();
+            nowPlayer = partnerplayer;
         }
         // ウパターン
         this.gameObject.GetComponent<GameUI>().ChangeTurn(true);
@@ -78,7 +85,15 @@ public class PlayGame : NetworkBehaviour
 
     void ChangeToMyTurn()
     {
-        if (nowPlayer == partnerplayer)
+        Debug.Log("ターン遷移！");
+        PlayerState.SelectMode mymode = myplayer.GetComponent<PlayerState>().selectMode;
+        PlayerState.SelectMode partnermode = partnerplayer.GetComponent<PlayerState>().selectMode;
+        Debug.Log("今相手ターン" + (nowPlayer.name));
+        Debug.Log("自分がnoturn" + (mymode == PlayerState.SelectMode.NoMyTurn));
+        Debug.Log("相手がnoturn" + (partnermode == PlayerState.SelectMode.NoMyTurn));
+
+        // ターン遷移 相手ターンかつ両者がターン終了状態なら自分のターン開始
+        if (nowPlayer == partnerplayer && mymode == PlayerState.SelectMode.NoMyTurn && partnermode == PlayerState.SelectMode.NoMyTurn)
         {
             myplayer.GetComponent<PlayerState>().toStartMyTurn();
         }

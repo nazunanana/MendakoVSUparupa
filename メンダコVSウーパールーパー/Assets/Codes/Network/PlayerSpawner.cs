@@ -102,7 +102,7 @@ private string setPlayerState(NetworkObject playerObj, PlayerRef playerRef)
 
     // plSettingGame.setTeam(playerRef.PlayerId);
 
-    playerObj.GetComponent<PlayerState>().getsetTeam = (playerRef.PlayerId == 1) ? PlayerState.Team.uparupa : PlayerState.Team.mendako;
+    playerObj.GetComponent<PlayerState>().team = (playerRef.PlayerId == 1) ? PlayerState.Team.uparupa : PlayerState.Team.mendako;
 
     // PlayerRefとNetworkObjectの関連付け
     Runner.SetPlayerObject(playerRef, playerObj);
@@ -113,7 +113,7 @@ private string setPlayerState(NetworkObject playerObj, PlayerRef playerRef)
 
     // Debug.Log("ready runner runnning:"+Runner.IsRunning + "方は"+Runner.GetType());
 
-    if (playerObj.GetComponent<PlayerState>().getsetTeam == PlayerState.Team.uparupa)
+    if (playerObj.GetComponent<PlayerState>().team == PlayerState.Team.uparupa)
     {
         if (playerRef.PlayerId != 1)
         {
@@ -121,7 +121,7 @@ private string setPlayerState(NetworkObject playerObj, PlayerRef playerRef)
         }
         return "[ウーパールーパー]";
     }
-    else if (playerObj.GetComponent<PlayerState>().getsetTeam == PlayerState.Team.mendako)
+    else if (playerObj.GetComponent<PlayerState>().team == PlayerState.Team.mendako)
     {
         return "[メンダコ]";
     }

@@ -7,6 +7,7 @@ public class ManagePiece : MonoBehaviour
     private GameObject player;
     private int getPieceNum;
 
-    private Dictionary
+    private Dictionary<PieceState, Vector2Int> pieceDic;
+    
 
 }

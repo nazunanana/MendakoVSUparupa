@@ -17,7 +17,8 @@ public class PlayerState : NetworkBehaviour
         uparupa,
         mendako,
     }
-    public Team team;
+    [Networked]
+    public Team team { get; set; }
     /// <summary> 状態遷移 </summary>
     public enum SelectMode
     {
@@ -80,12 +81,6 @@ public class PlayerState : NetworkBehaviour
     public GameObject setManager
     {
         set { manager = value; }
-    }
-    // 陣営をSC_Readyでスポーン時に決定
-    public Team getsetTeam
-    {
-        get { return team; }
-        set { team = value; }
     }
     public void InitArray()
     {

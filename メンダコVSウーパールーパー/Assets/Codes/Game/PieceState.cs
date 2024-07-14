@@ -59,7 +59,7 @@ public class PieceState : NetworkBehaviour
     {
         // Debug.Log("piece over");
         // マテリアルをハイライト
-        if (wait && (team == player.GetComponent<PlayerState>().getsetTeam)) //自陣の駒なら
+        if (wait && (team == player.GetComponent<PlayerState>().team)) //自陣の駒なら
         {
             switch (player.GetComponent<PlayerState>().selectMode)
             {
@@ -78,7 +78,7 @@ public class PieceState : NetworkBehaviour
     void OnMouseExit()
     {
         // ハイライトを解除
-        if (wait && (team == player.GetComponent<PlayerState>().getsetTeam)) //自陣の駒なら
+        if (wait && (team == player.GetComponent<PlayerState>().team)) //自陣の駒なら
         {
             switch (player.GetComponent<PlayerState>().selectMode)
             {
@@ -95,7 +95,7 @@ public class PieceState : NetworkBehaviour
     }
     void OnMouseDown()
     {
-        if (wait && (team == player.GetComponent<PlayerState>().getsetTeam)) //自陣の駒なら
+        if (wait && (team == player.GetComponent<PlayerState>().team)) //自陣の駒なら
         {
             switch (player.GetComponent<PlayerState>().selectMode)
             {

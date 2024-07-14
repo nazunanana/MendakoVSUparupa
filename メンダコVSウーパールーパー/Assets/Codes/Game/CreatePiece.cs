@@ -34,7 +34,7 @@ public class CreatePiece : NetworkBehaviour
         myPieces= new List<GameObject>();
         piecePosID = new Vector2Int[8];
         // ウパルパ
-        if(player.GetComponent<PlayerState>().getsetTeam == PlayerState.Team.uparupa){
+        if(player.GetComponent<PlayerState>().team == PlayerState.Team.uparupa){
             myRealPrehab = realUparupaPrehab;
             myFakePrehab = fakeUparupaPrehab;
             for(int i=0; i<PIECE_NUM; i++){

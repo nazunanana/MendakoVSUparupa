@@ -12,7 +12,7 @@ public class PlayGame : NetworkBehaviour
     private GameObject myplayer;
     private GameObject partnerplayer;
     private PlayerState playerState;
-    private NetworkRunner runner; 
+    private NetworkRunner runner;
     void Awake()
     {
         Debug.Log("Awake SC_Game");
@@ -49,15 +49,21 @@ public class PlayGame : NetworkBehaviour
         // コンポネント取得
         PlayerState playerState = myplayer.GetComponent<PlayerState>();
 
+        // 位置同期
+        GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
+        foreach (GameObject p in pieces)
+        {
+            p.GetComponent<PieceState>().SyncPos();
+        }
         // 生成系コンポネントを破棄
-        Destroy(myplayer.GetComponent<CreatePiece>());
-        Destroy(partnerplayer.GetComponent<CreatePiece>());
+        //Destroy(myplayer.GetComponent<CreatePiece>());
+        //Destroy(partnerplayer.GetComponent<CreatePiece>());
         Destroy(myplayer.GetComponent<SettingUI>());
         Destroy(partnerplayer.GetComponent<SettingUI>());
         // 管理オブジェクト検索
         manageGrid = GameObject.FindGameObjectWithTag("GridSystem");
 
-        if (playerState.getsetTeam == PlayerState.Team.uparupa)
+        if (playerState.team == PlayerState.Team.uparupa)
         {
             //カメラ設定
             CameraSetting.SetCamera(true);
@@ -76,5 +82,5 @@ public class PlayGame : NetworkBehaviour
         // ウパターン
         this.gameObject.GetComponent<GameUI>().ChangeTurn(true);
     }
-
 }
+

@@ -29,9 +29,9 @@ public class ReadyUI : MonoBehaviour
             if (player != null)
             {
                 var playerState = player.GetComponent<PlayerState>();
-                Debug.Log("UIがチームを取得" + playerState.getsetTeam);
+                Debug.Log("UIがチームを取得" + playerState.team);
                 // 文字を変える
-                if (player.GetComponent<PlayerState>().getsetTeam == PlayerState.Team.uparupa)
+                if (player.GetComponent<PlayerState>().team == PlayerState.Team.uparupa)
                 {
                     this.gameObject.GetComponent<TextMeshProUGUI>().text = "マッチ完了！\nあなたはウパルパ陣営です！";
                 }
@@ -46,7 +46,7 @@ public class ReadyUI : MonoBehaviour
             }
         }, 0f));
         // Observable.Timer(TimeSpan.FromMilliseconds(100))
-        //     .Subscribe(_ => Debug.Log(player.GetComponent<PlayerState>().getsetTeam));
+        //     .Subscribe(_ => Debug.Log(player.GetComponent<PlayerState>().team));
 
     }
 

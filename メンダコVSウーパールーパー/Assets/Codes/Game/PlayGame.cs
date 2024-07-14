@@ -34,10 +34,14 @@ public class PlayGame : NetworkBehaviour
         }
         if (runner.TryGetPlayerObject(runner.LocalPlayer, out var plObject))
         {
-            foreach (GameObject pl in players){
-                if(pl.name==plObject.gameObject.name){
+            foreach (GameObject pl in players)
+            {
+                if (pl.name == plObject.gameObject.name)
+                {
                     myplayer = plObject.gameObject;
-                }else{
+                }
+                else
+                {
                     partnerplayer = pl;
                 }
             }
@@ -53,21 +57,23 @@ public class PlayGame : NetworkBehaviour
         // 管理オブジェクト検索
         manageGrid = GameObject.FindGameObjectWithTag("GridSystem");
 
-        if(playerState.getsetTeam == PlayerState.Team.uparupa){
+        if (playerState.getsetTeam == PlayerState.Team.uparupa)
+        {
             //カメラ設定
             CameraSetting.SetCamera(true);
             this.gameObject.GetComponent<GameUI>().SetUIPosition(true);
-            this.gameObject.GetComponent<GameUI>().ChangeTurn(true);
             myplayer.GetComponent<PlayerState>().toStartMyTurn();
             partnerplayer.GetComponent<PlayerState>().toNoMyTurn();
-        }else {
+        }
+        else
+        {
             //カメラ設定
             CameraSetting.SetCamera(false);
             this.gameObject.GetComponent<GameUI>().SetUIPosition(false);
-            this.gameObject.GetComponent<GameUI>().ChangeTurn(false);
             myplayer.GetComponent<PlayerState>().toNoMyTurn();
             partnerplayer.GetComponent<PlayerState>().toStartMyTurn();
         }
-
+        // ウパターン
+        this.gameObject.GetComponent<GameUI>().ChangeTurn(true);
     }
 }

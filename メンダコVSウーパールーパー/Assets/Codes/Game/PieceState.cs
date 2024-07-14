@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using Fusion;
 using UnityEngine.SceneManagement;
@@ -17,6 +18,7 @@ public class PieceState : NetworkBehaviour
     public PlayerState.Team team { get; set; }
     // ロード待機
     private bool wait;
+    private bool dicflag;
     // 駒ID
     private int pieceID;
     // どのマスにいるか
@@ -45,6 +47,14 @@ public class PieceState : NetworkBehaviour
     {
         set { player = value; }
     }
+    void Awake()
+    {
+        PlayGame.OnCreateDicComplete += CheckFlag;
+    }
+    void OnDestroy()
+    {
+        PlayGame.OnCreateDicComplete -= CheckFlag;
+    }
     void Start()
     {
         gridmanager = GameObject.FindGameObjectWithTag("GridSystem");
@@ -55,6 +65,10 @@ public class PieceState : NetworkBehaviour
     {
         // 待つ
         yield return new WaitForSeconds(time);
+    }
+    void CheckFlag()
+    {
+        dicflag = true;
     }
     void OnMouseOver()
     {
@@ -170,18 +184,15 @@ public class PieceState : NetworkBehaviour
         Debug.Log("player");
         this.gameObject.transform.position = absPos;
 
-        if (SceneManager.GetActiveScene().name == "SC_Game")
+        if (dicflag)
         {
             // 相手のdicの登録を変える
-            Vector2Int lastId = new Vector2Int();
-            foreach (var dic in player.GetComponent<ManagePiece>().partnerPieceDic)
+            int i = 0;
+            foreach (var dic in player.GetComponent<ManagePiece>().pieceDic)
             {
-                //相手dicからこの駒を探す
-                if (dic.Value == this)
-                {
-                    lastId = dic.Key;
-                    break;
-                }
+                bool upa = (dic.Value.team == PlayerState.Team.uparupa);
+                player.GetComponent<ManagePiece>().myPosArray.Set(i, new Vector3Int(dic.Key[0], dic.Key[1], upa ? 0 : 1));
+                i++;
             }
             // それを登録解除
             player.GetComponent<ManagePiece>().partnerPieceDic.Remove(lastId);

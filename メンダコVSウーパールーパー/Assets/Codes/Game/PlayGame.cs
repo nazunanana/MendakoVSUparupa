@@ -85,11 +85,11 @@ public class PlayGame : NetworkBehaviour
 
     void ChangeToMyTurn()
     {
-        Debug.Log("ターン遷移！");
+        //Debug.Log("ターン遷移！");
         PlayerState.SelectMode mymode = myplayer.GetComponent<PlayerState>().selectMode;
         PlayerState.SelectMode partnermode = partnerplayer.GetComponent<PlayerState>().selectMode;
         WaitLoading(0.5f);
-        Debug.Log("nowname:相手name" + (nowPlayer.name) +":"+ partnerplayer.name);
+        //Debug.Log("nowname:相手name" + (nowPlayer.name) +":"+ partnerplayer.name);
         //Debug.Log("自分がnoturn" + (mymode == PlayerState.SelectMode.NoMyTurn));
         //Debug.Log("相手がnoturn" + (partnermode == PlayerState.SelectMode.NoMyTurn));
 

@@ -47,12 +47,12 @@ public class SettingGame : NetworkBehaviour
     }
     void Start()
     {
-        if (isInitialized) PlayerState.OnFinishSetting += LoadGameScene;
+        if (isInitialized) PlayerState.OnChangeMode += LoadGameScene;
     }
     void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        if (isInitialized) PlayerState.OnFinishSetting -= LoadGameScene;
+        if (isInitialized) PlayerState.OnChangeMode -= LoadGameScene;
 
     }
     private void Initialize()
@@ -150,9 +150,9 @@ public class SettingGame : NetworkBehaviour
         bool finishSet = false;
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player"))
         {
-            Debug.Log("モード:"+obj.GetComponent<PlayerState>().selectMode);
+            // Debug.Log("モード:"+obj.GetComponent<PlayerState>().selectMode);
             PlayerState.SelectMode mode = obj.GetComponent<PlayerState>().selectMode;
-            if (mode == PlayerState.SelectMode.SetAllPieces || mode == PlayerState.SelectMode.MovePiece)
+            if (mode == PlayerState.SelectMode.SetAllPieces || mode == PlayerState.SelectMode.MovePiece || mode == PlayerState.SelectMode.NoMyTurn)
             {
                 finishSet = true;
             }

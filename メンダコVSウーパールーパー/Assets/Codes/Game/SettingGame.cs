@@ -10,7 +10,7 @@ public class SettingGame : NetworkBehaviour
     [SerializeField] private GameObject playerPrehab;
     private GameObject manageGrid;
     [SerializeField] private GameObject gridSystemPrehab;
-    private GameObject cam;
+    //private GameObject cam;
     public bool debug;
     public bool debug_upa;
     // [SerializeField] private bool isUparupaTeam = true;
@@ -19,12 +19,12 @@ public class SettingGame : NetworkBehaviour
     [SerializeField] private GameObject UI_finishMessage;
     [SerializeField] private GameObject UI_real;
     [SerializeField] private GameObject UI_fake;
-    /// <summary> ウパルパ陣営のカメラ位置、向き（定数） </summary>
-    private const int UPA_CAMERA_POSITION_Z = 13;
-    private const int UPA_CAMERA_ROTATION_Y = 180;
-    /// <summary> メンダコ陣営のカメラ位置、向き（定数） </summary>
-    private const int MEN_CAMERA_POSITION_Z = -13;
-    private const int MEN_CAMERA_ROTATION_Y = 0;
+    // /// <summary> ウパルパ陣営のカメラ位置、向き（定数） </summary>
+    // private const int UPA_CAMERA_POSITION_Z = 13;
+    // private const int UPA_CAMERA_ROTATION_Y = 180;
+    // /// <summary> メンダコ陣営のカメラ位置、向き（定数） </summary>
+    // private const int MEN_CAMERA_POSITION_Z = -13;
+    // private const int MEN_CAMERA_ROTATION_Y = 0;
     private bool isInitialized = false; // 初期化完了フラグ
     void Awake()
     {
@@ -34,7 +34,7 @@ public class SettingGame : NetworkBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log("シーンロード完了。初期化処理を行います。");
-        cam = GameObject.FindGameObjectWithTag("MainCamera");
+        //cam = GameObject.FindGameObjectWithTag("MainCamera");
         WaitLoading(2);
         if (debug) DebugInit();
         else Initialize();
@@ -86,7 +86,8 @@ public class SettingGame : NetworkBehaviour
         GameObject[] UIarray = new GameObject[] { UI_message, UI_finishMessage, UI_real, UI_fake };
         player.GetComponent<SettingUI>().setUIObject(UIarray);
         // カメラ位置設定
-        SetCameraPos(playerState.getsetTeam == PlayerState.Team.uparupa);
+        //SetCameraPos(playerState.getsetTeam == PlayerState.Team.uparupa);
+        CameraSetting.SetCamera(playerState.getsetTeam == PlayerState.Team.uparupa);
         // ピース配置開始
         player.GetComponent<CreatePiece>().CreateInitPieces();
         // グリッド管理オブジェクト生成、プレイヤーオブジェクトを伝達
@@ -124,7 +125,8 @@ public class SettingGame : NetworkBehaviour
         GameObject[] UIarray = new GameObject[] { UI_message, UI_finishMessage, UI_real, UI_fake };
         player.GetComponent<SettingUI>().setUIObject(UIarray);
         // カメラ位置設定
-        SetCameraPos(debug_upa);
+        //SetCameraPos(debug_upa);
+        CameraSetting.SetCamera(debug_upa);
         // ピース配置開始
         player.GetComponent<CreatePiece>().CreateInitPieces();
         // グリッド管理オブジェクト生成、プレイヤーオブジェクトを伝達
@@ -166,19 +168,19 @@ public class SettingGame : NetworkBehaviour
         }
     }
 
-    private void SetCameraPos(bool isUparupaTeam)
-    {
-        if (isUparupaTeam)
-        {
-            cam.transform.position = new Vector3(0, 10, UPA_CAMERA_POSITION_Z);
-            cam.transform.rotation = Quaternion.Euler(48, UPA_CAMERA_ROTATION_Y, 0);
-        }
-        else
-        {
-            cam.transform.position = new Vector3(0, 10, MEN_CAMERA_POSITION_Z);
-            cam.transform.rotation = Quaternion.Euler(48, MEN_CAMERA_ROTATION_Y, 0);
-        }
-    }
+    // private void SetCameraPos(bool isUparupaTeam)
+    // {
+    //     if (isUparupaTeam)
+    //     {
+    //         cam.transform.position = new Vector3(0, 10, UPA_CAMERA_POSITION_Z);
+    //         cam.transform.rotation = Quaternion.Euler(48, UPA_CAMERA_ROTATION_Y, 0);
+    //     }
+    //     else
+    //     {
+    //         cam.transform.position = new Vector3(0, 10, MEN_CAMERA_POSITION_Z);
+    //         cam.transform.rotation = Quaternion.Euler(48, MEN_CAMERA_ROTATION_Y, 0);
+    //     }
+    // }
 
     // public void setTeam(int num)
     // { // 陣営決め

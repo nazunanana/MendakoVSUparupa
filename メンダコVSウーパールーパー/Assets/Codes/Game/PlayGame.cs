@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Fusion;
 
-public class PlayGame : MonoBehaviour
+public class PlayGame : NetworkBehaviour
 {
     private GameObject PL_uparupa;
     private GameObject PL_mendako;
     private GameObject manageGrid;
+    private GameObject player;
+    private PlayerState playerState;
+    private NetworkRunner runner;
     void Awake()
     {
         Debug.Log("Awake SC_Game");
@@ -27,6 +31,27 @@ public class PlayGame : MonoBehaviour
 
         PL_uparupa.GetComponent<PlayerState>().toStartMyTurn();
         PL_mendako.GetComponent<PlayerState>().toNoMyTurn();
+
+
+        // 自分のプレイヤーオブジェクトを取得
+        GameObject[] runners = GameObject.FindGameObjectsWithTag("Runner");
+        runner = runners[0].GetComponent<NetworkRunner>();
+        foreach (GameObject g in runners)
+        {
+            if (g.GetComponent<NetworkRunner>().IsRunning)
+            { //アクティブのものを検出
+                runner = g.GetComponent<NetworkRunner>();
+                break;
+            }
+        }
+        if (runner.TryGetPlayerObject(runner.LocalPlayer, out var plObject))
+        {
+            player = plObject.gameObject;
+        }
+        //コンポネント取得
+        playerState = player.GetComponent<PlayerState>();
+        //カメラ設定
+        CameraSetting.SetCamera(playerState.getsetTeam == PlayerState.Team.uparupa);
 
     }
 }

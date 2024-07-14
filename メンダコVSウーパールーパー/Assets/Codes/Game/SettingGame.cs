@@ -77,7 +77,7 @@ public class SettingGame : NetworkBehaviour
         // コンポネント取得
         PlayerState playerState = player.GetComponent<PlayerState>();
         // DEBUG:
-        Debug.Log("チームは" + playerState.getsetTeam);
+        Debug.Log("チームは" + playerState.team);
         // 駒配列初期化
         playerState.InitArray();
         // マネージャーを通知
@@ -87,13 +87,13 @@ public class SettingGame : NetworkBehaviour
         player.GetComponent<SettingUI>().setUIObject(UIarray);
         // カメラ位置設定
         //SetCameraPos(playerState.getsetTeam == PlayerState.Team.uparupa);
-        CameraSetting.SetCamera(playerState.getsetTeam == PlayerState.Team.uparupa);
+        CameraSetting.SetCamera(playerState.team == PlayerState.Team.uparupa);
         // ピース配置開始
         player.GetComponent<CreatePiece>().CreateInitPieces();
         // グリッド管理オブジェクト生成、プレイヤーオブジェクトを伝達
         manageGrid = Instantiate(gridSystemPrehab, gridSystemPrehab.transform.position, Quaternion.identity);
         DontDestroyOnLoad(manageGrid);
-        manageGrid.GetComponent<ManageGrid>().setImUparupa = (playerState.getsetTeam == PlayerState.Team.uparupa);
+        manageGrid.GetComponent<ManageGrid>().setImUparupa = (playerState.team == PlayerState.Team.uparupa);
         manageGrid.GetComponent<ManageGrid>().SetPlayer = player.gameObject;
         //manageGrid.GetComponent<ManageGrid>().SetPlayers = GameObject.FindGameObjectsWithTag("Player");
         player.GetComponent<PlayerState>().setManageGrid = manageGrid;
@@ -110,14 +110,14 @@ public class SettingGame : NetworkBehaviour
             player = Instantiate(playerPrehab, playerPrehab.transform.position, Quaternion.identity);
             DontDestroyOnLoad(player);
             player.name = "PL_uparupa";
-            player.GetComponent<PlayerState>().getsetTeam = PlayerState.Team.uparupa;
+            player.GetComponent<PlayerState>().team = PlayerState.Team.uparupa;
         }
         else
         {
             player = Instantiate(playerPrehab, playerPrehab.transform.position, Quaternion.identity);
             DontDestroyOnLoad(player);
             player.name = "PL_mendako";
-            player.GetComponent<PlayerState>().getsetTeam = PlayerState.Team.mendako;
+            player.GetComponent<PlayerState>().team = PlayerState.Team.mendako;
         }
         // マネージャーを通知
         player.GetComponent<PlayerState>().setManager = this.gameObject;

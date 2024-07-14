@@ -12,7 +12,7 @@ public class PlayGame : NetworkBehaviour
     private GameObject myplayer;
     private GameObject partnerplayer;
     private PlayerState playerState;
-    private NetworkRunner runner; 
+    private NetworkRunner runner;
     void Awake()
     {
         Debug.Log("Awake SC_Game");
@@ -57,7 +57,7 @@ public class PlayGame : NetworkBehaviour
         // 管理オブジェクト検索
         manageGrid = GameObject.FindGameObjectWithTag("GridSystem");
 
-        if (playerState.getsetTeam == PlayerState.Team.uparupa)
+        if (playerState.team == PlayerState.Team.uparupa)
         {
             //カメラ設定
             CameraSetting.SetCamera(true);
@@ -76,5 +76,5 @@ public class PlayGame : NetworkBehaviour
         // ウパターン
         this.gameObject.GetComponent<GameUI>().ChangeTurn(true);
     }
-
 }
+

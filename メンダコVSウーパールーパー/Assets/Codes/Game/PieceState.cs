@@ -18,9 +18,9 @@ public class PieceState : NetworkBehaviour
     private bool wait;
     // どのマスにいるか
     [Networked, OnChangedRender(nameof(SyncPos))]
-    private Vector2Int posID { get; set; }
+    public Vector2Int posID { get; set; }
     [Networked, OnChangedRender(nameof(SyncPos))]
-    private Vector3 absPos { get; set; }
+    public Vector3 absPos { get; set; }
     // グローバル位置換算
     private const float FIRST_X = -6.48f; //ウパルパ陣営側
     private const float FIRST_Z = -6.48f;
@@ -59,7 +59,7 @@ public class PieceState : NetworkBehaviour
     {
         // Debug.Log("piece over");
         // マテリアルをハイライト
-        if (wait && (team == player.GetComponent<PlayerState>().getsetTeam)) //自陣の駒なら
+        if (wait && (team == player.GetComponent<PlayerState>().team)) //自陣の駒なら
         {
             switch (player.GetComponent<PlayerState>().selectMode)
             {
@@ -78,7 +78,7 @@ public class PieceState : NetworkBehaviour
     void OnMouseExit()
     {
         // ハイライトを解除
-        if (wait && (team == player.GetComponent<PlayerState>().getsetTeam)) //自陣の駒なら
+        if (wait && (team == player.GetComponent<PlayerState>().team)) //自陣の駒なら
         {
             switch (player.GetComponent<PlayerState>().selectMode)
             {
@@ -95,7 +95,7 @@ public class PieceState : NetworkBehaviour
     }
     void OnMouseDown()
     {
-        if (wait && (team == player.GetComponent<PlayerState>().getsetTeam)) //自陣の駒なら
+        if (wait && (team == player.GetComponent<PlayerState>().team)) //自陣の駒なら
         {
             switch (player.GetComponent<PlayerState>().selectMode)
             {

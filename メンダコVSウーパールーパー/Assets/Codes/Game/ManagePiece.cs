@@ -25,16 +25,19 @@ public class ManagePiece : NetworkBehaviour
     }
 
     // CreatePieceで呼び出し
-    public void GetNetworkId(){
+    public void GetNetworkId()
+    {
         //IDlist = MakeInitializer(new NetworkString<NetworkId>[]());
-        int i=0;
-        foreach(PieceState p in pieceDic.Values){
+        int i = 0;
+        foreach (PieceState p in pieceDic.Values)
+        {
             IDlist.Set(i, p.gameObject.GetComponent<NetworkObject>().Id);
             i++;
         }
     }
     // PlayGameで呼び出し
-    public void CreateDic(NetworkArray<NetworkId> partnerIDlist){
+    public void CreateDic(NetworkArray<NetworkId> partnerIDlist)
+    {
         //runner検索
         GameObject[] runners = GameObject.FindGameObjectsWithTag("Runner");
         NetworkRunner runner = runners[0].GetComponent<NetworkRunner>();
@@ -46,10 +49,19 @@ public class ManagePiece : NetworkBehaviour
                 break;
             }
         }
-        foreach (NetworkId nid in partnerIDlist){
-            Vector2Int posID = runner.FindObject(nid).gameObject.GetComponent<PieceState>().posID;
-            PieceState pieceState = runner.FindObject(nid).gameObject.GetComponent<PieceState>();
-            partnerPieceDic.Add(posID, pieceState);
+        foreach (NetworkId nid in partnerIDlist)
+        {
+            Debug.Log("ID"+nid);
+            if (Runner.TryFindObject(nid, out var obj))
+            {
+                Vector2Int posID = obj.gameObject.GetComponent<PieceState>().posID;
+
+
+
+                PieceState pieceState = obj.gameObject.GetComponent<PieceState>();
+                partnerPieceDic.Add(posID, pieceState);
+            }
+            else { Debug.Log("TryFindObjがfalse!!"); }
         }
     }
     public void Start()

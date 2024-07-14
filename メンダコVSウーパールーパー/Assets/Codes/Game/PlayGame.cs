@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class PlayGame : NetworkBehaviour
 {
     // private GameObject PL_uparupa;
     // private GameObject PL_mendako;
+    public static event Action OnCreateDicComplete;
     private GameObject manageGrid;
     private GameObject myplayer;
     private GameObject partnerplayer;
@@ -15,6 +17,7 @@ public class PlayGame : NetworkBehaviour
     private PlayerState playerState;
     private NetworkRunner runner;
     private const int GRID_NUM = 6;
+
     void Awake()
     {
         Debug.Log("Awake SC_Game");
@@ -86,6 +89,7 @@ public class PlayGame : NetworkBehaviour
         // 相手のIDで辞書作成
         Debug.Log("相手辞書作成");
         myplayer.GetComponent<ManagePiece>().CreateDic(partnerplayer.GetComponent<ManagePiece>().IDlist);
+        OnCreateDicComplete?.Invoke();
         // ウパターン
         this.gameObject.GetComponent<GameUI>().ChangeTurn(true);
     }

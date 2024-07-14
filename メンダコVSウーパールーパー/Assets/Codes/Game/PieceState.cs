@@ -45,7 +45,7 @@ public class PieceState : NetworkBehaviour
     {
         // Debug.Log("piece over");
         Debug.Log("team"+team);
-        Debug.Log("comp"+player.GetComponent<PlayerState>().team);
+        Debug.Log("comp"+player.GetComponent<PlayerState>());
         // マテリアルをハイライト
         if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
         {

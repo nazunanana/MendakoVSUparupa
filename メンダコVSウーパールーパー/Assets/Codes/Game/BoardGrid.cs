@@ -68,7 +68,7 @@ public class BoardGrid : MonoBehaviour {
                 }
                 break;
             case PlayerState.SelectMode.MovePiece: //ゲーム中
-                nowPlayerComp.toSelectPiece(posID);
+                nowPlayerComp.toMovePiece(posID);
                 ChangeHighLight(false);
                 break;
             // case PlayerState.SelectMode.MovePosition:

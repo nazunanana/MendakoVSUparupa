@@ -133,10 +133,13 @@ public class PlayGame : NetworkBehaviour
         if (id_z + 1 < GRID_NUM) d = SearchPieceByPos(new Vector2Int(id_x, id_z + 1)); // 右のマス
         return new int[] { w, a, s, d }; //上左下右 -1:範囲外 0:null 1:自陣の駒 2:相手の駒
     }
+    /// <summary>
+    /// 指定位置の駒を検索
+    /// </summary>
     public int SearchPieceByPos(Vector2Int posID)
     {
         if (myplayer.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID)) return 1;
-        else if (partnerplayer.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID)) return 2;
+        else if (partnerplayer.GetComponent<ManagePiece>().syncDic.ContainsKey(posID)) return 2;
         else return 0;
     }
 

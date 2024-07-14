@@ -122,7 +122,7 @@ public class CreatePiece : NetworkBehaviour
     {
         // 入れる配列取得
         Dictionary<Vector2Int, PieceState> pieceDic = player.GetComponent<ManagePiece>().pieceDic;
-        var myPosArray = player.GetComponent<ManagePiece>().myPosArray;
+        var syncDic = player.GetComponent<ManagePiece>().syncDic;
         // 対象id
         int id = (pieceType) ? 2 * SetRealPiece : 2 * SetFakePiece + 1;
         // 駒の位置IDを変更して移動
@@ -131,7 +131,7 @@ public class CreatePiece : NetworkBehaviour
         setPiecePosID(posID, pieceType);
         // 登録
         pieceDic.Add(piecePosID[id], myPieces[id].GetComponent<PieceState>());
-        myPosArray.Set(id, new Vector3Int(piecePosID[id][0], piecePosID[id][1], (pieceType) ? 0 : 1));
+        syncDic.Add(piecePosID[id], pieceType);
         // 残り駒数のUI変化
         player.GetComponent<SettingUI>().DecreasePieceNum(pieceType);
         // 状態遷移

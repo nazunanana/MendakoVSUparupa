@@ -185,13 +185,14 @@ public class PieceState : NetworkBehaviour
 
         if (dicflag)
         {
-            // 相手のdicの登録を変える
-            int i = 0;
+            // 共有dicの登録を変える
+            //リセット
+            player.GetComponent<ManagePiece>().syncDic.Clear();
             foreach (var dic in player.GetComponent<ManagePiece>().pieceDic)
             {
                 bool upa = (dic.Value.team == PlayerState.Team.uparupa);
-                player.GetComponent<ManagePiece>().myPosArray.Set(i, new Vector3Int(dic.Key[0], dic.Key[1], upa ? 0 : 1));
-                i++;
+                //更新
+                player.GetComponent<ManagePiece>().syncDic.Set(dic.Key, upa);
             }
         }
     }

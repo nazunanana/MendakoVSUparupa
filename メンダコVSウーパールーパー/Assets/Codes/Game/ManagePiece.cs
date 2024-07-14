@@ -11,7 +11,7 @@ public class ManagePiece : NetworkBehaviour
     private const int GRID_NUM = 6;
     public Dictionary<Vector2Int, PieceState> pieceDic { get; set; } // 位置ID, 自陣営の駒comp
     [Networked, Capacity(8)]
-    public NetworkArray<Vector3Int> myPosArray => default; // X,Z,real(0/1)
+    public NetworkDictionary<Vector2Int, NetworkBool> syncDic => default; // posID, real?
     // [Networked, Capacity(8)]
     // public NetworkArray<NetworkId> IDlist => default;
 

@@ -11,7 +11,7 @@ public class PlayGame : NetworkBehaviour
     private GameObject manageGrid;
     private GameObject player;
     private PlayerState playerState;
-    private NetworkRunner runner;
+    private NetworkRunner runner; 
     void Awake()
     {
         Debug.Log("Awake SC_Game");
@@ -50,8 +50,10 @@ public class PlayGame : NetworkBehaviour
         }
         //コンポネント取得
         playerState = player.GetComponent<PlayerState>();
+
         //カメラ設定
         CameraSetting.SetCamera(playerState.getsetTeam == PlayerState.Team.uparupa);
 
     }
+
 }

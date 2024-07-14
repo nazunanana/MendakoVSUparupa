@@ -88,14 +88,24 @@ public class PlayGame : NetworkBehaviour
         Debug.Log("ターン遷移！");
         PlayerState.SelectMode mymode = myplayer.GetComponent<PlayerState>().selectMode;
         PlayerState.SelectMode partnermode = partnerplayer.GetComponent<PlayerState>().selectMode;
-        Debug.Log("今相手ターン" + (nowPlayer.name));
-        Debug.Log("自分がnoturn" + (mymode == PlayerState.SelectMode.NoMyTurn));
-        Debug.Log("相手がnoturn" + (partnermode == PlayerState.SelectMode.NoMyTurn));
+        WaitLoading(0.5f);
+        Debug.Log("nowname:相手name" + (nowPlayer.name) +":"+ partnerplayer.name);
+        //Debug.Log("自分がnoturn" + (mymode == PlayerState.SelectMode.NoMyTurn));
+        //Debug.Log("相手がnoturn" + (partnermode == PlayerState.SelectMode.NoMyTurn));
 
         // ターン遷移 相手ターンかつ両者がターン終了状態なら自分のターン開始
         if (nowPlayer == partnerplayer && mymode == PlayerState.SelectMode.NoMyTurn && partnermode == PlayerState.SelectMode.NoMyTurn)
         {
             myplayer.GetComponent<PlayerState>().toStartMyTurn();
+            nowPlayer = myplayer;
+        }else if(mymode == PlayerState.SelectMode.NoMyTurn && partnermode == PlayerState.SelectMode.NoMyTurn){
+            nowPlayer = partnerplayer;
         }
     }
+    IEnumerator WaitLoading(float time)
+    {
+        // 待つ
+        yield return new WaitForSeconds(time);
+    }
 }
+

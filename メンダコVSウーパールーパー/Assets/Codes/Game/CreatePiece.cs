@@ -39,17 +39,18 @@ public class CreatePiece : NetworkBehaviour
             myFakePrehab = fakeUparupaPrehab;
             for(int i=0; i<PIECE_NUM; i++){
                 var realPieceNet = Runner.Spawn(myRealPrehab, new Vector3(4f,0.15f,9.3f), myRealPrehab.transform.rotation);
+                Debug.Log("Spawn");
                 DontDestroyOnLoad(realPieceNet.gameObject);
                 realPieceNet.gameObject.GetComponent<PieceState>().SetAbsPos(new Vector3(4f,0.15f,9.3f));
                 realPieceNet.gameObject.GetComponent<PieceState>().setPlayer = player;
-                realPieceNet.gameObject.GetComponent<PieceState>().getsetTeam = PlayerState.Team.uparupa;
+                realPieceNet.gameObject.GetComponent<PieceState>().team = PlayerState.Team.uparupa;
                 realPieceNet.gameObject.GetComponent<PieceState>().getsetIsReal = true;
                 myPieces.Add(realPieceNet.gameObject);
                 var fakePieceNet = Runner.Spawn(myFakePrehab, new Vector3(-4f,0.15f,9.3f), myFakePrehab.transform.rotation);
                 DontDestroyOnLoad(fakePieceNet.gameObject);
                 fakePieceNet.gameObject.GetComponent<PieceState>().SetAbsPos(new Vector3(-4f,0.15f,9.3f));
                 fakePieceNet.gameObject.GetComponent<PieceState>().setPlayer = player;
-                fakePieceNet.gameObject.GetComponent<PieceState>().getsetTeam = PlayerState.Team.uparupa;
+                fakePieceNet.gameObject.GetComponent<PieceState>().team = PlayerState.Team.uparupa;
                 fakePieceNet.gameObject.GetComponent<PieceState>().getsetIsReal = false;
                 myPieces.Add(fakePieceNet.gameObject);
             }
@@ -62,19 +63,19 @@ public class CreatePiece : NetworkBehaviour
                 DontDestroyOnLoad(realPieceNet.gameObject);
                 realPieceNet.gameObject.GetComponent<PieceState>().SetAbsPos(new Vector3(-4f,0.15f,-9.3f));
                 realPieceNet.gameObject.GetComponent<PieceState>().setPlayer = player;
-                realPieceNet.gameObject.GetComponent<PieceState>().getsetTeam = PlayerState.Team.mendako;
+                realPieceNet.gameObject.GetComponent<PieceState>().team = PlayerState.Team.mendako;
                 realPieceNet.gameObject.GetComponent<PieceState>().getsetIsReal = true;
                 myPieces.Add(realPieceNet.gameObject);
                 var fakePieceNet = Runner.Spawn(myFakePrehab, new Vector3(4f,0.15f,-9.3f), myFakePrehab.transform.rotation);
                 DontDestroyOnLoad(fakePieceNet.gameObject);
                 fakePieceNet.gameObject.GetComponent<PieceState>().SetAbsPos(new Vector3(4f,0.15f,-9.3f));
                 fakePieceNet.gameObject.GetComponent<PieceState>().setPlayer = player;
-                fakePieceNet.gameObject.GetComponent<PieceState>().getsetTeam = PlayerState.Team.mendako;
+                fakePieceNet.gameObject.GetComponent<PieceState>().team = PlayerState.Team.mendako;
                 fakePieceNet.gameObject.GetComponent<PieceState>().getsetIsReal = false;
                 myPieces.Add(fakePieceNet.gameObject);
             }
         }
-        player.GetComponent<PlayerState>().getsetMyPieces = myPieces;
+        //player.GetComponent<PlayerState>().getsetMyPieces = myPieces;
         SetRealPiece = 0;
         SetFakePiece = 0;
         player.GetComponent<PlayerState>().toStartSetPieces();
@@ -101,15 +102,28 @@ public class CreatePiece : NetworkBehaviour
         player.GetComponent<PlayerState>().toSelectSetPosition(posID); //状態遷移、動かす駒設定
         pieceType = isReal;
     }
+    /// <summary>
+    /// 配置位置を決定
+    /// </summary>
     public void SelectPosition(Vector2Int posID){
-        player.GetComponent<PlayerState>().toMoveSetPosition(posID); //状態遷移、登録
+        // 入れる配列取得
+        Dictionary<Vector2Int, PieceState> pieceDic = player.GetComponent<ManagePiece>().pieceDic;
+        // 対象id
         int id = (pieceType) ? 2*SetRealPiece : 2*SetFakePiece+1;
+        // 駒の位置IDを変更して移動
         myPieces[id].GetComponent<PieceState>().MovePiecePos(posID); //移動
-        setPiecePosID(posID, pieceType); // 配置数登録
-        player.GetComponent<SettingUI>().DecreasePieceNum(pieceType); //UI
+        // 配置済み数を増加
+        setPiecePosID(posID, pieceType);
+        // 登録
+        pieceDic.Add(piecePosID[id], myPieces[id].GetComponent<PieceState>());
+        // 残り駒数のUI変化
+        player.GetComponent<SettingUI>().DecreasePieceNum(pieceType);
+        // 状態遷移
+        player.GetComponent<PlayerState>().toMoveSetPosition(posID);
 
-        // 配置完了
-        if(SetRealPiece==PIECE_NUM && SetFakePiece==PIECE_NUM){
+
+        // ぜんぶ配置完了したら
+        if(SetRealPiece==PIECE_NUM && SetFakePiece==PIECE_NUM && pieceDic.Count==8){
             player.GetComponent<PlayerState>().toFinishSet();
         }
     }

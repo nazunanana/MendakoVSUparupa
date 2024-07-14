@@ -47,8 +47,8 @@ public class PieceState : NetworkBehaviour
     void Start()
     {
         gridmanager = GameObject.FindGameObjectWithTag("GridSystem");
-        WaitLoading(1.0f);
-        wait = true;
+        // WaitLoading(1.0f);
+        // wait = true;
     }
     IEnumerator WaitLoading(float time)
     {
@@ -57,10 +57,11 @@ public class PieceState : NetworkBehaviour
     }
     void OnMouseOver()
     {
-        if (wait)
+        if (player.GetComponent<PlayerState>()!=null)
         {
             // Debug.Log("piece over");
             Debug.Log("team" + team);
+            Debug.Log("player" + player);
             Debug.Log("comp" + player.GetComponent<PlayerState>());
             // マテリアルをハイライト
             if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
@@ -79,11 +80,11 @@ public class PieceState : NetworkBehaviour
                 }
             }
             else { Debug.Log("not my team's piece"); }
-        }
+        }else return;
     }
     void OnMouseExit()
     {
-        if (wait)
+        if (player.GetComponent<PlayerState>()!=null)
         {
             // ハイライトを解除
             if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
@@ -101,11 +102,11 @@ public class PieceState : NetworkBehaviour
                         break;
                 }
             }
-        }
+        }else return;
     }
     void OnMouseDown()
     {
-        if (wait)
+        if (player.GetComponent<PlayerState>()!=null)
         {
             if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
             {
@@ -129,7 +130,7 @@ public class PieceState : NetworkBehaviour
                 }
             }
             else { Debug.Log("not my team's piece"); }
-        }
+        }else return;
     }
 
     // マテリアルを強調

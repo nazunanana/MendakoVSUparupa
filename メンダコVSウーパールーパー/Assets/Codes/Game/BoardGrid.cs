@@ -80,7 +80,7 @@ public class BoardGrid : MonoBehaviour
                 }
                 break;
             case PlayerState.SelectMode.MovePosition: //ゲーム中
-                GameObject[] players = GameObject.FindGameObjectWithTag("Player");
+                GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
                 // foreach (GameObject player in players)
                 // {
                 //     player.GetComponent<ManagePiece>().
@@ -95,14 +95,14 @@ public class BoardGrid : MonoBehaviour
                 //TODO: 移動先が相手の駒だったら倒す
                 else if (state == 2)
                 {
-                    managePiece.pieceDec[posID]
+                    //managePiece.pieceDec[posID]
                     Debug.Log("ですとろい！");
                 }
                 // TODO: 移動先が脱出マスの時
-                else if ()
-                {
+                // else if ()
+                // {
 
-                }
+                // }
                 else
                 { // 移動先に何もないとき
                     Debug.Log("OnMouseDown in BoardGrid");

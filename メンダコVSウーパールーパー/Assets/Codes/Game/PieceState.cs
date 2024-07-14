@@ -105,9 +105,9 @@ public class PieceState : NetworkBehaviour
                     Debug.Log("Select Piece");
                     break;
                 case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
-                    player.GetComponent<PlayerState>().toMovePiece(posID); // 状態遷移
+                    player.GetComponent<PlayerState>().toSelectPiece(posID); // 状態遷移
                     HighLightPiece(false);
-                    Debug.Log("Select Piece");
+                    Debug.Log("PieceState : "+posID[0]+", "+posID[1]+"の駒を選択しています");
                     break;
                 default:
                     break;

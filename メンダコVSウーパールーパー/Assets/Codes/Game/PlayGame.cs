@@ -86,9 +86,9 @@ public class PlayGame : NetworkBehaviour
             partnerplayer.GetComponent<PlayerState>().toStartMyTurn();
             nowPlayer = partnerplayer;
         }
-        // 相手のIDで辞書作成
-        Debug.Log("相手辞書作成");
-        myplayer.GetComponent<ManagePiece>().CreateDic(partnerplayer.GetComponent<ManagePiece>().IDlist);
+        // // 相手のIDで辞書作成
+        // Debug.Log("相手辞書作成");
+        // myplayer.GetComponent<ManagePiece>().CreateDic(partnerplayer.GetComponent<ManagePiece>().IDlist);
         OnCreateDicComplete?.Invoke();
         // ウパターン
         this.gameObject.GetComponent<GameUI>().ChangeTurn(true);

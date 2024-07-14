@@ -190,6 +190,8 @@ public class PlayerState : NetworkBehaviour
     {
         piecePos = posID;
         piece = this.gameObject.GetComponent<ManagePiece>().pieceDic[piecePos];
+        manageGrid.GetComponent<ManageGrid>().HighLightWASDGrid(piecePos, true);
+        Debug.Log("playerState:駒選択中");
         selectMode = SelectMode.MovePosition;
         // Debug.Log("select piece on "+piecePos[0]+","+piecePos[1]);
     }

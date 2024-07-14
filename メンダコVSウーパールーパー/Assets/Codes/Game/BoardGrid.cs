@@ -9,7 +9,7 @@ public class BoardGrid : MonoBehaviour
 {
     // ゲームオブジェクトをインスペクターで指定
     public GameObject gridSystemObj;
-    private GameObject nowPlayer;
+    private GameObject nowPlayer; // 機能していない
     // コンポネント
     private ManageGrid gridSystemComp;
     private PlayerState nowPlayerComp;
@@ -80,9 +80,19 @@ public class BoardGrid : MonoBehaviour
                 }
                 break;
             case PlayerState.SelectMode.MovePosition: //ゲーム中
-                //Debug.Log("OnMouseDown in BoardGrid");
+                // GameObject[] players = GameObject.FindGameObjectWithTag("Player");
+                // foreach(GameObject player in players){
+                //     player.GetComponent<ManagePiece>
+                // }
+
+                // if(managePiece.GetComponent<ManagePiece>().SearchPieceByPos(posID)==2){
+                //     //managePiece.pieceDec[posID]
+                //     Debug.Log("ですとろい！");
+                // }else{
+                    //Debug.Log("OnMouseDown in BoardGrid");
                 ChangeHighLight(false);
                 nowPlayerComp.toMovePiece(posID);
+                //}
                 break;
             // case PlayerState.SelectMode.MovePosition:
             //     nowPlayerComp.toMovePiece(posID);

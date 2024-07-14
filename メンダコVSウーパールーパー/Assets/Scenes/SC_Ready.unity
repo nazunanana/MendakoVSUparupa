@@ -493,7 +493,7 @@ MonoBehaviour:
   AutoClients: 1
   ClientStartDelay: 0.1
   ServerPort: 0
-  DefaultRoomName: aaa
+  DefaultRoomName: aiu
   InitialScenePath: 
   _currentStage: 0
   AutoConnectVirtualInstances: 1

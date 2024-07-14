@@ -31,7 +31,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
         var playerObj = Runner.Spawn(PlayerPrefab);
         if (playerObj != null)
         {
-            OnSpawnComplete?.Invoke();
+            // OnSpawnComplete?.Invoke();
             Debug.Log("プレイヤー" + player.PlayerId + " がスポーンしました。");
         }
 
@@ -72,6 +72,8 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
             Debug.Log("マッチ成功！");
             string team = setPlayerState(playerObj, player);
             Debug.Log("あなたは" + team + "チームです");
+
+            OnSpawnComplete?.Invoke();
 
             //readyBtn.interactable = true;
             Debug.Log("SC_SetPiecesへ");

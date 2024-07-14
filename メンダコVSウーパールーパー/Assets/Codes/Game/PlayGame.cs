@@ -12,7 +12,7 @@ public class PlayGame : NetworkBehaviour
     private GameObject myplayer;
     private GameObject partnerplayer;
     private PlayerState playerState;
-    private NetworkRunner runner;
+    private NetworkRunner runner; 
     void Awake()
     {
         Debug.Log("Awake SC_Game");
@@ -76,4 +76,5 @@ public class PlayGame : NetworkBehaviour
         // ウパターン
         this.gameObject.GetComponent<GameUI>().ChangeTurn(true);
     }
+
 }

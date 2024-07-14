@@ -9,10 +9,13 @@ using Fusion;
 public class PieceState : NetworkBehaviour
 {
     private GameObject player;
+    private GameObject gridmanager;
     // 駒が本物である
     private bool isReal;
     // 駒の種類
-    public PlayerState.Team team {get; set;}
+    public PlayerState.Team team { get; set; }
+    // ロード待機
+    private bool wait;
     // 駒ID
     private int pieceID;
     // どのマスにいるか
@@ -41,76 +44,92 @@ public class PieceState : NetworkBehaviour
     {
         set { player = value; }
     }
-    void OnMouseOver()
+    void Start()
     {
-        // Debug.Log("piece over");
-        Debug.Log("team"+team);
-        Debug.Log("comp"+player.GetComponent<PlayerState>().team);
-        // マテリアルをハイライト
-        if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
-        {
-            switch (player.GetComponent<PlayerState>().selectMode)
-            {
-                case PlayerState.SelectMode.SetPiece: //設置駒選択なら
-                    HighLightPiece(true);
-                    break;
-                case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
-                    HighLightPiece(true);
-                    player.GetComponent<ManageGrid>().HighLightWASDGrid(posID,true);
-                    break;
-                default:
-                    break;
-            }
-        }
-        else { Debug.Log("not my team's piece"); }
-    }
-    void OnMouseExit()
-    {
-        // ハイライトを解除
-        if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
-        {
-            switch (player.GetComponent<PlayerState>().selectMode)
-            {
-                case PlayerState.SelectMode.SetPiece: //設置駒選択なら
-                    HighLightPiece(false);
-                    break;
-                case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
-                    HighLightPiece(false);
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-    void OnMouseDown()
-    {
-        if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
-        {
-            switch (player.GetComponent<PlayerState>().selectMode)
-            {
-                case PlayerState.SelectMode.SetPiece: //設置駒選択なら
-                    player.GetComponent<CreatePiece>().SelectPiece(posID, getsetIsReal); // 状態遷移
-                    HighLightPiece(true);
-                    Debug.Log("設置する駒を選択");
-                    break;
-                case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
-                    GameObject manageGrid = GameObject.FindGameObjectWithTag("GridSystem");
-                    manageGrid.GetComponent<ManageGrid>().pieceID = posID;
-                    player.GetComponent<PlayerState>().toSelectPiece(posID); // 状態遷移
-                    HighLightPiece(false);
-                    Debug.Log("PieceState : "+posID[0]+", "+posID[1]+"の駒を選択しています");
-
-                    break;
-                default:
-                    break;
-            }
-        }
-        else { Debug.Log("not my team's piece"); }
+        gridmanager = GameObject.FindGameObjectWithTag("GridSystem");
+        WaitLoading(1.0f);
+        wait = true;
     }
     IEnumerator WaitLoading(float time)
     {
         // 待つ
         yield return new WaitForSeconds(time);
+    }
+    void OnMouseOver()
+    {
+        if (wait)
+        {
+            // Debug.Log("piece over");
+            Debug.Log("team" + team);
+            Debug.Log("comp" + player.GetComponent<PlayerState>());
+            // マテリアルをハイライト
+            if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
+            {
+                switch (player.GetComponent<PlayerState>().selectMode)
+                {
+                    case PlayerState.SelectMode.SetPiece: //設置駒選択なら
+                        HighLightPiece(true);
+                        break;
+                    case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
+                        HighLightPiece(true);
+                        gridmanager.GetComponent<ManageGrid>().HighLightWASDGrid(posID, true);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else { Debug.Log("not my team's piece"); }
+        }
+    }
+    void OnMouseExit()
+    {
+        if (wait)
+        {
+            // ハイライトを解除
+            if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
+            {
+                switch (player.GetComponent<PlayerState>().selectMode)
+                {
+                    case PlayerState.SelectMode.SetPiece: //設置駒選択なら
+                        HighLightPiece(false);
+                        break;
+                    case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
+                        HighLightPiece(false);
+                        gridmanager.GetComponent<ManageGrid>().HighLightWASDGrid(posID, false);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    void OnMouseDown()
+    {
+        if (wait)
+        {
+            if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
+            {
+                switch (player.GetComponent<PlayerState>().selectMode)
+                {
+                    case PlayerState.SelectMode.SetPiece: //設置駒選択なら
+                        player.GetComponent<CreatePiece>().SelectPiece(posID, getsetIsReal); // 状態遷移
+                        HighLightPiece(true);
+                        Debug.Log("設置する駒を選択");
+                        break;
+                    case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
+                        gridmanager.GetComponent<ManageGrid>().pieceID = posID;
+                        player.GetComponent<PlayerState>().toSelectPiece(posID); // 状態遷移
+                        HighLightPiece(false);
+                        gridmanager.GetComponent<ManageGrid>().HighLightWASDGrid(posID, false);
+                        Debug.Log("PieceState : " + posID[0] + ", " + posID[1] + "の駒を選択しています");
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else { Debug.Log("not my team's piece"); }
+        }
     }
 
     // マテリアルを強調

@@ -52,6 +52,10 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
         {
             // プレイヤーがまだ1人だけなら待機
             Debug.Log("プレイヤーを探しています…");
+        }else if(Runner.SessionInfo.PlayerCount > 2){
+            Debug.Log("満員です。");
+            Runner.Shutdown();
+            SceneManager.LoadScene("SC_Start");
         }
 
         // コルーチンを開始してプレイヤー数が2人になるのを待つ

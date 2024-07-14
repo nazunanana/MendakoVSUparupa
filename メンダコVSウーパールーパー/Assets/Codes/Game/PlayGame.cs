@@ -56,11 +56,15 @@ public class PlayGame : NetworkBehaviour
         if(playerState.getsetTeam == PlayerState.Team.uparupa){
             //カメラ設定
             CameraSetting.SetCamera(true);
+            this.gameObject.GetComponent<GameUI>().SetUIPosition(true);
+            this.gameObject.GetComponent<GameUI>().ChangeTurn(true);
             myplayer.GetComponent<PlayerState>().toStartMyTurn();
             partnerplayer.GetComponent<PlayerState>().toNoMyTurn();
         }else {
             //カメラ設定
             CameraSetting.SetCamera(false);
+            this.gameObject.GetComponent<GameUI>().SetUIPosition(false);
+            this.gameObject.GetComponent<GameUI>().ChangeTurn(false);
             myplayer.GetComponent<PlayerState>().toNoMyTurn();
             partnerplayer.GetComponent<PlayerState>().toStartMyTurn();
         }

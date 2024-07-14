@@ -20,10 +20,13 @@ public class PlayGame : NetworkBehaviour
         Debug.Log("Awake SC_Game");
         SceneManager.sceneLoaded += OnSceneLoaded;
         PlayerState.OnChangeMode += ChangeToMyTurn;
+        PlayerState.OnChangeMode += EndGameChecker;
     }
     void OnDestroy()
     {
         PlayerState.OnChangeMode -= ChangeToMyTurn; // イベントから登録解除
+        PlayerState.OnChangeMode -= EndGameChecker;
+
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -100,7 +103,9 @@ public class PlayGame : NetworkBehaviour
             myplayer.GetComponent<PlayerState>().toStartMyTurn();
             this.gameObject.GetComponent<GameUI>().ChangeTurn(myplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa); //自分を大きく
             nowPlayer = myplayer;
-        }else if(mymode == PlayerState.SelectMode.NoMyTurn && partnermode == PlayerState.SelectMode.NoMyTurn){
+        }
+        else if (mymode == PlayerState.SelectMode.NoMyTurn && partnermode == PlayerState.SelectMode.NoMyTurn)
+        {
             nowPlayer = partnerplayer;
             this.gameObject.GetComponent<GameUI>().ChangeTurn(partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa); //相手を大きく
         }
@@ -123,9 +128,26 @@ public class PlayGame : NetworkBehaviour
     }
     public int SearchPieceByPos(Vector2Int posID)
     {
-        if(myplayer.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID)) return 1;
-        else if(partnerplayer.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID)) return 2;
+        if (myplayer.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID)) return 1;
+        else if (partnerplayer.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID)) return 2;
         else return 0;
+    }
+    
+    public void EndGameChecker()
+    {
+        //TODO: 脱出駒に入ったらの条件がない
+        if (myplayer.GetComponent<ManagePiece>().EndGameCounter(true) || partnerplayer.GetComponent<ManagePiece>().EndGameCounter(false))
+        {
+            // 自分が勝利
+            ResultUI.win = true;
+            SceneManager.LoadScene("SC_Result");
+        }
+        else if (partnerplayer.GetComponent<ManagePiece>().EndGameCounter(true) || myplayer.GetComponent<ManagePiece>().EndGameCounter(false))
+        {
+            // 相手が勝利
+            ResultUI.win = false;
+            SceneManager.LoadScene("SC_Result");
+        }
     }
 
     IEnumerator WaitLoading(float time)

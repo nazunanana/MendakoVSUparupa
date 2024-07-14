@@ -19,8 +19,10 @@ public class ManageGrid : MonoBehaviour
     private float gridSize = Mathf.Abs(FIRST_X*2/5);
     private Vector2Int piecePosID;
     private Vector2Int movePosID;
+    public Vector2Int pieceID {get; set;}
     public void Init(){
         gridArray = new GameObject[GRID_NUM, GRID_NUM];
+        pieceID = new Vector2Int(0, 0);
         CreateGrids();
     }
     public GameObject[] SetPlayers{

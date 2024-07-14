@@ -56,6 +56,8 @@ public class PlayGame : NetworkBehaviour
                 }
             }
         }
+
+        
         // コンポネント取得
         PlayerState playerState = myplayer.GetComponent<PlayerState>();
 

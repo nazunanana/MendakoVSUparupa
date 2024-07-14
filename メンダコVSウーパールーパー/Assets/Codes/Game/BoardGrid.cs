@@ -80,16 +80,22 @@ public class BoardGrid : MonoBehaviour
                 }
                 break;
             case PlayerState.SelectMode.MovePosition: //ゲーム中
-                // GameObject[] players = GameObject.FindGameObjectWithTag("Player");
-                // foreach(GameObject player in players){
-                //     player.GetComponent<ManagePiece>
-                // }
 
-                // if(managePiece.GetComponent<ManagePiece>().SearchPieceByPos(posID)==2){
-                //     //managePiece.pieceDec[posID]
-                //     Debug.Log("ですとろい！");
-                // }else{
-                    //Debug.Log("OnMouseDown in BoardGrid");
+                //TODO: 移動先が自分の駒の時は移動できない
+                //if(managePiece.GetComponent<ManagePiece>().SearchPieceByPos(posID)==1){
+                //    Debug.Log("移動できないよ！");
+                //}
+                //TODO: 移動先が相手の駒だったら倒す
+                //else if(managePiece.GetComponent<ManagePiece>().SearchPieceByPos(posID)==2){
+                    //managePiece.pieceDec[posID]
+                //    Debug.Log("ですとろい！");
+                //}
+                //TODO: 移動先が脱出マスの時
+                // else if(){
+                    
+                // }
+                //else{ // 移動先に何もないとき
+                //    Debug.Log("OnMouseDown in BoardGrid");
                 ChangeHighLight(false);
                 nowPlayerComp.toMovePiece(posID);
                 //}

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 駒の状態
@@ -169,19 +170,24 @@ public class PieceState : NetworkBehaviour
         Debug.Log("player");
         this.gameObject.transform.position = absPos;
 
-        // 相手のdicの登録を変える
-        Vector2Int lastId = new Vector2Int();
-        foreach (var dic in player.GetComponent<ManagePiece>().partnerPieceDic){
-            //相手dicからこの駒を探す
-            if (dic.Value == this) {
-                lastId = dic.Key;
-                break;
+        if (SceneManager.GetActiveScene().name == "SC_Game")
+        {
+            // 相手のdicの登録を変える
+            Vector2Int lastId = new Vector2Int();
+            foreach (var dic in player.GetComponent<ManagePiece>().partnerPieceDic)
+            {
+                //相手dicからこの駒を探す
+                if (dic.Value == this)
+                {
+                    lastId = dic.Key;
+                    break;
+                }
             }
+            // それを登録解除
+            player.GetComponent<ManagePiece>().partnerPieceDic.Remove(lastId);
+            // 新しいposIDで登録
+            player.GetComponent<ManagePiece>().partnerPieceDic.Add(posID, this);
         }
-        // それを登録解除
-        player.GetComponent<ManagePiece>().partnerPieceDic.Remove(lastId);
-        // 新しいposIDで登録
-        player.GetComponent<ManagePiece>().partnerPieceDic.Add(posID, this);
     }
     public void SetAbsPos(Vector3 pos)
     {

@@ -32,6 +32,7 @@ public class ManagePiece : NetworkBehaviour
             IDlist.Set(i, p.gameObject.GetComponent<NetworkObject>().Id);
             i++;
         }
+        
     }
     // PlayGameで呼び出し
     public void CreateDic(NetworkArray<NetworkId> partnerIDlist){
@@ -46,6 +47,7 @@ public class ManagePiece : NetworkBehaviour
                 break;
             }
         }
+
         foreach (NetworkId nid in partnerIDlist){
             Vector2Int posID = runner.FindObject(nid).gameObject.GetComponent<PieceState>().posID;
             PieceState pieceState = runner.FindObject(nid).gameObject.GetComponent<PieceState>();

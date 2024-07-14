@@ -14,6 +14,7 @@ public class PlayGame : NetworkBehaviour
     private GameObject nowPlayer;
     private PlayerState playerState;
     private NetworkRunner runner;
+    private const int GRID_NUM = 6;
     void Awake()
     {
         Debug.Log("Awake SC_Game");
@@ -97,9 +98,11 @@ public class PlayGame : NetworkBehaviour
         if (nowPlayer == partnerplayer && mymode == PlayerState.SelectMode.NoMyTurn && partnermode == PlayerState.SelectMode.NoMyTurn)
         {
             myplayer.GetComponent<PlayerState>().toStartMyTurn();
+            this.gameObject.GetComponent<GameUI>().ChangeTurn(myplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa); //自分を大きく
             nowPlayer = myplayer;
         }else if(mymode == PlayerState.SelectMode.NoMyTurn && partnermode == PlayerState.SelectMode.NoMyTurn){
             nowPlayer = partnerplayer;
+            this.gameObject.GetComponent<GameUI>().ChangeTurn(partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa); //相手を大きく
         }
     }
 
@@ -120,8 +123,8 @@ public class PlayGame : NetworkBehaviour
     }
     public int SearchPieceByPos(Vector2Int posID)
     {
-        if(myplayer.GetComponent<ManagePiece>().ContainsKey(posID)) return 1;
-        else if(partnerplayer.GetComponent<ManagePiece>().ContainsKey(posID)) return 2;
+        if(myplayer.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID)) return 1;
+        else if(partnerplayer.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID)) return 2;
         else return 0;
     }
 

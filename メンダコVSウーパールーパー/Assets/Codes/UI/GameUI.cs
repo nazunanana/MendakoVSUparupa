@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,6 +28,24 @@ public class GameUI : MonoBehaviour
     }
     public void ChangeGetPieceNum(bool real, bool plus)
     {
+        int now = 0;
+        try
+        {
+            now = int.Parse((real ? realPieceNum : fakePieceNum).GetComponent<TextMeshProUGUI>().text.Substring(3));
+        }
+        catch (FormatException)
+        {
+            Debug.Log("Invalid String");
+        }
+        if (now < 4)
+        {
+            now += plus ? 1 : -1;
+            (real ? realPieceNum : fakePieceNum).GetComponent<TextMeshProUGUI>().text = (real ? "本物×" : "偽物×") + now.ToString();
+        }
+        else
+        {
+            Debug.Log("4駒獲得済みです");
+        }
 
     }
 }

@@ -1274,6 +1274,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uparupaIcon: {fileID: 1169506707}
   mendakoIcon: {fileID: 1049888990}
+  realPieceNum: {fileID: 703882984}
+  fakePieceNum: {fileID: 884477832}
 --- !u!1001 &1084516690684388963
 PrefabInstance:
   m_ObjectHideFlags: 0

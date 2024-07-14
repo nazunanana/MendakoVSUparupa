@@ -139,7 +139,7 @@ public class PlayGame : NetworkBehaviour
     public int SearchPieceByPos(Vector2Int posID)
     {
         if (myplayer.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID)) return 1;
-        else if (partnerplayer.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID)) return 2;
+        else if (partnerplayer.GetComponent<ManagePiece>().syncDic.ContainsKey(posID)) return 2;
         else return 0;
     }
 

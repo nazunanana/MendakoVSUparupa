@@ -11,6 +11,7 @@ public class PlayGame : NetworkBehaviour
     private GameObject manageGrid;
     private GameObject myplayer;
     private GameObject partnerplayer;
+    private GameObject nowPlayer;
     private PlayerState playerState;
     private NetworkRunner runner;
     void Awake()
@@ -50,8 +51,6 @@ public class PlayGame : NetworkBehaviour
         PlayerState playerState = myplayer.GetComponent<PlayerState>();
 
         // 生成系コンポネントを破棄
-        // Destroy(myplayer.GetComponent<CreatePiece>());
-        // Destroy(partnerplayer.GetComponent<CreatePiece>());
         Destroy(myplayer.GetComponent<SettingUI>());
         Destroy(partnerplayer.GetComponent<SettingUI>());
         // 管理オブジェクト検索
@@ -75,6 +74,11 @@ public class PlayGame : NetworkBehaviour
         }
         // ウパターン
         this.gameObject.GetComponent<GameUI>().ChangeTurn(true);
+    }
+
+    void ChangeToMyTurn(){
+        if(nowPlayer==partnerplayer){
+            myplayer.GetComponent<PlayerState>().toStartMyTurn();
     }
 }
 

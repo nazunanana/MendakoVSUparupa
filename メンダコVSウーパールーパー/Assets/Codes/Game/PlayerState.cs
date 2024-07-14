@@ -174,6 +174,8 @@ public class PlayerState : NetworkBehaviour
     public void toNoMyTurn()
     {
         selectMode = SelectMode.NoMyTurn;
+        // 相手ターン開始処理
+        
     }
     /// <summary>
     /// ターン開始時に
@@ -206,6 +208,8 @@ public class PlayerState : NetworkBehaviour
         pieceDic = this.gameObject.GetComponent<ManagePiece>().pieceDic;
         pieceDic.Remove(piecePos); //現在位置の登録解除
         pieceDic.Add(moveToPos, piece); //移動先で登録
+        // ID伝えて移動させる
+        piece.GetComponent<PieceState>().MovePiecePos(posID);
 
         Debug.Log("move to " + moveToPos[0] + "," + moveToPos[1]);
         selectMode = SelectMode.NoMyTurn;

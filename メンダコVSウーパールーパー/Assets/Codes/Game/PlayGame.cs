@@ -49,15 +49,9 @@ public class PlayGame : NetworkBehaviour
         // コンポネント取得
         PlayerState playerState = myplayer.GetComponent<PlayerState>();
 
-        // 位置同期
-        GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
-        foreach (GameObject p in pieces)
-        {
-            p.GetComponent<PieceState>().SyncPos();
-        }
         // 生成系コンポネントを破棄
-        //Destroy(myplayer.GetComponent<CreatePiece>());
-        //Destroy(partnerplayer.GetComponent<CreatePiece>());
+        Destroy(myplayer.GetComponent<CreatePiece>());
+        Destroy(partnerplayer.GetComponent<CreatePiece>());
         Destroy(myplayer.GetComponent<SettingUI>());
         Destroy(partnerplayer.GetComponent<SettingUI>());
         // 管理オブジェクト検索

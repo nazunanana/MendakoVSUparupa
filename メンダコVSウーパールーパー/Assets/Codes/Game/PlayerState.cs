@@ -219,5 +219,11 @@ public class PlayerState : NetworkBehaviour
         // イベント通知
         OnChangeMode?.Invoke();
         Debug.Log("現在"+team+"は"+selectMode+"です。");
+        // 位置同期
+        GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
+        foreach (GameObject p in pieces)
+        {
+            p.GetComponent<PieceState>().SyncPos();
+        }
     }
 }

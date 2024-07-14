@@ -83,6 +83,9 @@ public class PlayGame : NetworkBehaviour
             partnerplayer.GetComponent<PlayerState>().toStartMyTurn();
             nowPlayer = partnerplayer;
         }
+        // 相手のIDで辞書作成
+        Debug.Log("相手辞書作成");
+        myplayer.GetComponent<ManagePiece>().CreateDic(partnerplayer.GetComponent<ManagePiece>().IDlist);
         // ウパターン
         this.gameObject.GetComponent<GameUI>().ChangeTurn(true);
     }
@@ -132,7 +135,7 @@ public class PlayGame : NetworkBehaviour
         else if (partnerplayer.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID)) return 2;
         else return 0;
     }
-    
+
     public void EndGameChecker()
     {
         //TODO: 脱出駒に入ったらの条件がない

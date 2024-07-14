@@ -1,29 +1,49 @@
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 public class SetAnimation : MonoBehaviour
 {
-    public Vector3 targetPosition; // 固定位置
-    private Animator animator;
+    // private Animator anim_Uparurpa;
+    // private Animator anim_Mendako;
+    // [SerializeField] private PlayableDirector director_Upa;
+    // [SerializeField] private PlayableDirector director_Mendako;
 
-    void Start()
-    {
-        animator = GetComponent<Animator>();
-    }
+    // private GameObject piece; //動かす駒オブジェクト
+    // private PlayerState.Team team;
+    // void Start()
+    // {
+    //     TimelineAsset tlAsset_uparupa = (TimelineAsset)director_Upa.playableAsset;
+    //     TimelineAsset tlAsset_mendako = (TimelineAsset)director_Mendako.playableAsset;
+    //     director_Upa.SetPieceBinding(timelineAsset.GetOutputTrack(cameraTrackIndexList[currentTrackIndex]), mainCamera);
+    //     // Trackの状態をResetする
+    //     director_Upa.Stop();
+    //     director_Upa.Play();
+    // }
 
-    public void StartMoveAnimation()
-    {
-        // 現在の位置を取得
-        Vector3 currentPosition = transform.position;
+    // public void SetPieceBinding()
+    // {
+    //     int index = 0;
 
-        // アニメーション用のオフセットを計算
-        Vector3 offset = targetPosition - currentPosition;
+    //     // 1 ～ (Listの数 - 1)の範囲
+    //     int i = Random.Range(1, cameraTrackIndexList.Count);
+    //     // 現在のindex + i がリストの数以上の場合、0に戻って余剰分を足す
+    //     if (cameraTrackIndexList.Count <= currentTrackIndex + i)
+    //     {
+    //         index = (currentTrackIndex + i) - cameraTrackIndexList.Count;
+    //     }
+    //     else index = currentTrackIndex + i;
 
-        // アニメーターのパラメーターにオフセットを設定
-        animator.SetFloat("OffsetX", offset.x);
-        animator.SetFloat("OffsetY", offset.y);
-        animator.SetFloat("OffsetZ", offset.z);
+    //     TimelineAsset timelineAsset = director_Upa.playableAsset as TimelineAsset;
 
-        // アニメーションを再生
-        animator.Play("MoveToFixedPosition");
-    }
+    //     // 現在カメラが設定されているTrackのBindingをリセット
+    //     director_Upa.ClearGenericBinding(timelineAsset.GetOutputTrack(piece));
+
+    //     // 新しいTrackのBindingに設定
+    //     director_Upa.SetGenericBinding(timelineAsset.GetOutputTrack(newpiece), piece);
+    //     // CinemachineTrackの状態をリセット
+    //     director_Upa.Stop();
+    //     director_Upa.Play();
+    // }
+
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -2106840829264107657}
   - component: {fileID: -2492603484817654386}
   - component: {fileID: 8276227964909330048}
-  - component: {fileID: 7134031668992981432}
+  - component: {fileID: -7485084215975334639}
   m_Layer: 0
   m_Name: mendako_real
   m_TagString: Piece
@@ -133,24 +133,22 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: -2106840829264107657}
---- !u!95 &7134031668992981432
-Animator:
-  serializedVersion: 5
+--- !u!320 &-7485084215975334639
+PlayableDirector:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1644011147557011213}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c3a3205653663974a8c467ee811e151c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 77fc32330ad456044955a3eee7413b67, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: -3065195909404874598, guid: 77fc32330ad456044955a3eee7413b67, type: 2}
+    value: {fileID: 0}
+  m_ExposedReferences:
+    m_References: []

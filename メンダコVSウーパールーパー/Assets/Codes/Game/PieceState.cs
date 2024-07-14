@@ -57,7 +57,7 @@ public class PieceState : NetworkBehaviour
     }
     void OnMouseOver()
     {
-        if (player!=null&&player.GetComponent<PlayerState>()!=null)
+        if (player != null && player.GetComponent<PlayerState>() != null)
         {
             // Debug.Log("piece over");
             Debug.Log("team" + team);
@@ -80,11 +80,12 @@ public class PieceState : NetworkBehaviour
                 }
             }
             else { Debug.Log("not my team's piece"); }
-        }else return;
+        }
+        else return;
     }
     void OnMouseExit()
     {
-        if (player!=null&&player.GetComponent<PlayerState>()!=null)
+        if (player != null && player.GetComponent<PlayerState>() != null)
         {
             // ハイライトを解除
             if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
@@ -102,11 +103,12 @@ public class PieceState : NetworkBehaviour
                         break;
                 }
             }
-        }else return;
+        }
+        else return;
     }
     void OnMouseDown()
     {
-        if (player.GetComponent<PlayerState>()!=null)
+        if (player.GetComponent<PlayerState>() != null)
         {
             if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
             {
@@ -130,7 +132,8 @@ public class PieceState : NetworkBehaviour
                 }
             }
             else { Debug.Log("not my team's piece"); }
-        }else return;
+        }
+        else return;
     }
 
     // マテリアルを強調
@@ -165,6 +168,20 @@ public class PieceState : NetworkBehaviour
         // 移動させる
         Debug.Log("player");
         this.gameObject.transform.position = absPos;
+
+        // 相手のdicの登録を変える
+        Vector2Int lastId = new Vector2Int();
+        foreach (var dic in player.GetComponent<ManagePiece>().partnerPieceDic){
+            //相手dicからこの駒を探す
+            if (dic.Value == this) {
+                lastId = dic.Key;
+                break;
+            }
+        }
+        // それを登録解除
+        player.GetComponent<ManagePiece>().partnerPieceDic.Remove(lastId);
+        // 新しいposIDで登録
+        player.GetComponent<ManagePiece>().partnerPieceDic.Add(posID, this);
     }
     public void SetAbsPos(Vector3 pos)
     {

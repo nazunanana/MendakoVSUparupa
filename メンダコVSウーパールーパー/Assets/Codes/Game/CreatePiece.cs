@@ -124,6 +124,8 @@ public class CreatePiece : NetworkBehaviour
 
         // ぜんぶ配置完了したら
         if(SetRealPiece==PIECE_NUM && SetFakePiece==PIECE_NUM && pieceDic.Count==8){
+            // IDリストを作成しておく
+            player.GetComponent<ManagePiece>().GetNetworkId();
             player.GetComponent<PlayerState>().toFinishSet();
         }
     }

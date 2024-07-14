@@ -1,35 +1,81 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
-public class ManagePiece : MonoBehaviour
+public class ManagePiece : NetworkBehaviour
 {
     private GameObject player; // 自分のプレイヤーオブジェクト
-    private int getRealPieceNum; // 獲得した本物駒数
-    private int getFakePieceNum; // 獲得した偽物駒数
+    private int getRealPieceNum = 0; // 獲得した本物駒数
+    private int getFakePieceNum = 0; // 獲得した偽物駒数
     private const int GRID_NUM = 6;
-
     public Dictionary<Vector2Int, PieceState> pieceDic { get; set; } // 位置ID, 自陣営の駒comp
+    public Dictionary<Vector2Int, PieceState> partnerPieceDic { get; set; } // 位置ID, 自陣営の駒comp
+    [Networked, Capacity(8)]
+    public NetworkArray<NetworkId> IDlist => default;
 
     void Awake()
     {
         pieceDic = new Dictionary<Vector2Int, PieceState>();
+        partnerPieceDic = new Dictionary<Vector2Int, PieceState>();
     }
-    // /// <summary>
-    // /// 前後左右の駒を検索
-    // /// </summary>
-    // public int[] SearchWASD(Vector2Int posID)
-    // {
-    //     int id_x = posID.x;
-    //     int id_z = posID.y;
-    //     int w = -1, a = -1, s = -1, d = -1;
+    public bool EndGameCounter(bool real)
+    {
+        return (real ? getRealPieceNum : getFakePieceNum) >= 4;
+    }
 
-    //     if (0 <= id_x - 1) w = SearchPieceByPos(new Vector2Int(id_x - 1, id_z)); // 上のマス
-    //     if (0 <= id_z - 1) a = SearchPieceByPos(new Vector2Int(id_x, id_z - 1)); // 左のマス
-    //     if (id_x + 1 < GRID_NUM) s = SearchPieceByPos(new Vector2Int(id_x + 1, id_z)); // 下のマス
-    //     if (id_z + 1 < GRID_NUM) d = SearchPieceByPos(new Vector2Int(id_x, id_z + 1)); // 右のマス
-    //     return new int[] { w, a, s, d }; //上左下右 -1:範囲外 0:null 1:自陣の駒 2:相手の駒
-    // }
+    // CreatePieceで呼び出し
+    public void GetNetworkId(){
+        //IDlist = MakeInitializer(new NetworkString<NetworkId>[]());
+        int i=0;
+        foreach(PieceState p in pieceDic.Values){
+            IDlist.Set(i, p.gameObject.GetComponent<NetworkObject>().Id);
+            i++;
+        }
+    }
+    // PlayGameで呼び出し
+    public void CreateDic(NetworkArray<NetworkId> partnerIDlist){
+        //runner検索
+        GameObject[] runners = GameObject.FindGameObjectsWithTag("Runner");
+        NetworkRunner runner = runners[0].GetComponent<NetworkRunner>();
+        foreach (GameObject g in runners)
+        {
+            if (g.GetComponent<NetworkRunner>().IsRunning)
+            { //アクティブのものを検出
+                runner = g.GetComponent<NetworkRunner>();
+                break;
+            }
+        }
+        foreach (NetworkId nid in partnerIDlist){
+            Vector2Int posID = runner.FindObject(nid).gameObject.GetComponent<PieceState>().posID;
+            PieceState pieceState = runner.FindObject(nid).gameObject.GetComponent<PieceState>();
+            partnerPieceDic.Add(posID, pieceState);
+        }
+    }
+    public void Start()
+    {
+        // //runner検索
+        // GameObject[] runners = GameObject.FindGameObjectsWithTag("Runner");
+        // NetworkRunner runner = runners[0].GetComponent<NetworkRunner>();
+        // foreach (GameObject g in runners)
+        // {
+        //     if (g.GetComponent<NetworkRunner>().IsRunning)
+        //     { //アクティブのものを検出
+        //         runner = g.GetComponent<NetworkRunner>();
+        //         break;
+        //     }
+        // }
+        // // 現在のシーン内のすべてのネットワークオブジェクトの駒を検索
+        // List<NetworkObject> networkObjects = new List<NetworkObject>();
+        // foreach (var networkObject in runner.SceneObjects)
+        // {
+        //     if (networkObject != null && networkObject.gameObject.CompareTag("Piece"))
+        //     {
+        //         networkObjects.Add(networkObject);
+        //         Debug.Log(networkObjects);
+        //     }
+        // }
+    }
 
 
 }

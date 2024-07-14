@@ -32,7 +32,7 @@ public class PlayerState : NetworkBehaviour
     public SelectMode selectMode { get; set; }
 
     // イベント
-    public static event Action OnFinishSetting;
+    public static event Action OnChangeMode;
 
     /// <summary> 得点 </summary>
     // 本物得点 (相手の本物を取ると+1)
@@ -72,45 +72,6 @@ public class PlayerState : NetworkBehaviour
         // Debug.Log("このシーンは"+SceneManager.GetActiveScene().name);
         // Debug.Log("親オブジェクトは"+this.gameObject.transform.parent.gameObject.name);
         DontDestroyOnLoad(this.gameObject);
-
-        //Debug.Log("Spawn? "+this.gameObject.GetComponent<NetworkObject>().Spawned);
-    }
-
-    /// <summary>
-    /// SC_Game開始時
-    /// </summary>
-    public void StartGameSetting(Team team)
-    {
-        myPieces = new List<GameObject>();
-        activePieces = new Dictionary<Vector2Int, GameObject>();
-        if (team == Team.uparupa)
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                piece = Instantiate(realUparupaPrehab, realUparupaPrehab.transform.position, Quaternion.identity);
-                myPieces.Add(piece);
-                activePieces.Add(new Vector2Int(2 * i, 1), piece);
-                piece = Instantiate(fakeUparupaPrehab, fakeUparupaPrehab.transform.position, Quaternion.identity);
-                myPieces.Add(piece);
-                activePieces.Add(new Vector2Int(2 * i + 1, 1), piece);
-            }
-            selectMode = SelectMode.MovePiece;
-            Debug.Log("相手ターン開始");
-        }
-        else
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                piece = Instantiate(realMendakoPrehab, realMendakoPrehab.transform.position, Quaternion.identity);
-                myPieces.Add(piece);
-                activePieces.Add(new Vector2Int(2 * i, 1), piece);
-                piece = Instantiate(fakeMendakoPrehab, fakeMendakoPrehab.transform.position, Quaternion.identity);
-                myPieces.Add(piece);
-                activePieces.Add(new Vector2Int(2 * i + 1, 1), piece);
-            }
-            selectMode = SelectMode.NoMyTurn;
-            Debug.Log("自分のターン開始");
-        }
     }
     public GameObject setManageGrid
     {
@@ -208,8 +169,6 @@ public class PlayerState : NetworkBehaviour
         // UI差し替え
         this.gameObject.GetComponent<SettingUI>().FinishSetting();
         selectMode = SelectMode.SetAllPieces;
-
-        Debug.Log(team+"は現在"+selectMode);
         ClearAllHighLight();
     }
 
@@ -232,7 +191,7 @@ public class PlayerState : NetworkBehaviour
     /// 駒選択した時の処理
     /// </summary>
     public void toSelectPiece(Vector2Int posID)
-    { //TODO:どれがどの状況か分かってない！！！
+    {
         piecePos = posID;
         piece = activePieces[piecePos]; // 選択中の駒
         selectMode = SelectMode.MovePosition;
@@ -263,6 +222,7 @@ public class PlayerState : NetworkBehaviour
     }
     private void ModeEvent(){
         // イベント通知
-        OnFinishSetting?.Invoke();
+        OnChangeMode?.Invoke();
+        Debug.Log("現在"+team+"は"+selectMode+"です。");
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - teamUI
   - Runner
   - Piece
+  - GameManager
   layers:
   - Default
   - TransparentFX

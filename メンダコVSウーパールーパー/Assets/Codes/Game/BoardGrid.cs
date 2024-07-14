@@ -81,7 +81,8 @@ public class BoardGrid : MonoBehaviour
                 }
                 break;
             case PlayerState.SelectMode.MovePosition: //ゲーム中
-                if(managePiece.pieceDic[posID].team == PlayerState.Team.mendako){
+                if(managePiece.SearchPieceByPos(posID)==2){
+                    //managePiece.pieceDec[posID]
                     Debug.Log("ですとろい！");
                     break;
                 }else{

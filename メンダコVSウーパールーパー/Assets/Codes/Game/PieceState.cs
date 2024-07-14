@@ -56,6 +56,7 @@ public class PieceState : NetworkBehaviour
                     break;
                 case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
                     HighLightPiece(true);
+                    player.GetComponent<ManageGrid>().HighLightWASDGrid(posID,true);
                     break;
                 default:
                     break;
@@ -93,9 +94,12 @@ public class PieceState : NetworkBehaviour
                     Debug.Log("設置する駒を選択");
                     break;
                 case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
+                    GameObject manageGrid = GameObject.FindGameObjectWithTag("GridSystem");
+                    manageGrid.GetComponent<ManageGrid>().pieceID = posID;
                     player.GetComponent<PlayerState>().toSelectPiece(posID); // 状態遷移
                     HighLightPiece(false);
                     Debug.Log("PieceState : "+posID[0]+", "+posID[1]+"の駒を選択しています");
+
                     break;
                 default:
                     break;

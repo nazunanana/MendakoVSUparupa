@@ -76,9 +76,11 @@ public class PlayGame : NetworkBehaviour
         this.gameObject.GetComponent<GameUI>().ChangeTurn(true);
     }
 
-    void ChangeToMyTurn(){
-        if(nowPlayer==partnerplayer){
+    void ChangeToMyTurn()
+    {
+        if (nowPlayer == partnerplayer)
+        {
             myplayer.GetComponent<PlayerState>().toStartMyTurn();
+        }
     }
 }
-

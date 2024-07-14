@@ -17,6 +17,7 @@ public class BoardGrid : MonoBehaviour
     public Vector2Int posID;
     private Vector3 myPosition;
     private int type; // マスの種類
+    private ManagePiece managePiece;
     public enum types
     {
         mendako, // メンダコ陣営
@@ -80,10 +81,15 @@ public class BoardGrid : MonoBehaviour
                 }
                 break;
             case PlayerState.SelectMode.MovePosition: //ゲーム中
-                //Debug.Log("OnMouseDown in BoardGrid");
+                if(managePiece.pieceDic[posID].team == PlayerState.Team.mendako){
+                    Debug.Log("ですとろい！");
+                    break;
+                }else{
+                    //Debug.Log("OnMouseDown in BoardGrid");
                 ChangeHighLight(false);
                 nowPlayerComp.toMovePiece(posID);
                 break;
+                }
             // case PlayerState.SelectMode.MovePosition:
             //     nowPlayerComp.toMovePiece(posID);
             //     Debug.Log("移動した");

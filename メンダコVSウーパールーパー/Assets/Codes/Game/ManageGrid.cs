@@ -9,7 +9,7 @@ public class ManageGrid : MonoBehaviour
     public GameObject oneGridPrehab = null;
     private GameObject[,] gridArray;
     private GameObject[] players;
-    private GameObject player;
+    public GameObject player;
     public bool ImUparupa;
     
     private const float FIRST_X = -6.48f; //ウパルパ陣営側

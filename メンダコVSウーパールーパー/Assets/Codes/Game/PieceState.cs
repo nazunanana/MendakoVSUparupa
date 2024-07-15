@@ -74,9 +74,9 @@ public class PieceState : NetworkBehaviour
         if (player != null && player.GetComponent<PlayerState>() != null)
         {
             // Debug.Log("piece over");
-            Debug.Log("team" + team);
-            Debug.Log("player" + player);
-            Debug.Log("comp" + player.GetComponent<PlayerState>());
+            // Debug.Log("team" + team);
+            // Debug.Log("player" + player);
+            // Debug.Log("comp" + player.GetComponent<PlayerState>());
             // マテリアルをハイライト
             if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
             {

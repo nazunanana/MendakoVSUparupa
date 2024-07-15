@@ -35,7 +35,7 @@ public class ManagePiece : NetworkBehaviour
         GameObject manager = GameObject.FindGameObjectWithTag("GameManager");
         SetAnimation anim = manager.GetComponent<SetAnimation>();
         PlayerState.Team myteam = player.GetComponent<PlayerState>().team;
-        anim.StartPlay(true, myteam == PlayerState.Team.mendako);
+        anim.StartPlay(true, true);//myteam == PlayerState.Team.mendako);
 
     }
     public void AnimFake()
@@ -43,6 +43,6 @@ public class ManagePiece : NetworkBehaviour
         GameObject manager = GameObject.FindGameObjectWithTag("GameManager");
         SetAnimation anim = manager.GetComponent<SetAnimation>();
         PlayerState.Team myteam = player.GetComponent<PlayerState>().team;
-        //anim.StartPlay(false, myteam == PlayerState.Team.mendako);
+        anim.StartPlay(false, true);//myteam == PlayerState.Team.mendako);
     }
 }

@@ -5,8 +5,7 @@ using UnityEngine.Timeline;
 using UnityEngine.Assertions;
 using System.Collections;
 using System.Collections.Generic;
-using Fusion;
-public class SetAnimation : NetworkBehaviour
+public class SetAnimation : MonoBehaviour
 {
     [SerializeField] private RuntimeAnimatorController ac_Uparupa;
     [SerializeField] private RuntimeAnimatorController ac_Mendako;
@@ -22,23 +21,21 @@ public class SetAnimation : NetworkBehaviour
     {
         Debug.Log("アニメーション！");
         // インスタンスを登場させる
-        NetworkObject model;
-        NetworkRunner runner = this.gameObject.GetComponent<PlayGame>().runner;
+        GameObject model;
         if (real)
         {
-            if (Isuparupa) model = runner.Spawn(realUparupaPhb, new Vector3(0, 0, 0), realUparupaPhb.transform.rotation);
-            else model = runner.Spawn(realMendakoPhb, new Vector3(0, 0, 0), realMendakoPhb.transform.rotation);
+            if (Isuparupa) model = Instantiate(realUparupaPhb, new Vector3(0, 0, 0), realUparupaPhb.transform.rotation);
+            else model = Instantiate(realMendakoPhb, new Vector3(0, 0, 0), realMendakoPhb.transform.rotation);
         }
         else
         {
-            if (Isuparupa) model = runner.Spawn(fakeUparupaPhb, new Vector3(0, 0, 0), fakeUparupaPhb.transform.rotation);
-            else model = runner.Spawn(fakeMendakoPhb, new Vector3(0, 0, 0), fakeMendakoPhb.transform.rotation);
-
+            if (Isuparupa) model = Instantiate(fakeUparupaPhb, new Vector3(0, 0, 0), fakeUparupaPhb.transform.rotation);
+            else model = Instantiate(fakeMendakoPhb, new Vector3(0, 0, 0), fakeMendakoPhb.transform.rotation);
         }
         // Animatorコンポネントをアタッチ
-        Animator animator = model.gameObject.AddComponent<Animator>();
-        animator.runtimeAnimatorController = Isuparupa ? ac_Uparupa : ac_Mendako;
-        animator.Play(Isuparupa ? "A_GetUparupa" : "A_GetMendako");
+        // Animator animator = model.AddComponent<Animator>();
+        // animator.runtimeAnimatorController = Isuparupa ? ac_Uparupa : ac_Mendako;
+        //animator.Play(Isuparupa ? "A_GetUparupa" : "A_GetMendako");
     }
 
 }

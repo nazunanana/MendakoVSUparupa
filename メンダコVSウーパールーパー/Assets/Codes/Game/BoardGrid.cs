@@ -97,29 +97,19 @@ public class BoardGrid : MonoBehaviour
                 //TODO: 移動先が相手の駒だったら倒す
                 else if (state.SearchPieceByPos(posID) == 2)
                 {
-                    ManagePiece partnerPieceComp = state.getPartner.GetComponent<ManagePiece>();
-                    // true/falseによって点数変化
-                    if(partnerPieceComp.syncDic[posID]){ // 獲得したのが本物のとき
-                        Debug.Log("本物駒を獲得");
-                    }else{
-                        Debug.Log("偽物駒を獲得");
-                    }
+
+                    // true/falseによって点数変化→(更新を検知してアニメーション)
+                    GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().GetPieceAction(posID);
+
                     // デスポーン
                     //OnDespownPiece?.Invoke(); // 駒をDespownするように命令
-                    //TODO: posID持って行かなきゃいけない
-                    // 自駒移動
-                    ChangeHighLight(false);
-                    nowPlayerComp.toMovePiece(posID);
                     Debug.Log("ですとろい！");
-                    // 相手の配列登録解除
 
-                    // 自分のgetpiece数を更新(更新を検知してアニメーション)
-                    GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().GetPieceAction(posID);
-                    // 更新をAnimation
-                    //<SetAnimation>().StartPlay();
+
                     // 削除
                     
                     // 状態遷移
+                    ChangeHighLight(false);
                     playerComp.toMovePiece(posID);
 
                 }

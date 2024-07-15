@@ -86,9 +86,6 @@ public class PlayGame : NetworkBehaviour
             partnerplayer.GetComponent<PlayerState>().toStartMyTurn();
             nowPlayer = partnerplayer;
         }
-        // // 相手のIDで辞書作成
-        // Debug.Log("相手辞書作成");
-        // myplayer.GetComponent<ManagePiece>().CreateDic(partnerplayer.GetComponent<ManagePiece>().IDlist);
         OnCreateDicComplete?.Invoke();
         // ウパターン
         this.gameObject.GetComponent<GameUI>().ChangeTurn(true);
@@ -168,6 +165,7 @@ public class PlayGame : NetworkBehaviour
         bool real = partnerplayer.GetComponent<ManagePiece>().syncDic.Get(posID);
         if (real)
         {
+            Debug.Log("本物駒を獲得");
             myplayer.GetComponent<ManagePiece>().getRealPieceNum++;
             // 相手側で発火するのでそこでアニメーションしてもらう
             // UI変化
@@ -175,6 +173,7 @@ public class PlayGame : NetworkBehaviour
         }
         else
         {
+            Debug.Log("偽物駒を獲得");
             myplayer.GetComponent<ManagePiece>().getFakePieceNum++;
             this.gameObject.GetComponent<GameUI>().ChangeGetPieceNum(real, true);
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
+// playerプレハブにアタッチされている
 public class ManagePiece : NetworkBehaviour
 {
     private GameObject player; // 自分のプレイヤーオブジェクト

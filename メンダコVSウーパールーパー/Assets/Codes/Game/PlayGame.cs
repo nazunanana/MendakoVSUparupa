@@ -165,5 +165,9 @@ public class PlayGame : NetworkBehaviour
         // 待つ
         yield return new WaitForSeconds(time);
     }
+
+    public GameObject getPartner{
+        get{ return partnerplayer; }
+    }
 }
 

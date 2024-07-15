@@ -86,7 +86,6 @@ public class BoardGrid : MonoBehaviour
                 //     player.GetComponent<ManagePiece>().
                 // }
                 int state = GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().SearchPieceByPos(posID);
-
                 //TODO: 移動先が自分の駒の時は移動できない
                 if (state == 1)
                 {

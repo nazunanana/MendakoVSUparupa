@@ -96,9 +96,9 @@ public class BoardGrid : MonoBehaviour
                 {
                     //managePiece.pieceDec[posID]
                     Debug.Log("ですとろい！");
-                    // 配列登録解除
+                    // 相手の配列登録解除
 
-                    // getpiece数を更新(更新を検知してアニメーション)
+                    // 自分のgetpiece数を更新(更新を検知してアニメーション)
                     GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().GetPieceAction(posID);
                     // 更新をAnimation
                     //<SetAnimation>().StartPlay();
@@ -150,7 +150,7 @@ public class BoardGrid : MonoBehaviour
                 break;
             case PlayerState.SelectMode.MovePosition: //位置決め
                 Vector2Int pieceID = gridSystemComp.pieceID; // 選択している駒の座標
-                Debug.Log("PieceID : " + pieceID);
+                //Debug.Log("PieceID : " + pieceID);
                 int pieceX = pieceID[0];
                 int pieceY = pieceID[1];
                 bool w = (posID[0] == pieceX - 1) && (posID[1] == pieceY);

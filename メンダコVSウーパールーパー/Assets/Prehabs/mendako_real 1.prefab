@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 2133408529914701239}
   - component: {fileID: 3041258321250462226}
   - component: {fileID: 995382506276871896}
-  - component: {fileID: -2106840829264107657}
   - component: {fileID: -2492603484817654386}
   - component: {fileID: 8276227964909330048}
+  - component: {fileID: -2003043145912819188}
   m_Layer: 0
-  m_Name: mendako_real
-  m_TagString: Piece
+  m_Name: mendako_real 1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86,20 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &-2106840829264107657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1644011147557011213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e0d2ecdcf033fa4e92d74e0a55c88c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _posID: {x: 0, y: 0}
-  _absPos: {x: 0, y: 0, z: 0}
 --- !u!64 &-2492603484817654386
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -126,9 +112,29 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 772852907
+  SortKey: 1604547032
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: -2106840829264107657}
+  NetworkedBehaviours: []
+--- !u!95 &-2003043145912819188
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1644011147557011213}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c3a3205653663974a8c467ee811e151c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

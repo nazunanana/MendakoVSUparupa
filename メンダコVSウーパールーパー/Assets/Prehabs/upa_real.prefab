@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: -6354312759186942455}
   - component: {fileID: -7701480110400683465}
   - component: {fileID: -3204954415782136521}
-  - component: {fileID: 6995900368638846581}
   m_Layer: 0
   m_Name: upa_real
   m_TagString: Piece
@@ -133,22 +132,3 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: -6354312759186942455}
---- !u!320 &6995900368638846581
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5538709557641451423}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 675cc39c6b32e3745bdfb3932ec88623, type: 2}
-  m_InitialState: 1
-  m_WrapMode: 2
-  m_DirectorUpdateMode: 1
-  m_InitialTime: 0
-  m_SceneBindings:
-  - key: {fileID: -3065195909404874598, guid: 675cc39c6b32e3745bdfb3932ec88623, type: 2}
-    value: {fileID: 0}
-  m_ExposedReferences:
-    m_References: []

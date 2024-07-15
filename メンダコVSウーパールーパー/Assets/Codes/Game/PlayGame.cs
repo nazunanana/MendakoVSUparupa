@@ -15,7 +15,7 @@ public class PlayGame : NetworkBehaviour
     private GameObject partnerplayer;
     private GameObject nowPlayer;
     private PlayerState playerState;
-    private NetworkRunner runner;
+    public NetworkRunner runner { get; set; }
     private const int GRID_NUM = 6;
 
     void Awake()
@@ -168,16 +168,15 @@ public class PlayGame : NetworkBehaviour
         bool real = partnerplayer.GetComponent<ManagePiece>().syncDic.Get(posID);
         if (real)
         {
-            partnerplayer.GetComponent<ManagePiece>().getRealPieceNum++;
+            myplayer.GetComponent<ManagePiece>().getRealPieceNum++;
             // 相手側で発火するのでそこでアニメーションしてもらう
             // UI変化
             this.gameObject.GetComponent<GameUI>().ChangeGetPieceNum(real, true);
         }
         else
         {
-            partnerplayer.GetComponent<ManagePiece>().getFakePieceNum++;
+            myplayer.GetComponent<ManagePiece>().getFakePieceNum++;
             this.gameObject.GetComponent<GameUI>().ChangeGetPieceNum(real, true);
-
         }
     }
 

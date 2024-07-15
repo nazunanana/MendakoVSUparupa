@@ -147,12 +147,16 @@ public class PlayGame : NetworkBehaviour
         {
             // 自分が勝利
             ResultUI.win = true;
+            // TODO:駒をデストロイ
+            // シーン遷移
             SceneManager.LoadScene("SC_Result");
         }
         else if (partnerplayer.GetComponent<ManagePiece>().EndGameCounter(true) || myplayer.GetComponent<ManagePiece>().EndGameCounter(false))
         {
             // 相手が勝利
             ResultUI.win = false;
+            // TODO:駒をデストロイ
+            // シーン遷移
             SceneManager.LoadScene("SC_Result");
         }
     }

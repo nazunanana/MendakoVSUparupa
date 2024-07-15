@@ -82,19 +82,20 @@ public class BoardGrid : MonoBehaviour
                 }
                 break;
             case PlayerState.SelectMode.MovePosition: //ゲーム中
-                GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+                // GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
                 // foreach (GameObject player in players)
                 // {
                 //     player.GetComponent<ManagePiece>().
                 // }
                 PlayGame state = GameObject.FindWithTag("GameManager").GetComponent<PlayGame>();
-                //TODO: 移動先が自分の駒の時は移動できない
+
+                // 移動先が自分の駒の時は移動できない
                 if (state.SearchPieceByPos(posID) == 1)
                 {
                     Debug.Log("移動できないよ！");
                     break;
                 }
-                //TODO: 移動先が相手の駒だったら倒す
+                // 移動先が相手の駒だったら倒す
                 else if (state.SearchPieceByPos(posID) == 2)
                 {
 
@@ -102,18 +103,17 @@ public class BoardGrid : MonoBehaviour
                     GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().GetPieceAction(posID);
 
                     // デスポーン
-                    //OnDespownPiece?.Invoke(); // 駒をDespownするように命令
+                    OnDespownPiece?.Invoke(); // 駒をDespownするように命令
                     Debug.Log("ですとろい！");
 
-
-                    // 削除
+                    // 配列から削除
                     
                     // 状態遷移
                     ChangeHighLight(false);
                     playerComp.toMovePiece(posID);
 
                 }
-                // TODO: 移動先が脱出マスの時
+                //  移動先が脱出マスの時
                 // else if ()
                 // {
 

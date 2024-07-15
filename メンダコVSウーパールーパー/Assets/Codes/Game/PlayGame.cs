@@ -169,8 +169,7 @@ public class PlayGame : NetworkBehaviour
         if (real)
         {
             partnerplayer.GetComponent<ManagePiece>().getRealPieceNum++;
-            // Animation
-            partnerplayer.GetComponent<ManagePiece>().pieceDic.Get(posID).GetComponent<SetAnimation>().StartPlay();
+            // 相手側で発火するのでそこでアニメーションしてもらう
             // UI変化
             this.gameObject.GetComponent<GameUI>().ChangeGetPieceNum(real, true);
         }

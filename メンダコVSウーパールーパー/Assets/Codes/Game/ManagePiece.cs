@@ -6,9 +6,9 @@ using Fusion;
 public class ManagePiece : NetworkBehaviour
 {
     private GameObject player; // 自分のプレイヤーオブジェクト
-    [Networked]
+    [Networked, OnChangedRender(nameof(Anim))]
     public int getRealPieceNum { get; set; } // 獲得した本物駒数
-    [Networked]
+    [Networked, OnChangedRender(nameof(Anim))]
     public int getFakePieceNum { get; set; } // 獲得した偽物駒数
     private const int GRID_NUM = 6;
     public Dictionary<Vector2Int, PieceState> pieceDic { get; set; } // 位置ID, 自陣営の駒comp
@@ -25,5 +25,12 @@ public class ManagePiece : NetworkBehaviour
     public bool EndGameCounter(bool real)
     {
         return (real ? getRealPieceNum : getFakePieceNum) >= 4;
+    }
+    public void Anim()
+    {
+    //TODO:posIDをこっちに教えないといけない
+    //if(相手ターンなら)
+        pieceDic.Get(posID).GetComponent<SetAnimation>().StartPlay();
+
     }
 }

@@ -8,35 +8,38 @@ using System.Collections.Generic;
 
 public class SetAnimation : MonoBehaviour
 {
-    private Animator anim_Uparurpa;
-    private Animator anim_Mendako;
-    [SerializeField] private PlayableDirector director_Upa;
-    [SerializeField] private PlayableDirector director_Mendako;
+    [SerializeField] private Animator anim_Uparurpa;
+    [SerializeField] private Animator anim_Mendako;
+    [SerializeField] private RuntimeAnimatorController ac_Uparupa;
+    [SerializeField] private RuntimeAnimatorController ac_Mendako;
 
+    [SerializeField] private GameObject realUparupaPhb;
+    [SerializeField] private GameObject fakeUparupaPhb;
+    [SerializeField] private GameObject realMendakoPhb;
+    [SerializeField] private GameObject fakeMendakoPhb;
     private GameObject piece; //動かす駒オブジェクト
     private PlayerState.Team team;
 
-    public void StartPlay(GameObject target)
+    public void StartPlay(GameObject target, bool real, bool Isuparupa)
     {
-        // Trackの状態をResetする
-        director_Upa.Stop();
-        director_Mendako.Stop();
+        // インスタンスを登場させる
+        GameObject model;
 
-        var track_uparupa = ((TimelineAsset)director_Upa.playableAsset).GetOutputTracks().First(c => c.name.Equals("GetPiece"));
-        var clip_uparupa = (ControlPlayableAsset)track_uparupa.GetClips().First(c => c.displayName == "A_GetUparupa").asset;
-
-        var track_mendako = ((TimelineAsset)director_Mendako.playableAsset).GetOutputTracks().First(c => c.name.Equals("GetPiece"));
-        var clip_mendako = (ControlPlayableAsset)track_mendako.GetClips().First(c => c.displayName == "A_GetMendako").asset;
-
-        var exposeName_uparupa = clip_uparupa.sourceGameObject.exposedName;
-        var exposeName_mendako = clip_mendako.sourceGameObject.exposedName;
-
-        bool upa = target.GetComponent<PieceState>().team == PlayerState.Team.uparupa;
-        (upa ? director_Upa : director_Mendako).SetReferenceValue((upa ? exposeName_uparupa : exposeName_mendako), target);
-
-        // director_Upa.SetPieceBinding(timelineAsset.GetOutputTrack(cameraTrackIndexList[currentTrackIndex]), mainCamera);
-
-        director_Upa.Play();
+        if (real)
+        {
+            if (Isuparupa) model = realUparupaPhb;
+            else model = realMendakoPhb;
+        }
+        else
+        {
+            if (Isuparupa) model = fakeUparupaPhb;
+            else model = fakeMendakoPhb;
+        }
+        GameObject obj = Instantiate(model, new Vector3(0, 0, 0), Quaternion.identity);
+        // Animatorコンポネントをアタッチ
+        Animator animator = obj.AddComponent<Animator>();
+        animator.runtimeAnimatorController = Isuparupa ? ac_Uparupa : ac_Mendako;
+        animator.Play(Isuparupa ? "A_GetUparupa" : "A_GetMendako");
     }
 
 }

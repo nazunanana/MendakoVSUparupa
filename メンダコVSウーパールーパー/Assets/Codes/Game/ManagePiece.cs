@@ -26,11 +26,4 @@ public class ManagePiece : NetworkBehaviour
     {
         return (real ? getRealPieceNum : getFakePieceNum) >= 4;
     }
-    public void Anim()
-    {
-    //TODO:posIDをこっちに教えないといけない
-    //if(相手ターンなら)
-        pieceDic.Get(posID).GetComponent<SetAnimation>().StartPlay();
-
-    }
 }

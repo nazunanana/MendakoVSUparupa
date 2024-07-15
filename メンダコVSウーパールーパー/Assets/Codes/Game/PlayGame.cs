@@ -10,12 +10,12 @@ public class PlayGame : NetworkBehaviour
     // private GameObject PL_uparupa;
     // private GameObject PL_mendako;
     public static event Action OnCreateDicComplete;
-    private GameObject manageGrid;
+    private ManageGrid manageGrid;
     private GameObject myplayer;
     private GameObject partnerplayer;
     private GameObject nowPlayer;
     private PlayerState playerState;
-    private NetworkRunner runner;
+    public NetworkRunner runner { get; set; }
     private const int GRID_NUM = 6;
 
     void Awake()
@@ -66,7 +66,7 @@ public class PlayGame : NetworkBehaviour
         Destroy(myplayer.GetComponent<SettingUI>());
         Destroy(partnerplayer.GetComponent<SettingUI>());
         // 管理オブジェクト検索
-        manageGrid = GameObject.FindGameObjectWithTag("GridSystem");
+        manageGrid = GameObject.FindGameObjectWithTag("GridSystem").GetComponent<ManageGrid>();
 
         if (playerState.team == PlayerState.Team.uparupa)
         {
@@ -86,9 +86,6 @@ public class PlayGame : NetworkBehaviour
             partnerplayer.GetComponent<PlayerState>().toStartMyTurn();
             nowPlayer = partnerplayer;
         }
-        // // 相手のIDで辞書作成
-        // Debug.Log("相手辞書作成");
-        // myplayer.GetComponent<ManagePiece>().CreateDic(partnerplayer.GetComponent<ManagePiece>().IDlist);
         OnCreateDicComplete?.Invoke();
         // ウパターン
         this.gameObject.GetComponent<GameUI>().ChangeTurn(true);
@@ -157,6 +154,28 @@ public class PlayGame : NetworkBehaviour
             // 相手が勝利
             ResultUI.win = false;
             SceneManager.LoadScene("SC_Result");
+        }
+    }
+    /// <summary>
+    /// 駒獲得時、相手のそのマスの駒チームで分岐
+    /// 獲得数増やす→Animation→
+    /// </summary>
+    public void GetPieceAction(Vector2Int posID)
+    {
+        bool real = partnerplayer.GetComponent<ManagePiece>().syncDic.Get(posID);
+        if (real)
+        {
+            Debug.Log("本物駒を獲得");
+            myplayer.GetComponent<ManagePiece>().getRealPieceNum++;
+            // 相手側で発火するのでそこでアニメーションしてもらう
+            // UI変化
+            this.gameObject.GetComponent<GameUI>().ChangeGetPieceNum(real, true);
+        }
+        else
+        {
+            Debug.Log("偽物駒を獲得");
+            myplayer.GetComponent<ManagePiece>().getFakePieceNum++;
+            this.gameObject.GetComponent<GameUI>().ChangeGetPieceNum(real, true);
         }
     }
 

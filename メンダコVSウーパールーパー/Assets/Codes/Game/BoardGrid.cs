@@ -11,10 +11,10 @@ public class BoardGrid : MonoBehaviour
     public static event Action OnDespownPiece;
     // ゲームオブジェクトをインスペクターで指定
     public GameObject gridSystemObj;
-    private GameObject nowPlayer; // 機能していない
+    private GameObject player; // 自分のプレイヤーオブジェクト
     // コンポネント
     private ManageGrid gridSystemComp;
-    private PlayerState nowPlayerComp;
+    private PlayerState playerComp;
     // 位置
     public Vector2Int posID;
     private Vector3 myPosition;
@@ -41,12 +41,12 @@ public class BoardGrid : MonoBehaviour
         }
     }
 
-    public GameObject SetNowPlayer
+    public GameObject SetPlayer
     {
         set
         {
-            nowPlayer = value;
-            nowPlayerComp = nowPlayer.GetComponent<PlayerState>();
+            player = value;
+            playerComp = player.GetComponent<PlayerState>();
         }
     }
 
@@ -71,13 +71,13 @@ public class BoardGrid : MonoBehaviour
     void OnMouseDown()
     {
         //Debug.Log(posID.x+","+posID.y+"click");
-        switch (nowPlayerComp.selectMode)
+        switch (playerComp.selectMode)
         {
             case PlayerState.SelectMode.SetPosition: //配置シーン中
                 // 配置可能領域なら
                 if (0 < posID[0] && posID[0] < 5 && (4 <= posID[1] || posID[1] <= 1))
                 {
-                    nowPlayer.GetComponent<CreatePiece>().SelectPosition(posID);
+                    player.GetComponent<CreatePiece>().SelectPosition(posID);
                     ChangeHighLight(false);
                 }
                 break;
@@ -97,20 +97,21 @@ public class BoardGrid : MonoBehaviour
                 //TODO: 移動先が相手の駒だったら倒す
                 else if (state.SearchPieceByPos(posID) == 2)
                 {
-                    ManagePiece partnerPieceComp = state.getPartner.GetComponent<ManagePiece>();
-                    // true/falseによって点数変化
-                    if(partnerPieceComp.syncDic[posID]){ // 獲得したのが本物のとき
-                        Debug.Log("本物駒を獲得");
-                    }else{
-                        Debug.Log("偽物駒を獲得");
-                    }
+
+                    // true/falseによって点数変化→(更新を検知してアニメーション)
+                    GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().GetPieceAction(posID);
+
                     // デスポーン
                     //OnDespownPiece?.Invoke(); // 駒をDespownするように命令
-                    //TODO: posID持って行かなきゃいけない
-                    // 自駒移動
-                    ChangeHighLight(false);
-                    nowPlayerComp.toMovePiece(posID);
                     Debug.Log("ですとろい！");
+
+
+                    // 削除
+                    
+                    // 状態遷移
+                    ChangeHighLight(false);
+                    playerComp.toMovePiece(posID);
+
                 }
                 // TODO: 移動先が脱出マスの時
                 // else if ()
@@ -121,7 +122,7 @@ public class BoardGrid : MonoBehaviour
                 { // 移動先に何もないとき
                     Debug.Log("OnMouseDown in BoardGrid");
                     ChangeHighLight(false);
-                    nowPlayerComp.toMovePiece(posID);
+                    playerComp.toMovePiece(posID);
                 }
                 break;
 
@@ -143,7 +144,7 @@ public class BoardGrid : MonoBehaviour
     // 駒選択前なら前後左右 / 駒選択済みならこのマスだけ
     private void ChangeHighLight(bool tf)
     {
-        switch (nowPlayerComp.selectMode)
+        switch (playerComp.selectMode)
         {
             case PlayerState.SelectMode.SetPosition: //位置決め
                 //配置可能領域なら(左右ID1~4,前後ID01 or 45)。相手領域は壁があるから選択されない
@@ -154,7 +155,7 @@ public class BoardGrid : MonoBehaviour
                 break;
             case PlayerState.SelectMode.MovePosition: //位置決め
                 Vector2Int pieceID = gridSystemComp.pieceID; // 選択している駒の座標
-                Debug.Log("PieceID : "+pieceID);
+                //Debug.Log("PieceID : " + pieceID);
                 int pieceX = pieceID[0];
                 int pieceY = pieceID[1];
                 bool w = (posID[0] == pieceX - 1) && (posID[1] == pieceY);

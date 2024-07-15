@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 /// <summary>
 /// gridオブジェクトクラス > OneGridプレハブ
 /// </summary>
 public class BoardGrid : MonoBehaviour
 {
+    public static event Action OnDespownPiece;
     // ゲームオブジェクトをインスペクターで指定
     public GameObject gridSystemObj;
     private GameObject player; // 自分のプレイヤーオブジェクト
@@ -85,16 +87,29 @@ public class BoardGrid : MonoBehaviour
                 // {
                 //     player.GetComponent<ManagePiece>().
                 // }
-                int state = GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().SearchPieceByPos(posID);
+                PlayGame state = GameObject.FindWithTag("GameManager").GetComponent<PlayGame>();
                 //TODO: 移動先が自分の駒の時は移動できない
-                if (state == 1)
+                if (state.SearchPieceByPos(posID) == 1)
                 {
                     Debug.Log("移動できないよ！");
+                    break;
                 }
-                //TODO: 移動先が相手の駒だったらアニメーション→倒す
-                else if (state == 2)
+                //TODO: 移動先が相手の駒だったら倒す
+                else if (state.SearchPieceByPos(posID) == 2)
                 {
-                    //managePiece.pieceDec[posID]
+                    ManagePiece partnerPieceComp = state.getPartner.GetComponent<ManagePiece>();
+                    // true/falseによって点数変化
+                    if(partnerPieceComp.syncDic[posID]){ // 獲得したのが本物のとき
+                        Debug.Log("本物駒を獲得");
+                    }else{
+                        Debug.Log("偽物駒を獲得");
+                    }
+                    // デスポーン
+                    //OnDespownPiece?.Invoke(); // 駒をDespownするように命令
+                    //TODO: posID持って行かなきゃいけない
+                    // 自駒移動
+                    ChangeHighLight(false);
+                    nowPlayerComp.toMovePiece(posID);
                     Debug.Log("ですとろい！");
                     // 相手の配列登録解除
 

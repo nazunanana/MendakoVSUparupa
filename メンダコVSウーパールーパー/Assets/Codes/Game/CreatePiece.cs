@@ -47,14 +47,14 @@ public class CreatePiece : NetworkBehaviour
                 realPieceNet.gameObject.GetComponent<PieceState>().SetAbsPos(new Vector3(4f, 0.15f, 9.3f));
                 realPieceNet.gameObject.GetComponent<PieceState>().setPlayer = player;
                 realPieceNet.gameObject.GetComponent<PieceState>().team = PlayerState.Team.uparupa;
-                realPieceNet.gameObject.GetComponent<PieceState>().getsetIsReal = true;
+                realPieceNet.gameObject.GetComponent<PieceState>().isReal = true;
                 myPieces.Add(realPieceNet.gameObject);
                 var fakePieceNet = Runner.Spawn(myFakePrehab, new Vector3(-4f, 0.15f, 9.3f), myFakePrehab.transform.rotation);
                 DontDestroyOnLoad(fakePieceNet.gameObject);
                 fakePieceNet.gameObject.GetComponent<PieceState>().SetAbsPos(new Vector3(-4f, 0.15f, 9.3f));
                 fakePieceNet.gameObject.GetComponent<PieceState>().setPlayer = player;
                 fakePieceNet.gameObject.GetComponent<PieceState>().team = PlayerState.Team.uparupa;
-                fakePieceNet.gameObject.GetComponent<PieceState>().getsetIsReal = false;
+                fakePieceNet.gameObject.GetComponent<PieceState>().isReal = false;
                 myPieces.Add(fakePieceNet.gameObject);
             }
             // メンダコ
@@ -70,14 +70,14 @@ public class CreatePiece : NetworkBehaviour
                 realPieceNet.gameObject.GetComponent<PieceState>().SetAbsPos(new Vector3(-4f, 0.15f, -9.3f));
                 realPieceNet.gameObject.GetComponent<PieceState>().setPlayer = player;
                 realPieceNet.gameObject.GetComponent<PieceState>().team = PlayerState.Team.mendako;
-                realPieceNet.gameObject.GetComponent<PieceState>().getsetIsReal = true;
+                realPieceNet.gameObject.GetComponent<PieceState>().isReal = true;
                 myPieces.Add(realPieceNet.gameObject);
                 var fakePieceNet = Runner.Spawn(myFakePrehab, new Vector3(4f, 0.15f, -9.3f), myFakePrehab.transform.rotation);
                 DontDestroyOnLoad(fakePieceNet.gameObject);
                 fakePieceNet.gameObject.GetComponent<PieceState>().SetAbsPos(new Vector3(4f, 0.15f, -9.3f));
                 fakePieceNet.gameObject.GetComponent<PieceState>().setPlayer = player;
                 fakePieceNet.gameObject.GetComponent<PieceState>().team = PlayerState.Team.mendako;
-                fakePieceNet.gameObject.GetComponent<PieceState>().getsetIsReal = false;
+                fakePieceNet.gameObject.GetComponent<PieceState>().isReal = false;
                 myPieces.Add(fakePieceNet.gameObject);
             }
         }
@@ -125,18 +125,20 @@ public class CreatePiece : NetworkBehaviour
         var syncDic = player.GetComponent<ManagePiece>().syncDic;
         // 対象id
         int id = (pieceType) ? 2 * SetRealPiece : 2 * SetFakePiece + 1;
-        // 駒の位置IDを変更して移動
-        myPieces[id].GetComponent<PieceState>().MovePiecePos(posID); //移動
-        // 配置済み数を増加
-        setPiecePosID(posID, pieceType);
-        // 登録
-        pieceDic.Add(piecePosID[id], myPieces[id].GetComponent<PieceState>());
-        syncDic.Add(piecePosID[id], pieceType);
-        // 残り駒数のUI変化
-        player.GetComponent<SettingUI>().DecreasePieceNum(pieceType);
-        // 状態遷移
-        player.GetComponent<PlayerState>().toMoveSetPosition(posID);
-
+        if (!syncDic.ContainsKey(piecePosID[id]))
+        {
+            // 駒の位置IDを変更して移動
+            myPieces[id].GetComponent<PieceState>().MovePiecePos(posID); //移動
+                                                                         // 配置済み数を増加
+            setPiecePosID(posID, pieceType);
+            // 登録
+            pieceDic.Add(piecePosID[id], myPieces[id].GetComponent<PieceState>());
+            syncDic.Add(piecePosID[id], pieceType);
+            // 残り駒数のUI変化
+            player.GetComponent<SettingUI>().DecreasePieceNum(pieceType);
+            // 状態遷移
+            player.GetComponent<PlayerState>().toMoveSetPosition(posID);
+        }
 
         // ぜんぶ配置完了したら
         if (SetRealPiece == PIECE_NUM && SetFakePiece == PIECE_NUM && pieceDic.Count == 8)

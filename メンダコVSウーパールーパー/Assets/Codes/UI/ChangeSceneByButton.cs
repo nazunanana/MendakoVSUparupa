@@ -73,6 +73,10 @@ public class ChangeSceneByButton : MonoBehaviour, IPointerEnterHandler, IPointer
         {
             SceneManager.LoadScene("SC_Game");
         }
+        else if (textValue == "リザルトへ")
+        {
+            SceneManager.LoadScene("SC_Result");
+        }
 
         //Debug.Log("Button text: " + textValue);
     }

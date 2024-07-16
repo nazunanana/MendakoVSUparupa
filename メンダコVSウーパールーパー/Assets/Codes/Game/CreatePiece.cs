@@ -47,14 +47,14 @@ public class CreatePiece : NetworkBehaviour
                 realPieceNet.gameObject.GetComponent<PieceState>().SetAbsPos(new Vector3(4f, 0.15f, 9.3f));
                 realPieceNet.gameObject.GetComponent<PieceState>().setPlayer = player;
                 realPieceNet.gameObject.GetComponent<PieceState>().team = PlayerState.Team.uparupa;
-                realPieceNet.gameObject.GetComponent<PieceState>().getsetIsReal = true;
+                realPieceNet.gameObject.GetComponent<PieceState>().isReal = true;
                 myPieces.Add(realPieceNet.gameObject);
                 var fakePieceNet = Runner.Spawn(myFakePrehab, new Vector3(-4f, 0.15f, 9.3f), myFakePrehab.transform.rotation);
                 DontDestroyOnLoad(fakePieceNet.gameObject);
                 fakePieceNet.gameObject.GetComponent<PieceState>().SetAbsPos(new Vector3(-4f, 0.15f, 9.3f));
                 fakePieceNet.gameObject.GetComponent<PieceState>().setPlayer = player;
                 fakePieceNet.gameObject.GetComponent<PieceState>().team = PlayerState.Team.uparupa;
-                fakePieceNet.gameObject.GetComponent<PieceState>().getsetIsReal = false;
+                fakePieceNet.gameObject.GetComponent<PieceState>().isReal = false;
                 myPieces.Add(fakePieceNet.gameObject);
             }
             // メンダコ
@@ -70,14 +70,14 @@ public class CreatePiece : NetworkBehaviour
                 realPieceNet.gameObject.GetComponent<PieceState>().SetAbsPos(new Vector3(-4f, 0.15f, -9.3f));
                 realPieceNet.gameObject.GetComponent<PieceState>().setPlayer = player;
                 realPieceNet.gameObject.GetComponent<PieceState>().team = PlayerState.Team.mendako;
-                realPieceNet.gameObject.GetComponent<PieceState>().getsetIsReal = true;
+                realPieceNet.gameObject.GetComponent<PieceState>().isReal = true;
                 myPieces.Add(realPieceNet.gameObject);
                 var fakePieceNet = Runner.Spawn(myFakePrehab, new Vector3(4f, 0.15f, -9.3f), myFakePrehab.transform.rotation);
                 DontDestroyOnLoad(fakePieceNet.gameObject);
                 fakePieceNet.gameObject.GetComponent<PieceState>().SetAbsPos(new Vector3(4f, 0.15f, -9.3f));
                 fakePieceNet.gameObject.GetComponent<PieceState>().setPlayer = player;
                 fakePieceNet.gameObject.GetComponent<PieceState>().team = PlayerState.Team.mendako;
-                fakePieceNet.gameObject.GetComponent<PieceState>().getsetIsReal = false;
+                fakePieceNet.gameObject.GetComponent<PieceState>().isReal = false;
                 myPieces.Add(fakePieceNet.gameObject);
             }
         }

@@ -17,6 +17,9 @@ public class PlayGame : NetworkBehaviour
     private PlayerState playerState;
     public NetworkRunner runner { get; set; }
     private const int GRID_NUM = 6;
+    [Networked, OnChangedRender(nameof(DestroyAll))]
+    public NetworkBool canDestroy { get; set; }
+    public static bool destroyProcess { get; set; }
 
     void Awake()
     {
@@ -24,18 +27,19 @@ public class PlayGame : NetworkBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         PlayerState.OnChangeMode += ChangeToMyTurn;
         PlayerState.OnChangeMode += EndGameChecker;
+        AnimationEnd.OnAnimationComplete += DestroyAll;
     }
     void OnDestroy()
     {
         PlayerState.OnChangeMode -= ChangeToMyTurn; // イベントから登録解除
         PlayerState.OnChangeMode -= EndGameChecker;
-
+        AnimationEnd.OnAnimationComplete -= DestroyAll;
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // 自分のプレイヤーオブジェクトを取得
         GameObject[] runners = GameObject.FindGameObjectsWithTag("Runner");
-        NetworkRunner runner = runners[0].GetComponent<NetworkRunner>();
+        runner = runners[0].GetComponent<NetworkRunner>();
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject g in runners)
         {
@@ -147,22 +151,34 @@ public class PlayGame : NetworkBehaviour
         {
             // 自分が勝利
             ResultUI.win = true;
-            // TODO:駒をデストロイ
-            // シーン遷移
-            SceneManager.LoadScene("SC_Result");
+            destroyProcess = true;
         }
         else if (partnerplayer.GetComponent<ManagePiece>().EndGameCounter(true) || myplayer.GetComponent<ManagePiece>().EndGameCounter(false))
         {
             // 相手が勝利
             ResultUI.win = false;
-            // TODO:駒をデストロイ
-            // シーン遷移
-            SceneManager.LoadScene("SC_Result");
+            destroyProcess = true;
         }
     }
     /// <summary>
+    /// シーン遷移時にデストロイ
+    /// </summary>
+    private void DestroyAll()
+    {
+        Debug.Log("全部削除");
+        foreach (PieceState p in myplayer.GetComponent<ManagePiece>().pieceDic.Values)
+        {
+            Destroy(p.gameObject);
+        }
+        Destroy(myplayer);
+        runner.Shutdown();
+        // シーン遷移
+        Debug.Log("シーン遷移");
+        SceneManager.LoadScene("SC_Result");
+    }
+    /// <summary>
     /// 駒獲得時、相手のそのマスの駒チームで分岐
-    /// 獲得数増やす→Animation→
+    /// 獲得数増やす→Animation
     /// </summary>
     public void GetPieceAction(Vector2Int posID)
     {
@@ -189,8 +205,9 @@ public class PlayGame : NetworkBehaviour
         yield return new WaitForSeconds(time);
     }
 
-    public GameObject getPartner{
-        get{ return partnerplayer; }
+    public GameObject getPartner
+    {
+        get { return partnerplayer; }
     }
 }
 

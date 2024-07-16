@@ -79,7 +79,7 @@ public class BoardGrid : MonoBehaviour
                 if (0 < posID[0] && posID[0] < 5 && (4 <= posID[1] || posID[1] <= 1))
                 {
                     player.GetComponent<CreatePiece>().SelectPosition(posID);
-                    FindObjectOfType<ManageGrid>().EnableGridColliders(false);
+                    EnableGridCollider(false);
                     ChangeHighLight(false);
                 }
                 //EnableOpponentColliders(true); //コライダー有効に
@@ -108,15 +108,21 @@ public class BoardGrid : MonoBehaviour
 
                     // デスポーン
                     GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
-                    foreach(GameObject piece in pieces){
-                        if(piece.GetComponent<PieceState>().posID == posID && piece.GetComponent<PieceState>().team != player.GetComponent<PlayerState>().team){//PosIDがPieceのpieceIDと一致したらデスポーン
-                            NetworkObject pieceNet = piece.GetComponent<NetworkObject>();
-                            if(pieceNet!=null){
-                                Debug.Log("pieceNetは存在してます");//ちゃんと出る
-                                Debug.Log("piecePosID:"+piece.GetComponent<PieceState>().posID);
-                                Debug.Log("pieceTeam:"+piece.GetComponent<PieceState>().team );
-                            }
-                            state.DespawnPiece(pieceNet);
+                    Debug.Log("この位置のposIDは" + posID);
+                    foreach (var piece in FindObjectsOfType<PieceState>())
+                    {
+                        // NetworkObject pieceNet = piece.GetComponent<NetworkObject>();
+                        // if (pieceNet != null)
+                        // {
+                        //Debug.Log("pieceNetは存在してます");//ちゃんと出る
+                        // Debug.Log("この位置のposIDは"+posID);
+                        Debug.Log("piecePosID:" + piece.posID);
+                        Debug.Log("pieceTeam:" + piece.team);
+                        //}
+                        if (piece.posID[0] == posID[0] && piece.posID[1] == posID[1])
+                        {//PosIDがPieceのpieceIDと一致したらデスポーン
+                            Debug.Log("成功！！！！！");
+                            state.DespawnPiece(piece.gameObject.GetComponent<NetworkObject>());
                         }
                     }
                     // 自駒移動

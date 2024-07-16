@@ -80,7 +80,7 @@ public class PlayGame : NetworkBehaviour
         Destroy(partnerplayer.GetComponent<SettingUI>());
         // 管理オブジェクト検索
         manageGrid = GameObject.FindGameObjectWithTag("GridSystem").GetComponent<ManageGrid>();
-
+        manageGrid.EnableGridColliders(true);
         if (playerState.team == PlayerState.Team.uparupa)
         {
             //カメラ設定
@@ -283,7 +283,6 @@ public class PlayGame : NetworkBehaviour
         // 待つ
         yield return new WaitForSeconds(time);
     }
-}
 
     //[Rpc(RpcSources.All, RpcTargets.All)]
     public void DespawnPiece(NetworkObject piece)

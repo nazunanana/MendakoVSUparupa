@@ -11,31 +11,31 @@ public class PlayGame : NetworkBehaviour
     // private GameObject PL_mendako;
     public static event Action OnCreateDicComplete;
     private ManageGrid manageGrid;
-    private GameObject myplayer;
-    private GameObject partnerplayer;
+    public GameObject myplayer { get; set; }
+    public GameObject partnerplayer { get; set; }
     private GameObject nowPlayer;
     private PlayerState playerState;
     public NetworkRunner runner { get; set; }
     private const int GRID_NUM = 6;
-
-    [Networked, OnChangedRender(nameof(DestroyAll))]
-    public NetworkBool canDestroy { get; set; }
     public static bool destroyProcess { get; set; }
-
+    private static bool isAnimationComplete = false;
     void Awake()
     {
         Debug.Log("Awake SC_Game");
+        destroyProcess = false;
+        isAnimationComplete = false;
         SceneManager.sceneLoaded += OnSceneLoaded;
         PlayerState.OnChangeMode += ChangeToMyTurn;
         PlayerState.OnChangeMode += EndGameChecker;
-        AnimationEnd.OnAnimationComplete += DestroyAll;
+        //AnimationEnd.OnAnimationComplete += OnAnimationComplete;
     }
 
     void OnDestroy()
     {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         PlayerState.OnChangeMode -= ChangeToMyTurn; // イベントから登録解除
         PlayerState.OnChangeMode -= EndGameChecker;
-        AnimationEnd.OnAnimationComplete -= DestroyAll;
+        //AnimationEnd.OnAnimationComplete -= DestroyAll;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -197,24 +197,64 @@ public class PlayGame : NetworkBehaviour
             destroyProcess = true;
         }
     }
+    // private void OnAnimationComplete() //Anim終了時毎回
+    // {
+    //     isAnimationComplete = true;
+    //     CheckAndDestroy();
+    // }
+
+    // canDestroyが変更されたらプレイヤーから同期実行()
+    public void OnCanDestroyChanged()
+    {
+        isAnimationComplete = true;
+        CheckAndDestroy();
+    }
+    /// <summary>
+    /// シーン遷移時にデストロイ
+    /// </summary>
+    private void CheckAndDestroy()
+    {
+        if (destroyProcess && isAnimationComplete)
+        {
+            Debug.Log("全部削除");
+            runner.Shutdown();
+            foreach (PieceState p in myplayer.GetComponent<ManagePiece>().pieceDic.Values)
+            {
+                Destroy(p.gameObject);
+            }
+            myplayer.GetComponent<PlayerState>().manageGrid.GetComponent<ManageGrid>().DestroyGrids();
+            Destroy(myplayer.GetComponent<PlayerState>().manageGrid);
+            Destroy(myplayer);
+
+            // WaitLoading(1.0f);
+            // runner.Shutdown();
+            Debug.Log("シーン遷移");
+            isAnimationComplete = false;
+            SceneManager.LoadScene("SC_Result");
+        }
+        else
+        {
+            // まだ終了条件満たしてない
+            isAnimationComplete = false;
+        }
+    }
 
     /// <summary>
     /// シーン遷移時にデストロイ
     /// </summary>
-    private void DestroyAll()
-    {
-        Debug.Log("全部削除");
-        foreach (PieceState p in myplayer.GetComponent<ManagePiece>().pieceDic.Values)
-        {
-            Destroy(p.gameObject);
-        }
-        Destroy(myplayer);
-        runner.Shutdown();
-        // シーン遷移
-        Debug.Log("シーン遷移");
-        SceneManager.LoadScene("SC_Result");
-    }
-
+    // private void OnAnimationComplete()
+    // {
+    //     Debug.Log("全部削除");
+    //     foreach (PieceState p in myplayer.GetComponent<ManagePiece>().pieceDic.Values)
+    //     {
+    //         Destroy(p.gameObject);
+    //     }
+    //     Destroy(myplayer);
+    //     runner.Shutdown();
+    //     // シーン遷移
+    //     Debug.Log("シーン遷移");
+    //     SceneManager.LoadScene("SC_Result");
+    // }
     /// <summary>
     /// 駒獲得時、相手のそのマスの駒チームで分岐
     /// 獲得数増やす→Animation
@@ -243,11 +283,7 @@ public class PlayGame : NetworkBehaviour
         // 待つ
         yield return new WaitForSeconds(time);
     }
-
-    public GameObject getPartner
-    {
-        get { return partnerplayer; }
-    }
+}
 
     //[Rpc(RpcSources.All, RpcTargets.All)]
     public void DespawnPiece(NetworkObject piece)

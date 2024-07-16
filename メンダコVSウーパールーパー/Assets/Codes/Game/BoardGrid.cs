@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// gridオブジェクトクラス > OneGridプレハブ
 /// </summary>
-public class BoardGrid : MonoBehaviour
+public class BoardGrid : NetworkBehaviour
 {
     // ゲームオブジェクトをインスペクターで指定
     public GameObject gridSystemObj;
@@ -117,19 +117,8 @@ public class BoardGrid : MonoBehaviour
                     ChangeHighLight(false);
 
                     // デスポーン処理呼び出し(PlayerStateのDespawnPiece())
-                    playerComp.desPosID = posID;
-                    //playerComp.toMovePiece(posID); // 自駒移動 & ターン切り替え
-                    StartCoroutine(WaitDespawn());
-
-                    IEnumerator WaitDespawn() // Dictionaryが削除(Despawm)されるまで待機
-                    {
-                        Debug.Log("待機しています");
-                        while (FindObjectOfType<PlayGame>().partnerplayer.GetComponent<ManagePiece>().syncDic.ContainsKey(posID))
-                        {
-                            yield return null; // 1フレーム待つ
-                        }
-                        // playerComp.toMovePiece(posID); // 自駒移動 & ターン切り替え
-                    }
+                    playerComp.CallDespawn(posID);
+                    playerComp.toMovePiece(posID);
                 }
                 //  移動先が脱出マスの時
                 // else if ()
@@ -217,10 +206,4 @@ public class BoardGrid : MonoBehaviour
             collider.enabled = tf;
         }
     }
-
-    // IEnumerator Wait(float time)
-    // {
-    //     // 待つ
-    //     yield return new WaitForSeconds(time);
-    // }
 }

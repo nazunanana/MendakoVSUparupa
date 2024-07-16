@@ -75,9 +75,9 @@ public class PieceState : NetworkBehaviour
         if (player != null && player.GetComponent<PlayerState>() != null)
         {
             // Debug.Log("piece over");
-            Debug.Log("team" + team);
-            Debug.Log("player" + player);
-            Debug.Log("comp" + player.GetComponent<PlayerState>());
+            // Debug.Log("team" + team);
+            // Debug.Log("player" + player);
+            // Debug.Log("comp" + player.GetComponent<PlayerState>());
             // マテリアルをハイライト
             if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
             {
@@ -181,7 +181,7 @@ public class PieceState : NetworkBehaviour
     {
         //Debug.Log("移動"+posID[0]+":"+posID[1]);
         // 移動させる
-        Debug.Log("player");
+        //Debug.Log("player");
         this.gameObject.transform.position = absPos;
 
         if (dicflag)

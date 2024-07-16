@@ -1,49 +1,41 @@
 using UnityEngine;
 using UnityEngine.Playables;
+using System.Linq;
 using UnityEngine.Timeline;
-
+using UnityEngine.Assertions;
+using System.Collections;
+using System.Collections.Generic;
 public class SetAnimation : MonoBehaviour
 {
-    // private Animator anim_Uparurpa;
-    // private Animator anim_Mendako;
-    // [SerializeField] private PlayableDirector director_Upa;
-    // [SerializeField] private PlayableDirector director_Mendako;
+    [SerializeField] private RuntimeAnimatorController ac_Uparupa;
+    [SerializeField] private RuntimeAnimatorController ac_Mendako;
 
-    // private GameObject piece; //動かす駒オブジェクト
-    // private PlayerState.Team team;
-    // void Start()
-    // {
-    //     TimelineAsset tlAsset_uparupa = (TimelineAsset)director_Upa.playableAsset;
-    //     TimelineAsset tlAsset_mendako = (TimelineAsset)director_Mendako.playableAsset;
-    //     director_Upa.SetPieceBinding(timelineAsset.GetOutputTrack(cameraTrackIndexList[currentTrackIndex]), mainCamera);
-    //     // Trackの状態をResetする
-    //     director_Upa.Stop();
-    //     director_Upa.Play();
-    // }
+    [SerializeField] private GameObject realUparupaPhb;
+    [SerializeField] private GameObject fakeUparupaPhb;
+    [SerializeField] private GameObject realMendakoPhb;
+    [SerializeField] private GameObject fakeMendakoPhb;
+    private GameObject piece; //動かす駒オブジェクト
+    private PlayerState.Team team;
 
-    // public void SetPieceBinding()
-    // {
-    //     int index = 0;
-
-    //     // 1 ～ (Listの数 - 1)の範囲
-    //     int i = Random.Range(1, cameraTrackIndexList.Count);
-    //     // 現在のindex + i がリストの数以上の場合、0に戻って余剰分を足す
-    //     if (cameraTrackIndexList.Count <= currentTrackIndex + i)
-    //     {
-    //         index = (currentTrackIndex + i) - cameraTrackIndexList.Count;
-    //     }
-    //     else index = currentTrackIndex + i;
-
-    //     TimelineAsset timelineAsset = director_Upa.playableAsset as TimelineAsset;
-
-    //     // 現在カメラが設定されているTrackのBindingをリセット
-    //     director_Upa.ClearGenericBinding(timelineAsset.GetOutputTrack(piece));
-
-    //     // 新しいTrackのBindingに設定
-    //     director_Upa.SetGenericBinding(timelineAsset.GetOutputTrack(newpiece), piece);
-    //     // CinemachineTrackの状態をリセット
-    //     director_Upa.Stop();
-    //     director_Upa.Play();
-    // }
+    public void StartPlay(bool real, bool Isuparupa)
+    {
+        Debug.Log("アニメーション！");
+        // インスタンスを登場させる
+        GameObject model;
+        if (real)
+        {
+            if (Isuparupa) model = Instantiate(realUparupaPhb, new Vector3(0, 0, 0), realUparupaPhb.transform.rotation);
+            else model = Instantiate(realMendakoPhb, new Vector3(0, 0, 0), realMendakoPhb.transform.rotation);
+        }
+        else
+        {
+            if (Isuparupa) model = Instantiate(fakeUparupaPhb, new Vector3(0, 0, 0), fakeUparupaPhb.transform.rotation);
+            else model = Instantiate(fakeMendakoPhb, new Vector3(0, 0, 0), fakeMendakoPhb.transform.rotation);
+        }
+        // Animatorコンポネントをアタッチ
+        // Animator animator = model.AddComponent<Animator>();
+        // animator.runtimeAnimatorController = Isuparupa ? ac_Uparupa : ac_Mendako;
+        //animator.Play(Isuparupa ? "A_GetUparupa" : "A_GetMendako");
+    }
 
 }

@@ -178,7 +178,6 @@ GameObject:
   - component: {fileID: -7657350190522970384}
   - component: {fileID: 2176541332899544588}
   - component: {fileID: 3929283728208877341}
-  - component: {fileID: 4776750791403652878}
   m_Layer: 0
   m_Name: mendako_fake
   m_TagString: Piece
@@ -250,25 +249,6 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: -7657350190522970384}
---- !u!320 &4776750791403652878
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2813001013815344755}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 77fc32330ad456044955a3eee7413b67, type: 2}
-  m_InitialState: 1
-  m_WrapMode: 2
-  m_DirectorUpdateMode: 1
-  m_InitialTime: 0
-  m_SceneBindings:
-  - key: {fileID: -3065195909404874598, guid: 77fc32330ad456044955a3eee7413b67, type: 2}
-    value: {fileID: 0}
-  m_ExposedReferences:
-    m_References: []
 --- !u!1 &6176844937966487372
 GameObject:
   m_ObjectHideFlags: 0

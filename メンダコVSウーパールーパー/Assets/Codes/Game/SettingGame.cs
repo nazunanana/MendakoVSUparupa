@@ -72,7 +72,7 @@ public class SettingGame : NetworkBehaviour
         }
         if (runner.TryGetPlayerObject(runner.LocalPlayer, out var plObject))
         {
-            player = plObject.gameObject;
+            player = plObject.gameObject; //自分プレイヤー
         }
         // コンポネント取得
         PlayerState playerState = player.GetComponent<PlayerState>();

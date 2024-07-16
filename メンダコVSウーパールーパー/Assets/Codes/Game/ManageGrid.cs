@@ -61,10 +61,10 @@ public class ManageGrid : MonoBehaviour
                 // 配置中なら自分  最初のプレイヤーはウパルパ
                 if(SceneManager.GetActiveScene().name == "SC_SetPieces"){
                     //gridComponent.SetNowPlayer = ImUparupa ? this.players[0] : this.players[1];
-                    gridComponent.SetNowPlayer = player;
+                    gridComponent.SetPlayer = player;
                 } else {
                     //gridComponent.SetNowPlayer = this.players[0];
-                    gridComponent.SetNowPlayer = player;
+                    gridComponent.SetPlayer = player;
                 }
                 // 生成したマスを配列に登録
                 gridArray[j,i] = newGridObj;

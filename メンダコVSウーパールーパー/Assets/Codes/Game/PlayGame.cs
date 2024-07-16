@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Fusion;
 
 public class PlayGame : NetworkBehaviour
 {
@@ -29,6 +29,7 @@ public class PlayGame : NetworkBehaviour
         PlayerState.OnChangeMode += EndGameChecker;
         //AnimationEnd.OnAnimationComplete += OnAnimationComplete;
     }
+
     void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -36,6 +37,7 @@ public class PlayGame : NetworkBehaviour
         PlayerState.OnChangeMode -= EndGameChecker;
         //AnimationEnd.OnAnimationComplete -= DestroyAll;
     }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // 自分のプレイヤーオブジェクトを取得
@@ -63,6 +65,12 @@ public class PlayGame : NetworkBehaviour
                     partnerplayer = pl;
                 }
             }
+        }
+
+        if (runner == null)
+        {
+            Debug.LogError("NetworkRunnerが初期化されていません");
+            return;
         }
         // コンポネント取得
         PlayerState playerState = myplayer.GetComponent<PlayerState>();
@@ -107,16 +115,27 @@ public class PlayGame : NetworkBehaviour
         //Debug.Log("相手がnoturn" + (partnermode == PlayerState.SelectMode.NoMyTurn));
 
         // ターン遷移 相手ターンかつ両者がターン終了状態なら自分のターン開始
-        if (nowPlayer == partnerplayer && mymode == PlayerState.SelectMode.NoMyTurn && partnermode == PlayerState.SelectMode.NoMyTurn)
+        if (
+            nowPlayer == partnerplayer
+            && mymode == PlayerState.SelectMode.NoMyTurn
+            && partnermode == PlayerState.SelectMode.NoMyTurn
+        )
         {
             myplayer.GetComponent<PlayerState>().toStartMyTurn();
-            this.gameObject.GetComponent<GameUI>().ChangeTurn(myplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa); //自分を大きく
+            this.gameObject.GetComponent<GameUI>()
+                .ChangeTurn(myplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa); //自分を大きく
             nowPlayer = myplayer;
         }
-        else if (mymode == PlayerState.SelectMode.NoMyTurn && partnermode == PlayerState.SelectMode.NoMyTurn)
+        else if (
+            mymode == PlayerState.SelectMode.NoMyTurn
+            && partnermode == PlayerState.SelectMode.NoMyTurn
+        )
         {
             nowPlayer = partnerplayer;
-            this.gameObject.GetComponent<GameUI>().ChangeTurn(partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa); //相手を大きく
+            this.gameObject.GetComponent<GameUI>()
+                .ChangeTurn(
+                    partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa
+                ); //相手を大きく
         }
     }
 
@@ -127,34 +146,51 @@ public class PlayGame : NetworkBehaviour
     {
         int id_x = posID.x;
         int id_z = posID.y;
-        int w = -1, a = -1, s = -1, d = -1;
+        int w = -1,
+            a = -1,
+            s = -1,
+            d = -1;
 
-        if (0 <= id_x - 1) w = SearchPieceByPos(new Vector2Int(id_x - 1, id_z)); // 上のマス
-        if (0 <= id_z - 1) a = SearchPieceByPos(new Vector2Int(id_x, id_z - 1)); // 左のマス
-        if (id_x + 1 < GRID_NUM) s = SearchPieceByPos(new Vector2Int(id_x + 1, id_z)); // 下のマス
-        if (id_z + 1 < GRID_NUM) d = SearchPieceByPos(new Vector2Int(id_x, id_z + 1)); // 右のマス
+        if (0 <= id_x - 1)
+            w = SearchPieceByPos(new Vector2Int(id_x - 1, id_z)); // 上のマス
+        if (0 <= id_z - 1)
+            a = SearchPieceByPos(new Vector2Int(id_x, id_z - 1)); // 左のマス
+        if (id_x + 1 < GRID_NUM)
+            s = SearchPieceByPos(new Vector2Int(id_x + 1, id_z)); // 下のマス
+        if (id_z + 1 < GRID_NUM)
+            d = SearchPieceByPos(new Vector2Int(id_x, id_z + 1)); // 右のマス
         return new int[] { w, a, s, d }; //上左下右 -1:範囲外 0:null 1:自陣の駒 2:相手の駒
     }
+
     /// <summary>
     /// 指定位置の駒を検索
     /// </summary>
     public int SearchPieceByPos(Vector2Int posID)
     {
-        if (myplayer.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID)) return 1;
-        else if (partnerplayer.GetComponent<ManagePiece>().syncDic.ContainsKey(posID)) return 2;
-        else return 0;
+        if (myplayer.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID))
+            return 1;
+        else if (partnerplayer.GetComponent<ManagePiece>().syncDic.ContainsKey(posID))
+            return 2;
+        else
+            return 0;
     }
 
     public void EndGameChecker()
     {
         //TODO: 脱出駒に入ったらの条件がない
-        if (myplayer.GetComponent<ManagePiece>().EndGameCounter(true) || partnerplayer.GetComponent<ManagePiece>().EndGameCounter(false))
+        if (
+            myplayer.GetComponent<ManagePiece>().EndGameCounter(true)
+            || partnerplayer.GetComponent<ManagePiece>().EndGameCounter(false)
+        )
         {
             // 自分が勝利
             ResultUI.win = true;
             destroyProcess = true;
         }
-        else if (partnerplayer.GetComponent<ManagePiece>().EndGameCounter(true) || myplayer.GetComponent<ManagePiece>().EndGameCounter(false))
+        else if (
+            partnerplayer.GetComponent<ManagePiece>().EndGameCounter(true)
+            || myplayer.GetComponent<ManagePiece>().EndGameCounter(false)
+        )
         {
             // 相手が勝利
             ResultUI.win = false;
@@ -202,6 +238,7 @@ public class PlayGame : NetworkBehaviour
             isAnimationComplete = false;
         }
     }
+
     /// <summary>
     /// シーン遷移時にデストロイ
     /// </summary>
@@ -248,3 +285,10 @@ public class PlayGame : NetworkBehaviour
     }
 }
 
+    //[Rpc(RpcSources.All, RpcTargets.All)]
+    public void DespawnPiece(NetworkObject piece)
+    {
+        Debug.Log("メソッドが実行されました。");
+        runner.Despawn(piece);
+    }
+}

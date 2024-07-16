@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using Fusion;
 
 /// <summary>
 /// gridオブジェクトクラス > OneGridプレハブ
 /// </summary>
 public class BoardGrid : MonoBehaviour
 {
-    public static event Action OnDespownPiece;
     // ゲームオブジェクトをインスペクターで指定
     public GameObject gridSystemObj;
     private GameObject player; // 自分のプレイヤーオブジェクト
@@ -103,14 +102,26 @@ public class BoardGrid : MonoBehaviour
                     GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().GetPieceAction(posID);
 
                     // デスポーン
-                    OnDespownPiece?.Invoke(); // 駒をDespownするように命令
+                    GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
+                    foreach(GameObject piece in pieces){
+                        if(piece.GetComponent<PieceState>().posID == posID && piece.GetComponent<PieceState>().team != player.GetComponent<PlayerState>().team){//PosIDがPieceのpieceIDと一致したらデスポーン
+                            NetworkObject pieceNet = piece.GetComponent<NetworkObject>();
+                            if(pieceNet!=null){
+                                Debug.Log("pieceNetは存在してます");//ちゃんと出る
+                                Debug.Log("piecePosID:"+piece.GetComponent<PieceState>().posID);
+                                Debug.Log("pieceTeam:"+piece.GetComponent<PieceState>().team );
+                            }
+                            state.DespawnPiece(pieceNet);
+                        }
+                    }
+                    // 自駒移動
                     Debug.Log("ですとろい！");
 
                     // 配列から削除
                     
                     // 状態遷移
                     ChangeHighLight(false);
-                    playerComp.toMovePiece(posID);
+                    //playerComp.toMovePiece(posID);
 
                 }
                 //  移動先が脱出マスの時

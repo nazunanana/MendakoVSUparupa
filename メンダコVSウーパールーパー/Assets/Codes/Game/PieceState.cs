@@ -19,7 +19,7 @@ public class PieceState : NetworkBehaviour
     private bool wait;
     private bool dicflag;
     // 駒ID
-    private int pieceID;
+    private int pieceID; // 使われていない
     // どのマスにいるか
     [Networked, OnChangedRender(nameof(SyncPos))]
     public Vector2Int posID { get; set; }
@@ -47,6 +47,7 @@ public class PieceState : NetworkBehaviour
     void OnDestroy()
     {
         PlayGame.OnCreateDicComplete -= CheckFlag;
+        Debug.Log($"{gameObject.name}がデスポーンされました");
     }
     void Start()
     {

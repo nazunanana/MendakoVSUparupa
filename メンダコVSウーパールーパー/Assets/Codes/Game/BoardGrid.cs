@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using Fusion;
 
 /// <summary>
 /// gridオブジェクトクラス > OneGridプレハブ
 /// </summary>
 public class BoardGrid : MonoBehaviour
 {
-    public static event Action OnDespownPiece;
     // ゲームオブジェクトをインスペクターで指定
     public GameObject gridSystemObj;
     private GameObject nowPlayer; // 機能していない
@@ -82,11 +81,6 @@ public class BoardGrid : MonoBehaviour
                 }
                 break;
             case PlayerState.SelectMode.MovePosition: //ゲーム中
-                GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-                // foreach (GameObject player in players)
-                // {
-                //     player.GetComponent<ManagePiece>().
-                // }
                 PlayGame state = GameObject.FindWithTag("GameManager").GetComponent<PlayGame>();
                 //TODO: 移動先が自分の駒の時は移動できない
                 if (state.SearchPieceByPos(posID) == 1)
@@ -105,8 +99,18 @@ public class BoardGrid : MonoBehaviour
                         Debug.Log("偽物駒を獲得");
                     }
                     // デスポーン
-                    //OnDespownPiece?.Invoke(); // 駒をDespownするように命令
-                    //TODO: posID持って行かなきゃいけない
+                    GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
+                    foreach(GameObject piece in pieces){
+                        if(piece != null){
+                        }
+                        if(piece.GetComponent<PieceState>().posID == posID){//PosIDがPieceのpieceIDと一致したらデスポーン
+                            NetworkObject pieceNet = piece.GetComponent<NetworkObject>();
+                            if(pieceNet!=null){
+                                Debug.Log("pieceNetは存在してます");//ちゃんと出る
+                            }
+                            state.DespawnPiece(pieceNet);
+                        }
+                    }
                     // 自駒移動
                     ChangeHighLight(false);
                     nowPlayerComp.toMovePiece(posID);

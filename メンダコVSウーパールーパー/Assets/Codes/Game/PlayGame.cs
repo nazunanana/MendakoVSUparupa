@@ -182,7 +182,7 @@ public class PlayGame : NetworkBehaviour
     /// </summary>
     public void RemovePieceOfDictionary(Vector2Int posID){
         myplayer.GetComponent<ManagePiece>().pieceDic.Remove(posID);
-        partnerplayer.GetComponent<ManagePiece>().syncDic.Remove(posID);
+        myplayer.GetComponent<ManagePiece>().syncDic.Remove(posID);
     }
 
     public void EndGameChecker()

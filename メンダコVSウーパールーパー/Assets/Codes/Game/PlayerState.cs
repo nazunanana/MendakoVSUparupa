@@ -39,6 +39,12 @@ public class PlayerState : NetworkBehaviour
     [Networked, OnChangedRender(nameof(DespawnPiece))]
     public Vector2Int desPosID { get; set; }
 
+    // [Networked, OnChangedRender(nameof(AfterDespawnPiece))]
+    // public Vector2Int toPosID {get; set;}
+
+    [Networked]
+    public bool isDespawn { get; set; }
+
     // モード遷移イベント
     public static event Action OnChangeMode;
 
@@ -84,6 +90,7 @@ public class PlayerState : NetworkBehaviour
         // Debug.Log("親オブジェクトは"+this.gameObject.transform.parent.gameObject.name);
         canDestroy = false;
         DontDestroyOnLoad(this.gameObject);
+        isDespawn = false;
     }
 
     public GameObject setManageGrid
@@ -249,14 +256,19 @@ public class PlayerState : NetworkBehaviour
         }
     }
 
+    public void CallDespawn(Vector2Int desID){
+        isDespawn = false;
+        desPosID = desID;
+    }
+
     // 駒がゲットされたときのデスポーン処理
     public void DespawnPiece()
     {
-        if(selectMode != SelectMode.NoMyTurn){
-            GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().RemovePieceOfDictionary(desPosID);
+        Debug.Log("isDes:"+isDespawn);
+        if(!isDespawn){
+            isDespawn = true;
             return;
         }
-        Debug.Log("メソッドが呼び出されました");
         // runner検出
         GameObject[] runners = GameObject.FindGameObjectsWithTag("Runner");
         NetworkRunner runner = runners[0].GetComponent<NetworkRunner>();
@@ -284,4 +296,5 @@ public class PlayerState : NetworkBehaviour
             }
         }
     }
+
 }

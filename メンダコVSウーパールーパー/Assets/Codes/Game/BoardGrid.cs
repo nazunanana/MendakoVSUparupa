@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Fusion;
+using UnityEngine;
 
 /// <summary>
 /// gridオブジェクトクラス > OneGridプレハブ
@@ -11,14 +11,17 @@ public class BoardGrid : MonoBehaviour
     // ゲームオブジェクトをインスペクターで指定
     public GameObject gridSystemObj;
     private GameObject player; // 自分のプレイヤーオブジェクト
+
     // コンポネント
     private ManageGrid gridSystemComp;
     private PlayerState playerComp;
     private PlayGame state;
+
     // 位置
     public Vector2Int posID;
     private Vector3 myPosition;
     private int type; // マスの種類
+
     public enum types
     {
         mendako, // メンダコ陣営
@@ -62,11 +65,13 @@ public class BoardGrid : MonoBehaviour
         //Debug.Log(posID.x+","+posID.y+"hovering");
         ChangeHighLight(true);
     }
+
     void OnMouseExit()
     {
         //Debug.Log(posID.x+","+posID.y+"exit");
         ChangeHighLight(false);
     }
+
     // クリック時
     void OnMouseDown()
     {
@@ -103,19 +108,25 @@ public class BoardGrid : MonoBehaviour
                 // 移動先が相手の駒だったら倒す
                 else if (state.SearchPieceByPos(posID) == 2)
                 {
-
                     // true/falseによって点数変化→(更新を検知してアニメーション)
                     state.GetPieceAction(posID);
 
                     // ハイライト消去
                     ChangeHighLight(false);
 
-                    // TODO: 配列から削除
-
-                    // デスポーン処理呼び出し
+                    // デスポーン処理呼び出し(PlayerStateのDespawnPiece())
                     playerComp.desPosID = posID;
-                    //位置移動はplayerStateのDespswnPieceメソッドに書いてある
+                    StartCoroutine(WaitDespawn());
 
+                    IEnumerator WaitDespawn() // Dictionaryが削除(Despawm)されるまで待機
+                    {
+                        Debug.Log("待機しています");
+                        while (!player.GetComponent<ManagePiece>().syncDic.ContainsKey(posID))
+                        {
+                            yield return null; // 1フレーム待つ
+                        }
+                        playerComp.toMovePiece(posID); // 自駒移動 & ターン切り替え
+                    }
                 }
                 //  移動先が脱出マスの時
                 // else if ()
@@ -148,7 +159,8 @@ public class BoardGrid : MonoBehaviour
     // 駒選択前なら前後左右 / 駒選択済みならこのマスだけ
     private void ChangeHighLight(bool tf)
     {
-        if (playerComp == null) return;
+        if (playerComp == null)
+            return;
         switch (playerComp.selectMode)
         {
             case PlayerState.SelectMode.SetPosition: //位置決め
@@ -189,6 +201,7 @@ public class BoardGrid : MonoBehaviour
             meshrender.enabled = tf;
         }
     }
+
     /// <summary>
     /// マスのコライダー操作  有効にするならtrue
     /// </summary>
@@ -201,4 +214,10 @@ public class BoardGrid : MonoBehaviour
             collider.enabled = tf;
         }
     }
+
+    // IEnumerator Wait(float time)
+    // {
+    //     // 待つ
+    //     yield return new WaitForSeconds(time);
+    // }
 }

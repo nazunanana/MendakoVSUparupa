@@ -177,6 +177,14 @@ public class PlayGame : NetworkBehaviour
             return 0;
     }
 
+    /// <summary>
+    /// 指定位置にある駒のDictionaryを削除
+    /// </summary>
+    public void RemovePieceOfDictionary(Vector2Int posID){
+        myplayer.GetComponent<ManagePiece>().pieceDic.Remove(posID);
+        partnerplayer.GetComponent<ManagePiece>().syncDic.Remove(posID);
+    }
+
     public void EndGameChecker()
     {
         //TODO: 脱出駒に入ったらの条件がない

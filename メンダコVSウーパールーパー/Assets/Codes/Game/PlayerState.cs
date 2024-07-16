@@ -252,6 +252,10 @@ public class PlayerState : NetworkBehaviour
     // 駒がゲットされたときのデスポーン処理
     public void DespawnPiece()
     {
+        if(selectMode != SelectMode.NoMyTurn){
+            GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().RemovePieceOfDictionary(desPosID);
+            return;
+        }
         Debug.Log("メソッドが呼び出されました");
         // runner検出
         GameObject[] runners = GameObject.FindGameObjectsWithTag("Runner");
@@ -274,10 +278,10 @@ public class PlayerState : NetworkBehaviour
                 if (pieceNet != null)
                 {
                     runner.Despawn(pieceNet);
+                    GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().RemovePieceOfDictionary(desPosID);
                     return;
                 }
             }
         }
-        toMovePiece(desPosID);
     }
 }

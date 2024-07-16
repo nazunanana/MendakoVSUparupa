@@ -14,6 +14,7 @@ public class BoardGrid : MonoBehaviour
     // コンポネント
     private ManageGrid gridSystemComp;
     private PlayerState playerComp;
+    private PlayGame state;
     // 位置
     public Vector2Int posID;
     private Vector3 myPosition;
@@ -79,7 +80,7 @@ public class BoardGrid : MonoBehaviour
                 if (0 < posID[0] && posID[0] < 5 && (4 <= posID[1] || posID[1] <= 1))
                 {
                     player.GetComponent<CreatePiece>().SelectPosition(posID);
-                    FindObjectOfType<ManageGrid>().EnableGridColliders(false);
+                    EnableGridCollider(false);
                     ChangeHighLight(false);
                 }
                 //EnableOpponentColliders(true); //コライダー有効に
@@ -91,7 +92,7 @@ public class BoardGrid : MonoBehaviour
                 // {
                 //     player.GetComponent<ManagePiece>().
                 // }
-                PlayGame state = GameObject.FindWithTag("GameManager").GetComponent<PlayGame>();
+                state = GameObject.FindWithTag("GameManager").GetComponent<PlayGame>();
 
                 // 移動先が自分の駒の時は移動できない
                 if (state.SearchPieceByPos(posID) == 1)
@@ -104,29 +105,16 @@ public class BoardGrid : MonoBehaviour
                 {
 
                     // true/falseによって点数変化→(更新を検知してアニメーション)
-                    GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().GetPieceAction(posID);
+                    state.GetPieceAction(posID);
 
-                    // デスポーン
-                    GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
-                    foreach(GameObject piece in pieces){
-                        if(piece.GetComponent<PieceState>().posID == posID && piece.GetComponent<PieceState>().team != player.GetComponent<PlayerState>().team){//PosIDがPieceのpieceIDと一致したらデスポーン
-                            NetworkObject pieceNet = piece.GetComponent<NetworkObject>();
-                            if(pieceNet!=null){
-                                Debug.Log("pieceNetは存在してます");//ちゃんと出る
-                                Debug.Log("piecePosID:"+piece.GetComponent<PieceState>().posID);
-                                Debug.Log("pieceTeam:"+piece.GetComponent<PieceState>().team );
-                            }
-                            state.DespawnPiece(pieceNet);
-                        }
-                    }
-                    // 自駒移動
-                    Debug.Log("ですとろい！");
-
-                    // 配列から削除
-
-                    // 状態遷移
+                    // ハイライト消去
                     ChangeHighLight(false);
-                    //playerComp.toMovePiece(posID);
+
+                    // TODO: 配列から削除
+
+                    // デスポーン処理呼び出し
+                    playerComp.desPosID = posID;
+                    //位置移動はplayerStateのDespswnPieceメソッドに書いてある
 
                 }
                 //  移動先が脱出マスの時

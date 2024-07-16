@@ -19,6 +19,7 @@ public class PlayGame : NetworkBehaviour
     private const int GRID_NUM = 6;
     public static bool destroyProcess { get; set; }
     private static bool isAnimationComplete = false;
+
     void Awake()
     {
         Debug.Log("Awake SC_Game");
@@ -80,6 +81,7 @@ public class PlayGame : NetworkBehaviour
         Destroy(partnerplayer.GetComponent<SettingUI>());
         // 管理オブジェクト検索
         manageGrid = GameObject.FindGameObjectWithTag("GridSystem").GetComponent<ManageGrid>();
+        manageGrid.EnableGridColliders(true);
 
         if (playerState.team == PlayerState.Team.uparupa)
         {
@@ -197,6 +199,7 @@ public class PlayGame : NetworkBehaviour
             destroyProcess = true;
         }
     }
+
     // private void OnAnimationComplete() //Anim終了時毎回
     // {
     //     isAnimationComplete = true;
@@ -209,6 +212,7 @@ public class PlayGame : NetworkBehaviour
         isAnimationComplete = true;
         CheckAndDestroy();
     }
+
     /// <summary>
     /// シーン遷移時にデストロイ
     /// </summary>
@@ -222,7 +226,10 @@ public class PlayGame : NetworkBehaviour
             {
                 Destroy(p.gameObject);
             }
-            myplayer.GetComponent<PlayerState>().manageGrid.GetComponent<ManageGrid>().DestroyGrids();
+            myplayer
+                .GetComponent<PlayerState>()
+                .manageGrid.GetComponent<ManageGrid>()
+                .DestroyGrids();
             Destroy(myplayer.GetComponent<PlayerState>().manageGrid);
             Destroy(myplayer);
 
@@ -283,12 +290,5 @@ public class PlayGame : NetworkBehaviour
         // 待つ
         yield return new WaitForSeconds(time);
     }
-}
-
-    //[Rpc(RpcSources.All, RpcTargets.All)]
-    public void DespawnPiece(NetworkObject piece)
-    {
-        Debug.Log("メソッドが実行されました。");
-        runner.Despawn(piece);
-    }
+    
 }

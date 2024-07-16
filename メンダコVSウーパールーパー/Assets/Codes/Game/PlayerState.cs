@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
-using Fusion;
 
 /// <summary>
 /// プレイヤーの状態
@@ -17,8 +17,10 @@ public class PlayerState : NetworkBehaviour
         uparupa,
         mendako,
     }
+
     [Networked]
     public Team team { get; set; }
+
     /// <summary> 状態遷移 </summary>
     public enum SelectMode
     {
@@ -29,11 +31,17 @@ public class PlayerState : NetworkBehaviour
         MovePosition, // ゲーム中 移動先のマスを選択中
         NoMyTurn // 相手ターン中
     }
+
     [Networked, OnChangedRender(nameof(ModeEvent))]
     public SelectMode selectMode { get; set; }
 
+    // 駒がゲットされたときの通知
+    [Networked, OnChangedRender(nameof(DespawnPiece))]
+    public Vector2Int desPosID { get; set; }
+
     // モード遷移イベント
     public static event Action OnChangeMode;
+
     [Networked, OnChangedRender(nameof(OnCanDestroyChanged))]
     public NetworkBool canDestroy { get; set; }
 
@@ -43,8 +51,10 @@ public class PlayerState : NetworkBehaviour
     public GameObject realMendakoPrehab; // インスペクターで指定
     public GameObject fakeMendakoPrehab; // インスペクターで指定
     private GameObject manager; //SC_SetPiecesのSetPieceManager
+
     // グリッドマネージャー
     public GameObject manageGrid;
+
     // private List<GameObject> myPieces;
     // // 場に出ている自陣営の駒 <位置のID, 駒オブジェクト>
     // private Dictionary<Vector2Int, GameObject> activePieces;
@@ -54,10 +64,13 @@ public class PlayerState : NetworkBehaviour
 
     // 選択した駒位置
     private Vector2Int piecePos;
+
     // 選択中の駒
     private PieceState piece;
+
     // 選択した移動先
     private Vector2Int moveToPos;
+
     // ネットワークオブジェクト(スポーンしたプレイヤーオブジェクト)
     private NetworkObject playerObj;
 
@@ -72,6 +85,7 @@ public class PlayerState : NetworkBehaviour
         canDestroy = false;
         DontDestroyOnLoad(this.gameObject);
     }
+
     public GameObject setManageGrid
     {
         set { manageGrid = value; }
@@ -80,6 +94,7 @@ public class PlayerState : NetworkBehaviour
     {
         set { manager = value; }
     }
+
     // public void InitArray()
     // {
     //     myPieces = new List<GameObject>();
@@ -110,9 +125,11 @@ public class PlayerState : NetworkBehaviour
 
     void OnCanDestroyChanged()
     {
-        GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayGame>().OnCanDestroyChanged();
+        GameObject
+            .FindGameObjectWithTag("GameManager")
+            .GetComponent<PlayGame>()
+            .OnCanDestroyChanged();
     }
-
 
     /// <summary>
     /// 状態遷移メソッド
@@ -125,6 +142,7 @@ public class PlayerState : NetworkBehaviour
     {
         selectMode = SelectMode.SetPiece;
     }
+
     /// <summary>
     /// 配置マス選択に
     /// </summary>
@@ -133,6 +151,7 @@ public class PlayerState : NetworkBehaviour
         piecePos = posID;
         selectMode = SelectMode.SetPosition;
     }
+
     /// <summary>
     /// 配置駒の移動をして駒選択状態に
     /// </summary>
@@ -144,6 +163,7 @@ public class PlayerState : NetworkBehaviour
         ClearAllHighLight(); //ハイライト解除
         toStartSetPieces(); //状態遷移
     }
+
     /// <summary>
     /// 4駒配置完了状態に
     /// </summary>
@@ -163,6 +183,7 @@ public class PlayerState : NetworkBehaviour
     {
         selectMode = SelectMode.NoMyTurn;
     }
+
     /// <summary>
     /// ターン開始時に
     /// </summary>
@@ -200,6 +221,7 @@ public class PlayerState : NetworkBehaviour
         Debug.Log("move to " + moveToPos[0] + "," + moveToPos[1]);
         selectMode = SelectMode.NoMyTurn;
     }
+
     /// <summary>
     /// あらゆるハイライトをクリア
     /// </summary>
@@ -208,10 +230,12 @@ public class PlayerState : NetworkBehaviour
         pieceDic = this.gameObject.GetComponent<ManagePiece>().pieceDic;
         foreach (PieceState piece in pieceDic.Values)
         {
-            if (piece != null) piece.HighLightPiece(false);
+            if (piece != null)
+                piece.HighLightPiece(false);
         }
         manageGrid.GetComponent<ManageGrid>().ClearHighLight();
     }
+
     private void ModeEvent()
     {
         // イベント通知
@@ -223,5 +247,37 @@ public class PlayerState : NetworkBehaviour
         {
             p.GetComponent<PieceState>().SyncPos();
         }
+    }
+
+    // 駒がゲットされたときのデスポーン処理
+    public void DespawnPiece()
+    {
+        Debug.Log("メソッドが呼び出されました");
+        // runner検出
+        GameObject[] runners = GameObject.FindGameObjectsWithTag("Runner");
+        NetworkRunner runner = runners[0].GetComponent<NetworkRunner>();
+        foreach (GameObject g in runners)
+        {
+            if (g.GetComponent<NetworkRunner>().IsRunning)
+            { //アクティブのものを検出
+                runner = g.GetComponent<NetworkRunner>();
+                break;
+            }
+        }
+        GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
+        foreach (GameObject desPiece in pieces)
+        {
+            if (desPiece.GetComponent<PieceState>().posID == desPosID)
+            {
+                Debug.Log("Piece取得できました");
+                NetworkObject pieceNet = desPiece.GetComponent<NetworkObject>();
+                if (pieceNet != null)
+                {
+                    runner.Despawn(pieceNet);
+                    return;
+                }
+            }
+        }
+        toMovePiece(desPosID);
     }
 }

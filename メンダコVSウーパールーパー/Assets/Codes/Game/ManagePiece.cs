@@ -44,4 +44,23 @@ public class ManagePiece : NetworkBehaviour
         PlayerState.Team myteam = player.GetComponent<PlayerState>().team;
         anim.StartPlay(false, myteam == PlayerState.Team.mendako);
     }
+    /// <summary>
+    /// 駒のコライダー操作  有効にするならtrue
+    /// </summary>
+    public void EnableOpponentColliders(bool tf)
+    {
+        // 駒のコライダーを無効にする
+        foreach (var piece in FindObjectsOfType<PieceState>())
+        {
+            if (!piece.HasStateAuthority) // 相手の駒かどうかを確認
+            {
+                Collider collider = piece.GetComponent<Collider>();
+                if (collider != null)
+                {
+                    Debug.Log("コライダー無効");
+                    collider.enabled = tf;
+                }
+            }
+        }
+    }
 }

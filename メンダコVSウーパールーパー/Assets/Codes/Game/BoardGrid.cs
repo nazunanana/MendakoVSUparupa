@@ -73,14 +73,19 @@ public class BoardGrid : MonoBehaviour
         switch (playerComp.selectMode)
         {
             case PlayerState.SelectMode.SetPosition: //配置シーン中
+                player.GetComponent<ManagePiece>().EnableOpponentColliders(true);
+
                 // 配置可能領域なら
                 if (0 < posID[0] && posID[0] < 5 && (4 <= posID[1] || posID[1] <= 1))
                 {
                     player.GetComponent<CreatePiece>().SelectPosition(posID);
+                    FindObjectOfType<ManageGrid>().EnableGridColliders(false);
                     ChangeHighLight(false);
                 }
+                //EnableOpponentColliders(true); //コライダー有効に
                 break;
             case PlayerState.SelectMode.MovePosition: //ゲーム中
+                player.GetComponent<ManagePiece>().EnableOpponentColliders(true);
                 // GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
                 // foreach (GameObject player in players)
                 // {
@@ -118,7 +123,7 @@ public class BoardGrid : MonoBehaviour
                     Debug.Log("ですとろい！");
 
                     // 配列から削除
-                    
+
                     // 状態遷移
                     ChangeHighLight(false);
                     //playerComp.toMovePiece(posID);
@@ -155,7 +160,7 @@ public class BoardGrid : MonoBehaviour
     // 駒選択前なら前後左右 / 駒選択済みならこのマスだけ
     private void ChangeHighLight(bool tf)
     {
-        if(playerComp==null) return;
+        if (playerComp == null) return;
         switch (playerComp.selectMode)
         {
             case PlayerState.SelectMode.SetPosition: //位置決め
@@ -194,6 +199,18 @@ public class BoardGrid : MonoBehaviour
         if (meshrender != null)
         {
             meshrender.enabled = tf;
+        }
+    }
+    /// <summary>
+    /// マスのコライダー操作  有効にするならtrue
+    /// </summary>
+    public void EnableGridCollider(bool tf)
+    {
+        Collider collider = GetComponent<Collider>();
+        if (collider != null)
+        {
+            Debug.Log("マスのコライダー無効");
+            collider.enabled = tf;
         }
     }
 }

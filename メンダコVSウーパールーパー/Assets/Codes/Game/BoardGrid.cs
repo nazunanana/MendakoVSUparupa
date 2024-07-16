@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Fusion;
+using UnityEngine;
 
 /// <summary>
 /// gridオブジェクトクラス > OneGridプレハブ
@@ -11,13 +11,17 @@ public class BoardGrid : MonoBehaviour
     // ゲームオブジェクトをインスペクターで指定
     public GameObject gridSystemObj;
     private GameObject player; // 自分のプレイヤーオブジェクト
+
     // コンポネント
     private ManageGrid gridSystemComp;
     private PlayerState playerComp;
+    private PlayGame state;
+
     // 位置
     public Vector2Int posID;
     private Vector3 myPosition;
     private int type; // マスの種類
+
     public enum types
     {
         mendako, // メンダコ陣営
@@ -61,11 +65,13 @@ public class BoardGrid : MonoBehaviour
         //Debug.Log(posID.x+","+posID.y+"hovering");
         ChangeHighLight(true);
     }
+
     void OnMouseExit()
     {
         //Debug.Log(posID.x+","+posID.y+"exit");
         ChangeHighLight(false);
     }
+
     // クリック時
     void OnMouseDown()
     {
@@ -91,7 +97,7 @@ public class BoardGrid : MonoBehaviour
                 // {
                 //     player.GetComponent<ManagePiece>().
                 // }
-                PlayGame state = GameObject.FindWithTag("GameManager").GetComponent<PlayGame>();
+                state = GameObject.FindWithTag("GameManager").GetComponent<PlayGame>();
 
                 // 移動先が自分の駒の時は移動できない
                 if (state.SearchPieceByPos(posID) == 1)
@@ -102,35 +108,25 @@ public class BoardGrid : MonoBehaviour
                 // 移動先が相手の駒だったら倒す
                 else if (state.SearchPieceByPos(posID) == 2)
                 {
-
                     // true/falseによって点数変化→(更新を検知してアニメーション)
-                    GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().GetPieceAction(posID);
+                    state.GetPieceAction(posID);
 
-                    // デスポーン
-                    //Debug.Log("この位置のposIDは" + posID);
-
-                    foreach (var piece in FindObjectsOfType<PieceState>())
-                    {
-                        NetworkObject pieceNet = piece.gameObject.GetComponent<NetworkObject>();
-                        if (pieceNet != null)
-                        {
-                            // PosIDがPieceのpieceIDと一致したらデスポーン
-                            if (piece.posID[0] == posID[0] && piece.posID[1] == posID[1])
-                            {
-                                Debug.Log("成功！！！！！");
-                                state.DespawnPiece(pieceNet);
-                            }
-                        }
-                    }
-                    // 自駒移動
-                    Debug.Log("ですとろい！");
-
-                    // 配列から削除
-
-                    // 状態遷移
+                    // ハイライト消去
                     ChangeHighLight(false);
-                    //playerComp.toMovePiece(posID);
 
+                    // デスポーン処理呼び出し(PlayerStateのDespawnPiece())
+                    playerComp.desPosID = posID;
+                    StartCoroutine(WaitDespawn());
+
+                    IEnumerator WaitDespawn() // Dictionaryが削除(Despawm)されるまで待機
+                    {
+                        Debug.Log("待機しています");
+                        while (!player.GetComponent<ManagePiece>().syncDic.ContainsKey(posID))
+                        {
+                            yield return null; // 1フレーム待つ
+                        }
+                        playerComp.toMovePiece(posID); // 自駒移動 & ターン切り替え
+                    }
                 }
                 //  移動先が脱出マスの時
                 // else if ()
@@ -163,7 +159,8 @@ public class BoardGrid : MonoBehaviour
     // 駒選択前なら前後左右 / 駒選択済みならこのマスだけ
     private void ChangeHighLight(bool tf)
     {
-        if (playerComp == null) return;
+        if (playerComp == null)
+            return;
         switch (playerComp.selectMode)
         {
             case PlayerState.SelectMode.SetPosition: //位置決め
@@ -204,6 +201,7 @@ public class BoardGrid : MonoBehaviour
             meshrender.enabled = tf;
         }
     }
+
     /// <summary>
     /// マスのコライダー操作  有効にするならtrue
     /// </summary>
@@ -216,4 +214,10 @@ public class BoardGrid : MonoBehaviour
             collider.enabled = tf;
         }
     }
+
+    // IEnumerator Wait(float time)
+    // {
+    //     // 待つ
+    //     yield return new WaitForSeconds(time);
+    // }
 }

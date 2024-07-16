@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
-using UnityEngine;
 using Fusion;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 駒の状態
@@ -11,20 +11,27 @@ public class PieceState : NetworkBehaviour
 {
     private GameObject player;
     private GameObject gridmanager;
+
     // 駒が本物である
-    public bool isReal {get; set;}
+    public bool isReal { get; set; }
+
     // 駒の種類
     public PlayerState.Team team { get; set; }
+
     // ロード待機
     private bool wait;
     private bool dicflag;
+
     // 駒ID
     private int pieceID; // 使われていない
+
     // どのマスにいるか
     [Networked, OnChangedRender(nameof(SyncPos))]
     public Vector2Int posID { get; set; }
+
     [Networked, OnChangedRender(nameof(SyncPos))]
     public Vector3 absPos { get; set; }
+
     // グローバル位置換算
     private const float FIRST_X = -6.48f; //ウパルパ陣営側
     private const float FIRST_Z = -6.48f;
@@ -40,30 +47,36 @@ public class PieceState : NetworkBehaviour
     {
         set { player = value; }
     }
+
     void Awake()
     {
         PlayGame.OnCreateDicComplete += CheckFlag;
     }
+
     void OnDestroy()
     {
         PlayGame.OnCreateDicComplete -= CheckFlag;
         Debug.Log($"{gameObject.name}がデスポーンされました");
     }
+
     void Start()
     {
         gridmanager = GameObject.FindGameObjectWithTag("GridSystem");
         // WaitLoading(1.0f);
         // wait = true;
     }
+
     IEnumerator WaitLoading(float time)
     {
         // 待つ
         yield return new WaitForSeconds(time);
     }
+
     void CheckFlag()
     {
         dicflag = true;
     }
+
     void OnMouseOver()
     {
         if (player != null && player.GetComponent<PlayerState>() != null)
@@ -88,10 +101,15 @@ public class PieceState : NetworkBehaviour
                         break;
                 }
             }
-            else { Debug.Log("not my team's piece"); }
+            else
+            {
+                Debug.Log("not my team's piece");
+            }
         }
-        else return;
+        else
+            return;
     }
+
     void OnMouseExit()
     {
         if (player != null && player.GetComponent<PlayerState>() != null)
@@ -113,8 +131,10 @@ public class PieceState : NetworkBehaviour
                 }
             }
         }
-        else return;
+        else
+            return;
     }
+
     void OnMouseDown()
     {
         if (player.GetComponent<PlayerState>() != null)
@@ -142,9 +162,13 @@ public class PieceState : NetworkBehaviour
                         break;
                 }
             }
-            else { Debug.Log("not my team's piece"); }
+            else
+            {
+                Debug.Log("not my team's piece");
+            }
         }
-        else return;
+        else
+            return;
     }
 
     // マテリアルを強調
@@ -165,6 +189,7 @@ public class PieceState : NetworkBehaviour
             }
         }
     }
+
     // 位置を変更
     public void MovePiecePos(Vector2Int posID)
     {
@@ -173,6 +198,7 @@ public class PieceState : NetworkBehaviour
         // 移動させる
         this.gameObject.transform.position = Id2Pos(posID);
     }
+
     public void SyncPos()
     {
         //Debug.Log("移動"+posID[0]+":"+posID[1]);
@@ -192,10 +218,12 @@ public class PieceState : NetworkBehaviour
             }
         }
     }
+
     public void SetAbsPos(Vector3 pos)
     {
         absPos = pos;
     }
+
     /// <summary>
     /// ID:位置の換算
     /// </summary>
@@ -204,18 +232,4 @@ public class PieceState : NetworkBehaviour
         absPos = new Vector3(FIRST_X + posID[0] * gridSize, Y_POS, FIRST_Z + posID[1] * gridSize);
         return absPos;
     }
-
-    // public void PieceDespawn(){
-    //     GameObject[] runners = GameObject.FindGameObjectsWithTag("Runner");
-    //     NetworkRunner runner = runners[0].GetComponent<NetworkRunner>();
-    //     foreach (GameObject g in runners)
-    //     {
-    //         if (g.GetComponent<NetworkRunner>().IsRunning)
-    //         { //アクティブのものを検出
-    //             runner = g.GetComponent<NetworkRunner>();
-    //             break;
-    //         }
-    //     }
-    //     runner.Despawn()
-    // }
 }

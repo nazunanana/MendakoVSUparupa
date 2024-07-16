@@ -13,7 +13,7 @@ public class PlayGame : NetworkBehaviour
     private ManageGrid manageGrid;
     public GameObject myplayer { get; set; }
     public GameObject partnerplayer { get; set; }
-    private GameObject nowPlayer;
+    public GameObject nowPlayer { get; set; }
     private PlayerState playerState;
     public NetworkRunner runner { get; set; }
     private const int GRID_NUM = 6;
@@ -177,11 +177,11 @@ public class PlayGame : NetworkBehaviour
     }
 
     /// <summary>
-    /// 指定位置にある駒のDictionaryを削除
+    /// 指定位置にある駒のDictionaryを削除(取られた側のみ)
     /// </summary>
     public void RemovePieceOfDictionary(Vector2Int posID){
         myplayer.GetComponent<ManagePiece>().pieceDic.Remove(posID);
-        partnerplayer.GetComponent<ManagePiece>().syncDic.Remove(posID);
+        myplayer.GetComponent<ManagePiece>().syncDic.Remove(posID);
     }
 
     public void EndGameChecker()

@@ -155,6 +155,8 @@ public class PieceState : NetworkBehaviour
                         HighLightPiece(false);
                         gridmanager.GetComponent<ManageGrid>().HighLightWASDGrid(posID, false);
                         player.GetComponent<ManagePiece>().EnableOpponentColliders(false);
+                        // マスのコライダー前後左右
+                        gridmanager.GetComponent<ManageGrid>().EnableWASDColliders(posID);
                         Debug.Log("PieceState : " + posID[0] + ", " + posID[1] + "の駒を選択しています");
 
                         break;

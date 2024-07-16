@@ -108,6 +108,8 @@ public class BoardGrid : MonoBehaviour
                 // 移動先が相手の駒だったら倒す
                 else if (state.SearchPieceByPos(posID) == 2)
                 {
+                    // コライダー
+                    GameObject.FindWithTag("GameManager").GetComponent<ManageGrid>().EnableGridColliders(true);
                     // true/falseによって点数変化→(更新を検知してアニメーション)
                     state.GetPieceAction(posID);
 
@@ -116,16 +118,17 @@ public class BoardGrid : MonoBehaviour
 
                     // デスポーン処理呼び出し(PlayerStateのDespawnPiece())
                     playerComp.desPosID = posID;
+                    //playerComp.toMovePiece(posID); // 自駒移動 & ターン切り替え
                     StartCoroutine(WaitDespawn());
 
                     IEnumerator WaitDespawn() // Dictionaryが削除(Despawm)されるまで待機
                     {
                         Debug.Log("待機しています");
-                        while (!player.GetComponent<ManagePiece>().syncDic.ContainsKey(posID))
+                        while (FindObjectOfType<PlayGame>().partnerplayer.GetComponent<ManagePiece>().syncDic.ContainsKey(posID))
                         {
                             yield return null; // 1フレーム待つ
                         }
-                        playerComp.toMovePiece(posID); // 自駒移動 & ターン切り替え
+                        // playerComp.toMovePiece(posID); // 自駒移動 & ターン切り替え
                     }
                 }
                 //  移動先が脱出マスの時

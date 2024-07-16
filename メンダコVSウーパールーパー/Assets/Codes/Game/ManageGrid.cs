@@ -166,4 +166,23 @@ public class ManageGrid : MonoBehaviour
             grid.EnableGridCollider(tf);
         }
     }
+    public void EnableWASDColliders(Vector2Int posID)
+    {
+        foreach (var grid in FindObjectsOfType<BoardGrid>())
+        {
+            if (grid.posID[0] == posID[0] - 1 && grid.posID[1] == posID[1] &&
+                !FindObjectOfType<ManagePiece>().pieceDic.ContainsKey(new Vector2Int(posID[0] - 1, posID[1])))
+            { grid.EnableGridCollider(true); }
+            else if (grid.posID[0] == posID[0] + 1 && grid.posID[1] == posID[1] &&
+                !FindObjectOfType<ManagePiece>().pieceDic.ContainsKey(new Vector2Int(posID[0] + 1, posID[1])))
+            { grid.EnableGridCollider(true); }
+            else if (grid.posID[0] == posID[0] && grid.posID[1] == posID[1] - 1 &&
+                !FindObjectOfType<ManagePiece>().pieceDic.ContainsKey(new Vector2Int(posID[0], posID[1] - 1)))
+            { grid.EnableGridCollider(true); }
+            else if (grid.posID[0] == posID[0] && grid.posID[1] == posID[1] + 1 &&
+                !FindObjectOfType<ManagePiece>().pieceDic.ContainsKey(new Vector2Int(posID[0] - 1, posID[1] + 1)))
+            { grid.EnableGridCollider(true); }
+            else { grid.EnableGridCollider(false); }
+        }
+    }
 }

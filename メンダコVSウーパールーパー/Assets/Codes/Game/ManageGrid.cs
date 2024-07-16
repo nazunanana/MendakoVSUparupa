@@ -81,6 +81,14 @@ public class ManageGrid : MonoBehaviour
         }
     }
 
+    public void DestroyGrids(){
+        for(int i=0; i<GRID_NUM; ++i){
+            for(int j=0; j<GRID_NUM; ++j){
+                Destroy(gridArray[j,i]);
+            }
+        }
+    }
+
     /// <summary>
     /// カーソル位置ハイライト
     /// </summary>

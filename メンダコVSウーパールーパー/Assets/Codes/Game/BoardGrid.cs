@@ -144,6 +144,7 @@ public class BoardGrid : MonoBehaviour
     // 駒選択前なら前後左右 / 駒選択済みならこのマスだけ
     private void ChangeHighLight(bool tf)
     {
+        if(playerComp==null) return;
         switch (playerComp.selectMode)
         {
             case PlayerState.SelectMode.SetPosition: //位置決め

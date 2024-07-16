@@ -34,12 +34,8 @@ public class PlayerState : NetworkBehaviour
 
     // モード遷移イベント
     public static event Action OnChangeMode;
-
-    /// <summary> 得点 </summary>
-    // 本物得点 (相手の本物を取ると+1)
-    private int realPoint = 0;
-    // 偽物得点 (相手の偽物を取ると+1)
-    private int fakePoint = 0;
+    [Networked, OnChangedRender(nameof(OnCanDestroyChanged))]
+    public NetworkBool canDestroy { get; set; }
 
     /// <summary> 駒 </summary>
     public GameObject realUparupaPrehab; // インスペクターで指定
@@ -48,7 +44,7 @@ public class PlayerState : NetworkBehaviour
     public GameObject fakeMendakoPrehab; // インスペクターで指定
     private GameObject manager; //SC_SetPiecesのSetPieceManager
     // グリッドマネージャー
-    private GameObject manageGrid;
+    public GameObject manageGrid;
     // private List<GameObject> myPieces;
     // // 場に出ている自陣営の駒 <位置のID, 駒オブジェクト>
     // private Dictionary<Vector2Int, GameObject> activePieces;
@@ -73,6 +69,7 @@ public class PlayerState : NetworkBehaviour
         // マルチピアモードのとき親がある
         // Debug.Log("このシーンは"+SceneManager.GetActiveScene().name);
         // Debug.Log("親オブジェクトは"+this.gameObject.transform.parent.gameObject.name);
+        canDestroy = false;
         DontDestroyOnLoad(this.gameObject);
     }
     public GameObject setManageGrid
@@ -89,23 +86,11 @@ public class PlayerState : NetworkBehaviour
     //     activePieces = new Dictionary<Vector2Int, GameObject>();
     // }
 
-    public int getsetRealPoint
-    {
-        get { return realPoint; }
-        set { realPoint = value; }
-    }
-
     // public List<GameObject> getsetMyPieces
     // {
     //     get { return myPieces; }
     //     set { myPieces = value; }
     // }
-
-    public int getsetFakePoint
-    {
-        get { return fakePoint; }
-        set { fakePoint = value; }
-    }
 
     public Vector2Int getPiecePosition
     {
@@ -123,7 +108,10 @@ public class PlayerState : NetworkBehaviour
     //     set { playerObj = value; }
     // }
 
-
+    void OnCanDestroyChanged()
+    {
+        GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayGame>().OnCanDestroyChanged();
+    }
 
 
     /// <summary>

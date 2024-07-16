@@ -12,7 +12,7 @@ public class PieceState : NetworkBehaviour
     private GameObject player;
     private GameObject gridmanager;
     // 駒が本物である
-    private bool isReal;
+    public bool isReal {get; set;}
     // 駒の種類
     public PlayerState.Team team { get; set; }
     // ロード待機
@@ -31,12 +31,6 @@ public class PieceState : NetworkBehaviour
     private const float Y_POS = 0.04f;
     private const int GRID_NUM = 6;
     private float gridSize = Mathf.Abs(FIRST_X * 2 / 5);
-
-    public bool getsetIsReal
-    {
-        get { return isReal; }
-        set { isReal = value; }
-    }
     public int getsetPieceID
     {
         get { return pieceID; }
@@ -130,7 +124,7 @@ public class PieceState : NetworkBehaviour
                 switch (player.GetComponent<PlayerState>().selectMode)
                 {
                     case PlayerState.SelectMode.SetPiece: //設置駒選択なら
-                        player.GetComponent<CreatePiece>().SelectPiece(posID, getsetIsReal); // 状態遷移
+                        player.GetComponent<CreatePiece>().SelectPiece(posID, isReal); // 状態遷移
                         HighLightPiece(true);
                         Debug.Log("設置する駒を選択");
                         break;
@@ -191,9 +185,8 @@ public class PieceState : NetworkBehaviour
             player.GetComponent<ManagePiece>().syncDic.Clear();
             foreach (var dic in player.GetComponent<ManagePiece>().pieceDic)
             {
-                bool upa = (dic.Value.team == PlayerState.Team.uparupa);
                 //更新
-                player.GetComponent<ManagePiece>().syncDic.Set(dic.Key, upa);
+                player.GetComponent<ManagePiece>().syncDic.Set(dic.Key, dic.Value.isReal);
             }
         }
     }

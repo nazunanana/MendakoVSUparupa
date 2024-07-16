@@ -32,10 +32,6 @@ public class SetAnimation : MonoBehaviour
             if (Isuparupa) model = Instantiate(fakeUparupaPhb, new Vector3(0, 0, 0), fakeUparupaPhb.transform.rotation);
             else model = Instantiate(fakeMendakoPhb, new Vector3(0, 0, 0), fakeMendakoPhb.transform.rotation);
         }
-        // Animatorコンポネントをアタッチ
-        // Animator animator = model.AddComponent<Animator>();
-        // animator.runtimeAnimatorController = Isuparupa ? ac_Uparupa : ac_Mendako;
-        //animator.Play(Isuparupa ? "A_GetUparupa" : "A_GetMendako");
     }
 
 }

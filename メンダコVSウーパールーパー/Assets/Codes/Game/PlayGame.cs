@@ -17,6 +17,9 @@ public class PlayGame : NetworkBehaviour
     private PlayerState playerState;
     public NetworkRunner runner { get; set; }
     private const int GRID_NUM = 6;
+    [Networked, OnChangedRender(nameof(DestroyAll))]
+    public NetworkBool canDestroy { get; set; }
+    public static bool destroyProcess { get; set; }
 
     void Awake()
     {
@@ -24,12 +27,14 @@ public class PlayGame : NetworkBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         PlayerState.OnChangeMode += ChangeToMyTurn;
         PlayerState.OnChangeMode += EndGameChecker;
+        AnimationEnd.OnAnimationComplete += DestroyAll;
     }
 
     void OnDestroy()
     {
         PlayerState.OnChangeMode -= ChangeToMyTurn; // イベントから登録解除
         PlayerState.OnChangeMode -= EndGameChecker;
+        AnimationEnd.OnAnimationComplete -= DestroyAll;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -178,7 +183,7 @@ public class PlayGame : NetworkBehaviour
         {
             // 自分が勝利
             ResultUI.win = true;
-            SceneManager.LoadScene("SC_Result");
+            destroyProcess = true;
         }
         else if (
             partnerplayer.GetComponent<ManagePiece>().EndGameCounter(true)
@@ -187,12 +192,28 @@ public class PlayGame : NetworkBehaviour
         {
             // 相手が勝利
             ResultUI.win = false;
-            SceneManager.LoadScene("SC_Result");
+            destroyProcess = true;
         }
     }
     /// <summary>
+    /// シーン遷移時にデストロイ
+    /// </summary>
+    private void DestroyAll()
+    {
+        Debug.Log("全部削除");
+        foreach (PieceState p in myplayer.GetComponent<ManagePiece>().pieceDic.Values)
+        {
+            Destroy(p.gameObject);
+        }
+        Destroy(myplayer);
+        runner.Shutdown();
+        // シーン遷移
+        Debug.Log("シーン遷移");
+        SceneManager.LoadScene("SC_Result");
+    }
+    /// <summary>
     /// 駒獲得時、相手のそのマスの駒チームで分岐
-    /// 獲得数増やす→Animation→
+    /// 獲得数増やす→Animation
     /// </summary>
     public void GetPieceAction(Vector2Int posID)
     {

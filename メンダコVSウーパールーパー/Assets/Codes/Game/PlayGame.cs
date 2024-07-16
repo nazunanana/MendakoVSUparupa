@@ -17,6 +17,7 @@ public class PlayGame : NetworkBehaviour
     private PlayerState playerState;
     public NetworkRunner runner { get; set; }
     private const int GRID_NUM = 6;
+
     [Networked, OnChangedRender(nameof(DestroyAll))]
     public NetworkBool canDestroy { get; set; }
     public static bool destroyProcess { get; set; }
@@ -65,6 +66,7 @@ public class PlayGame : NetworkBehaviour
                 }
             }
         }
+
         if (runner == null)
         {
             Debug.LogError("NetworkRunnerが初期化されていません");
@@ -195,6 +197,7 @@ public class PlayGame : NetworkBehaviour
             destroyProcess = true;
         }
     }
+
     /// <summary>
     /// シーン遷移時にデストロイ
     /// </summary>
@@ -211,6 +214,7 @@ public class PlayGame : NetworkBehaviour
         Debug.Log("シーン遷移");
         SceneManager.LoadScene("SC_Result");
     }
+
     /// <summary>
     /// 駒獲得時、相手のそのマスの駒チームで分岐
     /// 獲得数増やす→Animation
@@ -245,11 +249,10 @@ public class PlayGame : NetworkBehaviour
         get { return partnerplayer; }
     }
 
+    //[Rpc(RpcSources.All, RpcTargets.All)]
     public void DespawnPiece(NetworkObject piece)
     {
+        Debug.Log("メソッドが実行されました。");
         runner.Despawn(piece);
-        if(piece == null){
-            Debug.Log("Pieceは廃期されました");
-        }
     }
 }

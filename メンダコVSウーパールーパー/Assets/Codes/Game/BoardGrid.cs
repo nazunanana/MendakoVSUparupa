@@ -104,26 +104,24 @@ public class BoardGrid : MonoBehaviour
                     // デスポーン
                     GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
                     foreach(GameObject piece in pieces){
-                        if(piece != null){
-                        }
-                        if(piece.GetComponent<PieceState>().posID == posID){//PosIDがPieceのpieceIDと一致したらデスポーン
+                        if(piece.GetComponent<PieceState>().posID == posID && piece.GetComponent<PieceState>().team != player.GetComponent<PlayerState>().team){//PosIDがPieceのpieceIDと一致したらデスポーン
                             NetworkObject pieceNet = piece.GetComponent<NetworkObject>();
                             if(pieceNet!=null){
                                 Debug.Log("pieceNetは存在してます");//ちゃんと出る
+                                Debug.Log("piecePosID:"+piece.GetComponent<PieceState>().posID);
+                                Debug.Log("pieceTeam:"+piece.GetComponent<PieceState>().team );
                             }
                             state.DespawnPiece(pieceNet);
                         }
                     }
                     // 自駒移動
-                    ChangeHighLight(false);
-                    nowPlayerComp.toMovePiece(posID);
                     Debug.Log("ですとろい！");
 
                     // 配列から削除
                     
                     // 状態遷移
                     ChangeHighLight(false);
-                    playerComp.toMovePiece(posID);
+                    //playerComp.toMovePiece(posID);
 
                 }
                 //  移動先が脱出マスの時

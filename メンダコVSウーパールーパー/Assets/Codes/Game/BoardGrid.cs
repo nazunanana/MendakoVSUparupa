@@ -107,22 +107,19 @@ public class BoardGrid : MonoBehaviour
                     GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().GetPieceAction(posID);
 
                     // デスポーン
-                    GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
-                    Debug.Log("この位置のposIDは" + posID);
+                    //Debug.Log("この位置のposIDは" + posID);
+
                     foreach (var piece in FindObjectsOfType<PieceState>())
                     {
-                        // NetworkObject pieceNet = piece.GetComponent<NetworkObject>();
-                        // if (pieceNet != null)
-                        // {
-                        //Debug.Log("pieceNetは存在してます");//ちゃんと出る
-                        // Debug.Log("この位置のposIDは"+posID);
-                        Debug.Log("piecePosID:" + piece.posID);
-                        Debug.Log("pieceTeam:" + piece.team);
-                        //}
-                        if (piece.posID[0] == posID[0] && piece.posID[1] == posID[1])
-                        {//PosIDがPieceのpieceIDと一致したらデスポーン
-                            Debug.Log("成功！！！！！");
-                            state.DespawnPiece(piece.gameObject.GetComponent<NetworkObject>());
+                        NetworkObject pieceNet = piece.gameObject.GetComponent<NetworkObject>();
+                        if (pieceNet != null)
+                        {
+                            // PosIDがPieceのpieceIDと一致したらデスポーン
+                            if (piece.posID[0] == posID[0] && piece.posID[1] == posID[1])
+                            {
+                                Debug.Log("成功！！！！！");
+                                state.DespawnPiece(pieceNet);
+                            }
                         }
                     }
                     // 自駒移動

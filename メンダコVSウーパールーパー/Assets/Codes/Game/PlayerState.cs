@@ -30,7 +30,7 @@ public class PlayerState : NetworkBehaviour
         MovePiece, // ゲーム中 動かす駒選択中
         MovePosition, // ゲーム中 移動先のマスを選択中
         NoMyTurn,// 相手ターン中
-        GetCard // ゲーム中　駒を取られた後、獲得するカードの選択中
+        SelectCard // ゲーム中　所持カード閲覧、選択中
     }
 
     [Networked, OnChangedRender(nameof(ModeEvent))]
@@ -199,28 +199,20 @@ public class PlayerState : NetworkBehaviour
     /// </summary>
     public void toStartMyTurn()
     {
-        if(isDespawn){ // 駒を取られた直後ならカード選択に
-            selectMode = SelectMode.GetCard;
+        if (desCount != 0)// 駒を取られた直後ならカード獲得
+        {
             isDespawn = false;
-        }else{
-            selectMode = SelectMode.MovePiece;
-        
-        }
-    }
-
-    /// <summary>
-    /// 獲得するカードを選択した時の処理
-    /// </summary>
-    public void toGetCard(){
-        for(int i = 0; i<desCount; i++){ // 前の相手ターンにとられた数だけ
-            Debug.Log("獲得するカードを選んでください");
+            for (int i = 0; i < desCount; i++)
+            { // 前の相手ターンにとられた数だけ
+                GetComponent<ManageCard>().DrawCard();
+                WaitLoading(0.5f);
+            }
+            // カードを獲得し終わったら
+            desCount = 0;
         }
 
-        // カードを選び終わったら
-        desCount = 0;
         selectMode = SelectMode.MovePiece;
     }
-    
 
     /// <summary>
     /// 駒選択した時の処理
@@ -249,6 +241,20 @@ public class PlayerState : NetworkBehaviour
         piece.GetComponent<PieceState>().MovePiecePos(posID);
 
         Debug.Log("move to " + moveToPos[0] + "," + moveToPos[1]);
+
+        // カードの効果を消す
+        ManageCard manageCard = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ManageCard>();
+        
+        if (manageCard.card == ManageCard.Card.Default) // カード効果がないとき
+        {
+            selectMode = SelectMode.NoMyTurn;
+            return;
+        }else if(manageCard.card == ManageCard.Card.OneMore1){
+            manageCard.card = ManageCard.Card.OneMore2;
+            selectMode = SelectMode.MovePiece;
+            return;
+        }
+        manageCard.SwitchCanUse(true);
         selectMode = SelectMode.NoMyTurn;
     }
 
@@ -279,7 +285,8 @@ public class PlayerState : NetworkBehaviour
         }
     }
 
-    public void CallDespawn(Vector2Int desID){
+    public void CallDespawn(Vector2Int desID)
+    {
         isDespawn = false;
         desPosID = desID; // DespawnPiece()を呼び出す
     }
@@ -287,8 +294,9 @@ public class PlayerState : NetworkBehaviour
     // 駒がゲットされたときのデスポーン処理
     public void DespawnPiece()
     {
-        Debug.Log("isDes:"+isDespawn);
-        if(!isDespawn){
+        Debug.Log("isDes:" + isDespawn);
+        if (!isDespawn)
+        {
             isDespawn = true;
             return;
         }
@@ -320,6 +328,12 @@ public class PlayerState : NetworkBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator WaitLoading(float time)
+    {
+        // 待つ
+        yield return new WaitForSeconds(time);
     }
 
 }

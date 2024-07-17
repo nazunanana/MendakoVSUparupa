@@ -10,8 +10,21 @@ public class GameUI : MonoBehaviour
     public GameObject mendakoIcon;
     public GameObject realPieceNum;
     public GameObject fakePieceNum;
+    public GameObject myturn;
+    public GameObject noturn;
 
     private bool imUparupa;
+    public static bool endGame;
+    private Animator animator_myturn;
+    private Animator animator_noturn;
+
+    void Awake()
+    {
+        animator_myturn = myturn.GetComponent<Animator>();
+        animator_noturn = noturn.GetComponent<Animator>();
+        if (animator_myturn == null) Debug.LogError("animator_myturn is null!");
+        if (animator_noturn == null) Debug.LogError("animator_noturn is null!"); if (animator_myturn == null) Debug.Log("null!!");
+    }
 
     public void SetUIPosition(bool imUparupa)
     {
@@ -19,12 +32,18 @@ public class GameUI : MonoBehaviour
         (imUparupa ? uparupaIcon : mendakoIcon).GetComponent<RectTransform>().anchoredPosition = new Vector3(-830, -410, 0);
         (imUparupa ? mendakoIcon : uparupaIcon).GetComponent<RectTransform>().anchoredPosition = new Vector3(830, 410, 0);
     }
-    public void ChangeTurn(bool upaTurn)
+    public void ChangeTurn(bool upaTurn, bool myturn)
     {
-        uparupaIcon.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (upaTurn ? 200 : 120));
-        uparupaIcon.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (upaTurn ? 200 : 120));
-        mendakoIcon.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (upaTurn ? 120 : 200));
-        mendakoIcon.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (upaTurn ? 120 : 200));
+        if (!endGame)
+        {
+            uparupaIcon.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, upaTurn ? 200 : 120);
+            uparupaIcon.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, upaTurn ? 200 : 120);
+            mendakoIcon.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, upaTurn ? 120 : 200);
+            mendakoIcon.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, upaTurn ? 120 : 200);
+            //ターンアニメーション
+            if (myturn) animator_myturn.SetTrigger("Anim");
+            else animator_noturn.SetTrigger("Anim");
+        }
     }
     public void ChangeGetPieceNum(bool real, bool plus)
     {

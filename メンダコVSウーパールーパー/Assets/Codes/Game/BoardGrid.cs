@@ -127,6 +127,8 @@ public class BoardGrid : NetworkBehaviour
                 // }
                 else
                 { // 移動先に何もないとき
+                    // コライダー
+                    GameObject.FindWithTag("GridSystem").GetComponent<ManageGrid>().EnableGridColliders(true);
                     Debug.Log("OnMouseDown in BoardGrid");
                     ChangeHighLight(false);
                     playerComp.toMovePiece(posID);

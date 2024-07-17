@@ -24,10 +24,12 @@ public class ManageCard : MonoBehaviour
         if (!OnUI)
         {
             ViewUI(true);
+            OnUI = true;
         }
         else
         {
             ViewUI(false);
+            OnUI = false;
         }
 
     }

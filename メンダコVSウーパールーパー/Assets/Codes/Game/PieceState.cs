@@ -77,6 +77,14 @@ public class PieceState : NetworkBehaviour
         dicflag = true;
     }
 
+    public void Shining()
+    {
+        // 光らせたい
+        Wait(3);
+        // 光を消す
+
+    }
+
     void OnMouseOver()
     {
         if (player != null && player.GetComponent<PlayerState>() != null)
@@ -233,5 +241,11 @@ public class PieceState : NetworkBehaviour
     {
         absPos = new Vector3(FIRST_X + posID[0] * gridSize, Y_POS, FIRST_Z + posID[1] * gridSize);
         return absPos;
+    }
+
+    IEnumerator Wait(float time)
+    {
+        // 待つ
+        yield return new WaitForSeconds(time);
     }
 }

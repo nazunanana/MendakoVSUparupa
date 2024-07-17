@@ -201,10 +201,12 @@ public class PlayerState : NetworkBehaviour
     {
         if (desCount != 0)// 駒を取られた直後ならカード獲得
         {
-            isDespawn = false;
             for (int i = 0; i < desCount; i++)
             { // 前の相手ターンにとられた数だけ
-                GetComponent<ManageCard>().DrawCard();
+                GameObject
+                .FindGameObjectWithTag("GameManager")
+                .GetComponent<ManageCard>()
+                .DrawCard();
                 WaitLoading(0.5f);
             }
             // カードを獲得し終わったら

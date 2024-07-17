@@ -30,8 +30,7 @@ public class CardState : MonoBehaviour
     void OnMouseDown() // カードがクリックされたとき
     {
         // 自分の行動中でないときはクリックできない
-        if ((playerComp.selectMode != PlayerState.SelectMode.MovePiece
-            && playerComp.selectMode != PlayerState.SelectMode.MovePosition)
+        if ((playerComp.selectMode != PlayerState.SelectMode.MovePiece)
             || canUse == false)
         {
             return;

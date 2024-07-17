@@ -20,6 +20,9 @@ public class PlayGame : NetworkBehaviour
     public static bool destroyProcess { get; set; }
     private static bool isAnimationComplete = false;
 
+    [Networked, OnChangedRender(nameof(SearchPieceObj))]
+    public Vector2Int realPosID { get; set; }
+
     void Awake()
     {
         Debug.Log("Awake SC_Game");
@@ -74,7 +77,7 @@ public class PlayGame : NetworkBehaviour
             return;
         }
         // コンポネント取得
-        PlayerState playerState = myplayer.GetComponent<PlayerState>();
+        playerState = myplayer.GetComponent<PlayerState>();
 
         // 生成系コンポネントを破棄
         Destroy(myplayer.GetComponent<SettingUI>());
@@ -182,7 +185,29 @@ public class PlayGame : NetworkBehaviour
     {
         myplayer.GetComponent<ManagePiece>().pieceDic.Remove(posID);
         myplayer.GetComponent<ManagePiece>().syncDic.Remove(posID);
+        Debug.Log(playerState.team + "の駒は残り:" + myplayer.GetComponent<ManagePiece>().syncDic.Count);
     }
+
+    public void SearchRealFromPartner()
+    {
+        foreach(var dic in partnerplayer.GetComponent<ManagePiece>().syncDic){
+            if(dic.Value == true){
+                realPosID = dic.Key;
+                break;
+            }
+        }
+    }
+
+    public void SearchPieceObj(){
+        foreach(var dic in myplayer.GetComponent<ManagePiece>().pieceDic)
+        {
+            if(dic.Key == realPosID){
+                dic.Value.GetComponent<PieceState>().Shining();
+            }
+        }
+    }
+
+
 
     public void EndGameChecker()
     {

@@ -6,6 +6,7 @@ public class ManageCard : MonoBehaviour
 {
     [SerializeField] private GameObject card1phb;
     [SerializeField] private GameObject card2phb;
+    [SerializeField] private GameObject card3phb;
     [SerializeField] private GameObject noCard;
 
     // カード効果状態
@@ -21,7 +22,7 @@ public class ManageCard : MonoBehaviour
     public Card card { get; set; }
 
     // カードオブジェクト、カード番号？
-    private Dictionary<GameObject, int> myCards = new Dictionary<GameObject, int>();
+    private List<GameObject> myCards = new List<GameObject>();
     private bool OnUI;
     private const int posY = 70;
     private GameObject[] cardPrefabs;
@@ -30,11 +31,12 @@ public class ManageCard : MonoBehaviour
 
     public void Start()
     {
-        cardPrefabs = new GameObject[] { card1phb, card2phb };
+        cardPrefabs = new GameObject[] { card1phb, card2phb, card3phb };
         foreach (GameObject cardObj in cardPrefabs)
         {
             cardObj.GetComponent<CardState>().SetPlayer = GetComponent<PlayGame>().myplayer;
         }
+        OnUI = false;
     }
     /// <summary>
     /// アイコンクリックしたら
@@ -69,6 +71,7 @@ public class ManageCard : MonoBehaviour
         }
         else
         {
+            Debug.Log("所持カードを表示します");
             int id = 0;
             // 表示
             foreach (var card in myCards)
@@ -76,22 +79,22 @@ public class ManageCard : MonoBehaviour
                 if (myCards.Count == 1)
                 {
                     // posX=0
-                    card.Key.transform.position = new Vector3(0, posY, 0);
+                    card.transform.position = new Vector3(0, posY, 0);
                 }
                 else if (myCards.Count == 2)
                 {
                     // posX=-350,350
-                    if (id == 0) card.Key.transform.position = new Vector3(-350, posY, 0);
-                    else if (id == 1) card.Key.transform.position = new Vector3(350, posY, 0);
+                    if (id == 0) card.transform.position = new Vector3(-350, posY, 0);
+                    else if (id == 1) card.transform.position = new Vector3(350, posY, 0);
                 }
                 else if (myCards.Count == 3)
                 {
                     // posX=-500,0,500
-                    if (id == 0) card.Key.transform.position = new Vector3(-500, posY, 0);
-                    else if (id == 1) card.Key.transform.position = new Vector3(0, posY, 0);
-                    else if (id == 2) card.Key.transform.position = new Vector3(500, posY, 0);
+                    if (id == 0) card.transform.position = new Vector3(-500, posY, 0);
+                    else if (id == 1) card.transform.position = new Vector3(0, posY, 0);
+                    else if (id == 2) card.transform.position = new Vector3(500, posY, 0);
                 }
-                card.Key.SetActive(tf);
+                card.SetActive(tf);
                 id++;
             }
         }
@@ -102,7 +105,7 @@ public class ManageCard : MonoBehaviour
     private void AddCardUI(int cardnum)
     {
         GameObject newCard = Instantiate(cardPrefabs[cardnum], new Vector3(0, 0, 0), cardPrefabs[cardnum].transform.rotation);
-        myCards.Add(newCard, cardnum);
+        myCards.Add(newCard);
         // TODO:アニメーション？くるくる
         WaitLoading(3.0f);
         // 非表示に
@@ -133,6 +136,7 @@ public class ManageCard : MonoBehaviour
             case 2:
                 card = Card.Forecast;
                 Debug.Log("相手の駒の中から１つ、本物を見破りました");
+                GetComponent<PlayGame>().SearchRealFromPartner();
                 break;
         }
         

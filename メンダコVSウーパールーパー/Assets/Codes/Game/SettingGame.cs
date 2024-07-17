@@ -137,8 +137,6 @@ public class SettingGame : NetworkBehaviour
         isInitialized = true; // 初期化完了
     }
 
-    // Update is called once per frame
-
     /// <summary>
     /// 両者の駒配置完了を検出
     /// </summary>
@@ -165,34 +163,4 @@ public class SettingGame : NetworkBehaviour
             SceneManager.LoadScene("SC_Game");
         }
     }
-
-    // private void SetCameraPos(bool isUparupaTeam)
-    // {
-    //     if (isUparupaTeam)
-    //     {
-    //         cam.transform.position = new Vector3(0, 10, UPA_CAMERA_POSITION_Z);
-    //         cam.transform.rotation = Quaternion.Euler(48, UPA_CAMERA_ROTATION_Y, 0);
-    //     }
-    //     else
-    //     {
-    //         cam.transform.position = new Vector3(0, 10, MEN_CAMERA_POSITION_Z);
-    //         cam.transform.rotation = Quaternion.Euler(48, MEN_CAMERA_ROTATION_Y, 0);
-    //     }
-    // }
-
-    // public void setTeam(int num)
-    // { // 陣営決め
-    //     if (num == 1)
-    //     {
-    //         isUparupaTeam = true;
-    //     }
-    //     else if (num == 2)
-    //     {
-    //         isUparupaTeam = false;
-    //     }
-    // }
-    // public bool getTeam()
-    // {
-    //     return isUparupaTeam;
-    // }
 }

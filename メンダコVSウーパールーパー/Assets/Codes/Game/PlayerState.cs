@@ -290,6 +290,7 @@ public class PlayerState : NetworkBehaviour
                 if (pieceNet != null)
                 {
                     runner.Despawn(pieceNet);
+                    // 配列からも削除
                     GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().RemovePieceOfDictionary(desPosID);
                     return;
                 }

@@ -29,7 +29,8 @@ public class PlayerState : NetworkBehaviour
         SetAllPieces, //駒配置完了
         MovePiece, // ゲーム中 動かす駒選択中
         MovePosition, // ゲーム中 移動先のマスを選択中
-        NoMyTurn // 相手ターン中
+        NoMyTurn,// 相手ターン中
+        GetCard // ゲーム中　駒を取られた後、獲得するカードの選択中
     }
 
     [Networked, OnChangedRender(nameof(ModeEvent))]
@@ -39,11 +40,12 @@ public class PlayerState : NetworkBehaviour
     [Networked, OnChangedRender(nameof(DespawnPiece))]
     public Vector2Int desPosID { get; set; }
 
-    // [Networked, OnChangedRender(nameof(AfterDespawnPiece))]
-    // public Vector2Int toPosID {get; set;}
-
+    // 駒を取られた側かどうか
     [Networked]
     public bool isDespawn { get; set; }
+
+    // １ターンに駒を取られた回数
+    private int desCount;
 
     // モード遷移イベント
     public static event Action OnChangeMode;
@@ -91,6 +93,7 @@ public class PlayerState : NetworkBehaviour
         canDestroy = false;
         DontDestroyOnLoad(this.gameObject);
         isDespawn = false;
+        desCount = 0;
     }
 
     public GameObject setManageGrid
@@ -196,8 +199,28 @@ public class PlayerState : NetworkBehaviour
     /// </summary>
     public void toStartMyTurn()
     {
+        if(isDespawn){ // 駒を取られた直後ならカード選択に
+            selectMode = SelectMode.GetCard;
+            isDespawn = false;
+        }else{
+            selectMode = SelectMode.MovePiece;
+        
+        }
+    }
+
+    /// <summary>
+    /// 獲得するカードを選択した時の処理
+    /// </summary>
+    public void toGetCard(){
+        for(int i = 0; i<desCount; i++){ // 前の相手ターンにとられた数だけ
+            Debug.Log("獲得するカードを選んでください");
+        }
+
+        // カードを選び終わったら
+        desCount = 0;
         selectMode = SelectMode.MovePiece;
     }
+    
 
     /// <summary>
     /// 駒選択した時の処理
@@ -246,7 +269,7 @@ public class PlayerState : NetworkBehaviour
     private void ModeEvent()
     {
         // イベント通知
-        OnChangeMode?.Invoke();
+        OnChangeMode?.Invoke(); // ターン切り替えするかどうか
         Debug.Log("現在" + team + "は" + selectMode + "です。");
         // 位置同期
         GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
@@ -258,7 +281,7 @@ public class PlayerState : NetworkBehaviour
 
     public void CallDespawn(Vector2Int desID){
         isDespawn = false;
-        desPosID = desID;
+        desPosID = desID; // DespawnPiece()を呼び出す
     }
 
     // 駒がゲットされたときのデスポーン処理
@@ -289,6 +312,7 @@ public class PlayerState : NetworkBehaviour
                 NetworkObject pieceNet = desPiece.GetComponent<NetworkObject>();
                 if (pieceNet != null)
                 {
+                    desCount++;
                     runner.Despawn(pieceNet);
                     GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().RemovePieceOfDictionary(desPosID);
                     return;

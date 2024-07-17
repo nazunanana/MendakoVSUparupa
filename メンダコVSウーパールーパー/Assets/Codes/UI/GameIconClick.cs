@@ -41,7 +41,10 @@ public class GameIconClick : MonoBehaviour
                 SceneManager.LoadScene("SC_Start");
                 break;
             case "カードアイコン":
-                FindObjectOfType<ManageCard>().Click();
+                GameObject
+                .FindGameObjectWithTag("GameManager")
+                .GetComponent<ManageCard>()
+                .Click();
                 break;
             default:
                 Debug.LogWarning("Unknown icon: " + spriteName);

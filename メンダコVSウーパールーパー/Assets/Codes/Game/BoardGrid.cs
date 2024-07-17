@@ -109,7 +109,7 @@ public class BoardGrid : NetworkBehaviour
                 else if (state.SearchPieceByPos(posID) == 2)
                 {
                     // コライダー
-                    GameObject.FindWithTag("GameManager").GetComponent<ManageGrid>().EnableGridColliders(true);
+                    GameObject.FindWithTag("GridSystem").GetComponent<ManageGrid>().EnableGridColliders(true);
                     // true/falseによって点数変化→(更新を検知してアニメーション)
                     state.GetPieceAction(posID);
 

@@ -57,7 +57,7 @@ public class ManagePiece : NetworkBehaviour
                 Collider collider = piece.GetComponent<Collider>();
                 if (collider != null)
                 {
-                    Debug.Log("コライダー無効");
+                    //Debug.Log("コライダー無効");
                     collider.enabled = tf;
                 }
             }

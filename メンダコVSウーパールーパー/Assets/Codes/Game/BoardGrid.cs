@@ -108,6 +108,8 @@ public class BoardGrid : NetworkBehaviour
                 // 移動先が相手の駒だったら倒す
                 else if (state.SearchPieceByPos(posID) == 2)
                 {
+                    // コライダー
+                    GameObject.FindWithTag("GameManager").GetComponent<ManageGrid>().EnableGridColliders(true);
                     // true/falseによって点数変化→(更新を検知してアニメーション)
                     state.GetPieceAction(posID);
 
@@ -125,6 +127,8 @@ public class BoardGrid : NetworkBehaviour
                 // }
                 else
                 { // 移動先に何もないとき
+                    // コライダー
+                    GameObject.FindWithTag("GridSystem").GetComponent<ManageGrid>().EnableGridColliders(true);
                     Debug.Log("OnMouseDown in BoardGrid");
                     ChangeHighLight(false);
                     playerComp.toMovePiece(posID);

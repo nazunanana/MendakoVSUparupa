@@ -13,7 +13,7 @@ public class PlayGame : NetworkBehaviour
     private ManageGrid manageGrid;
     public GameObject myplayer { get; set; }
     public GameObject partnerplayer { get; set; }
-    private GameObject nowPlayer;
+    public GameObject nowPlayer { get; set; }
     private PlayerState playerState;
     public NetworkRunner runner { get; set; }
     private const int GRID_NUM = 6;
@@ -82,7 +82,6 @@ public class PlayGame : NetworkBehaviour
         // 管理オブジェクト検索
         manageGrid = GameObject.FindGameObjectWithTag("GridSystem").GetComponent<ManageGrid>();
         manageGrid.EnableGridColliders(true);
-
         if (playerState.team == PlayerState.Team.uparupa)
         {
             //カメラ設定
@@ -178,7 +177,7 @@ public class PlayGame : NetworkBehaviour
     }
 
     /// <summary>
-    /// 指定位置にある駒のDictionaryを削除
+    /// 指定位置にある駒のDictionaryを削除(取られた側のみ)
     /// </summary>
     public void RemovePieceOfDictionary(Vector2Int posID){
         myplayer.GetComponent<ManagePiece>().pieceDic.Remove(posID);

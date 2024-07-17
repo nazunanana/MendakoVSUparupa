@@ -77,6 +77,10 @@ public class ChangeSceneByButton : MonoBehaviour, IPointerEnterHandler, IPointer
         {
             SceneManager.LoadScene("SC_Result");
         }
+        else if (textValue == "カードを引く")
+        {
+            FindObjectOfType<ManageCard>().DrawCard();
+        }
 
         //Debug.Log("Button text: " + textValue);
     }

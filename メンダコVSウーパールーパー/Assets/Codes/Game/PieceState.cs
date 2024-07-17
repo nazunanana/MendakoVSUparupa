@@ -147,7 +147,7 @@ public class PieceState : NetworkBehaviour
                         player.GetComponent<CreatePiece>().SelectPiece(posID, isReal); // 状態遷移
                         HighLightPiece(true);
                         player.GetComponent<ManagePiece>().EnableOpponentColliders(false);
-                        Debug.Log("設置する駒を選択");
+                        //Debug.Log("設置する駒を選択");
                         break;
                     case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
                         gridmanager.GetComponent<ManageGrid>().pieceID = posID;
@@ -155,7 +155,9 @@ public class PieceState : NetworkBehaviour
                         HighLightPiece(false);
                         gridmanager.GetComponent<ManageGrid>().HighLightWASDGrid(posID, false);
                         player.GetComponent<ManagePiece>().EnableOpponentColliders(false);
-                        Debug.Log("PieceState : " + posID[0] + ", " + posID[1] + "の駒を選択しています");
+                        // マスのコライダー前後左右
+                        gridmanager.GetComponent<ManageGrid>().EnableWASDColliders(posID);
+                        //Debug.Log("PieceState : " + posID[0] + ", " + posID[1] + "の駒を選択しています");
 
                         break;
                     default:

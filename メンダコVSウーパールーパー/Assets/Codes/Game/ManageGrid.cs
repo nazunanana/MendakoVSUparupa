@@ -129,10 +129,18 @@ public class ManageGrid : MonoBehaviour
         int id_z = posID.y;
 
         EnableUnEnableGrid(new Vector2Int(id_x, id_z), highlight); // 中心のマス
-        if (0 <= id_x - 1) EnableUnEnableGrid(new Vector2Int(id_x - 1, id_z), highlight); // 上のマス
-        if (id_x + 1 < GRID_NUM) EnableUnEnableGrid(new Vector2Int(id_x + 1, id_z), highlight); // 下のマス
-        if (0 <= id_z - 1) EnableUnEnableGrid(new Vector2Int(id_x, id_z - 1), highlight); // 左のマス
-        if (id_z + 1 < GRID_NUM) EnableUnEnableGrid(new Vector2Int(id_x, id_z + 1), highlight); // 右のマス
+        if (0 <= id_x - 1 && !SearchPieceHere(new Vector2Int(id_x - 1, id_z))){
+            EnableUnEnableGrid(new Vector2Int(id_x - 1, id_z), highlight); // 上のマス
+        }
+        if (id_x + 1 < GRID_NUM && !SearchPieceHere(new Vector2Int(id_x + 1, id_z))){
+            EnableUnEnableGrid(new Vector2Int(id_x + 1, id_z), highlight); // 下のマス
+        }
+        if (0 <= id_z - 1 && !SearchPieceHere(new Vector2Int(id_x, id_z - 1))){
+            EnableUnEnableGrid(new Vector2Int(id_x, id_z - 1), highlight); // 左のマス
+        }
+        if (id_z + 1 < GRID_NUM && !SearchPieceHere(new Vector2Int(id_x, id_z + 1))){
+            EnableUnEnableGrid(new Vector2Int(id_x, id_z + 1), highlight); // 右のマス
+        }
     }
     /// <summary>
     /// 指定位置のマスを 強調する・強調を解除
@@ -165,5 +173,28 @@ public class ManageGrid : MonoBehaviour
         {
             grid.EnableGridCollider(tf);
         }
+    }
+    public void EnableWASDColliders(Vector2Int posID)
+    {
+        foreach (var grid in FindObjectsOfType<BoardGrid>())
+        {
+            if (grid.posID[0] == posID[0] - 1 && grid.posID[1] == posID[1] &&
+                !SearchPieceHere(new Vector2Int(posID[0] - 1, posID[1])))
+            { grid.EnableGridCollider(true); }
+            else if (grid.posID[0] == posID[0] + 1 && grid.posID[1] == posID[1] &&
+                !SearchPieceHere(new Vector2Int(posID[0] + 1, posID[1])))
+            { grid.EnableGridCollider(true); }
+            else if (grid.posID[0] == posID[0] && grid.posID[1] == posID[1] - 1 &&
+                !SearchPieceHere(new Vector2Int(posID[0], posID[1] - 1)))
+            { grid.EnableGridCollider(true); }
+            else if (grid.posID[0] == posID[0] && grid.posID[1] == posID[1] + 1 &&
+                !SearchPieceHere(new Vector2Int(posID[0] - 1, posID[1] + 1)))
+            { grid.EnableGridCollider(true); }
+            else { grid.EnableGridCollider(false); }
+        }
+    }
+    private bool SearchPieceHere(Vector2Int posID){
+    Debug.Log(player.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID));
+        return player.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID);
     }
 }

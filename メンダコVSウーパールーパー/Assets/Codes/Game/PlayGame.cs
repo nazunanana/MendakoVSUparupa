@@ -102,7 +102,7 @@ public class PlayGame : NetworkBehaviour
         }
         OnCreateDicComplete?.Invoke();
         // ウパターン
-        this.gameObject.GetComponent<GameUI>().ChangeTurn(true);
+        this.gameObject.GetComponent<GameUI>().ChangeTurn(true, myplayer == nowPlayer);
     }
 
     void ChangeToMyTurn()
@@ -124,7 +124,7 @@ public class PlayGame : NetworkBehaviour
         {
             myplayer.GetComponent<PlayerState>().toStartMyTurn();
             this.gameObject.GetComponent<GameUI>()
-                .ChangeTurn(myplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa); //自分を大きく
+                .ChangeTurn(myplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, true); //自分を大きく
             nowPlayer = myplayer;
         }
         else if (
@@ -135,8 +135,7 @@ public class PlayGame : NetworkBehaviour
             nowPlayer = partnerplayer;
             this.gameObject.GetComponent<GameUI>()
                 .ChangeTurn(
-                    partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa
-                ); //相手を大きく
+                    partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, false); //相手を大きく
         }
     }
 
@@ -179,7 +178,8 @@ public class PlayGame : NetworkBehaviour
     /// <summary>
     /// 指定位置にある駒のDictionaryを削除(取られた側のみ)
     /// </summary>
-    public void RemovePieceOfDictionary(Vector2Int posID){
+    public void RemovePieceOfDictionary(Vector2Int posID)
+    {
         myplayer.GetComponent<ManagePiece>().pieceDic.Remove(posID);
         myplayer.GetComponent<ManagePiece>().syncDic.Remove(posID);
     }
@@ -192,6 +192,7 @@ public class PlayGame : NetworkBehaviour
             || partnerplayer.GetComponent<ManagePiece>().EndGameCounter(false)
         )
         {
+            GameUI.endGame = true;
             // 自分が勝利
             ResultUI.win = true;
             destroyProcess = true;
@@ -201,6 +202,7 @@ public class PlayGame : NetworkBehaviour
             || myplayer.GetComponent<ManagePiece>().EndGameCounter(false)
         )
         {
+            GameUI.endGame = true;
             // 相手が勝利
             ResultUI.win = false;
             destroyProcess = true;
@@ -297,5 +299,5 @@ public class PlayGame : NetworkBehaviour
         // 待つ
         yield return new WaitForSeconds(time);
     }
-    
+
 }

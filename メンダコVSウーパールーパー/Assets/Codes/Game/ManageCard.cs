@@ -76,24 +76,24 @@ public class ManageCard : MonoBehaviour
             // 表示
             foreach (var card in myCards)
             {
-                // if (myCards.Count == 1)
-                // {
-                //     // posX=0
-                //     card.transform.position = new Vector3(0, posY, 0);
-                // }
-                // else if (myCards.Count == 2)
-                // {
-                //     // posX=-350,350
-                //     if (id == 0) card.transform.position = new Vector3(-350, posY, 0);
-                //     else if (id == 1) card.transform.position = new Vector3(350, posY, 0);
-                // }
-                // else if (myCards.Count == 3)
-                // {
-                //     // posX=-500,0,500
-                //     if (id == 0) card.transform.position = new Vector3(-500, posY, 0);
-                //     else if (id == 1) card.transform.position = new Vector3(0, posY, 0);
-                //     else if (id == 2) card.transform.position = new Vector3(500, posY, 0);
-                // }
+                if (myCards.Count == 1)
+                {
+                    // posX=0
+                    card.transform.position = new Vector3(0, posY, 0);
+                }
+                else if (myCards.Count == 2)
+                {
+                    // posX=-350,350
+                    if (id == 0) card.transform.position = new Vector3(-350, posY, 0);
+                    else if (id == 1) card.transform.position = new Vector3(350, posY, 0);
+                }
+                else if (myCards.Count == 3)
+                {
+                    // posX=-500,0,500
+                    if (id == 0) card.transform.position = new Vector3(-500, posY, 0);
+                    else if (id == 1) card.transform.position = new Vector3(0, posY, 0);
+                    else if (id == 2) card.transform.position = new Vector3(500, posY, 0);
+                }
                 card.SetActive(tf);
                 id++;
             }

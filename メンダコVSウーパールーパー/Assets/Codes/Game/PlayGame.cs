@@ -112,17 +112,13 @@ public class PlayGame : NetworkBehaviour
     // selectMode変更で同期実行されるイベントで発火。
     void ChangeToMyTurn()
     {
-        //Debug.Log("ターン遷移！");
         PlayerState.SelectMode mymode = myplayer.GetComponent<PlayerState>().selectMode;
         PlayerState.SelectMode partnermode = partnerplayer.GetComponent<PlayerState>().selectMode;
         WaitLoading(0.5f);
-        //Debug.Log("nowname:相手name" + (nowPlayer.name) +":"+ partnerplayer.name);
-        //Debug.Log("自分がnoturn" + (mymode == PlayerState.SelectMode.NoMyTurn));
-        //Debug.Log("相手がnoturn" + (partnermode == PlayerState.SelectMode.NoMyTurn));
 
         Debug.Log("mymode " + mymode + " : " + "partnermode " + partnermode);
         Debug.Log(myplayer.GetComponent<PlayerState>().canChangeTurn + "ならチェンジターン可能");
-        Debug.Log(playerState.team+"のisDespawnは "+playerState.isDespawn);
+        Debug.Log(playerState.team + "のisDespawnは " + playerState.isDespawn);
 
         // ターン遷移 相手ターンかつ両者がターン終了状態なら自分のターン開始
         // TODO:条件分岐おかしい
@@ -151,7 +147,7 @@ public class PlayGame : NetworkBehaviour
             // if (myplayer.GetComponent<PlayerState>().canChangeTurn)
             // {
             Debug.Log("相手ターンに");
-                nowPlayer = partnerplayer;
+            nowPlayer = partnerplayer;
             if (playerState.isDespawn)
             {
                 this.gameObject.GetComponent<GameUI>()

@@ -111,6 +111,8 @@ public class ManageCard : MonoBehaviour
         GameObject newCard = Instantiate(
             cardPrefabs[cardnum], new Vector3(0, 0, 0), cardPrefabs[cardnum].transform.rotation, canvas);
         myCards.Add(newCard);
+        newCard.SetActive(true);
+        newCard.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, posY);
         // TODO:アニメーション？くるくる
         WaitLoading(3.0f);
         // 非表示に

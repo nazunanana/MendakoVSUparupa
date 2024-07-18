@@ -71,6 +71,7 @@ public class GameUI : MonoBehaviour
 
     }
     public void GetPieceUI(){
+        Debug.Log("GetPieceを実行");
         animator_getCard.SetTrigger("Anim");
     }
 }

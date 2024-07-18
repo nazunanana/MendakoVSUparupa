@@ -161,11 +161,23 @@ public class BoardGrid : NetworkBehaviour
                 bool a = (posID[0] == pieceX) && (posID[1] == pieceY - 1);
                 bool s = (posID[0] == pieceX + 1) && (posID[1] == pieceY);
                 bool d = (posID[0] == pieceX) && (posID[1] == pieceY + 1);
+                bool q = (posID[0] == pieceX - 1) && (posID[1] == pieceY - 1);
+                bool z = (posID[0] == pieceX + 1) && (posID[1] == pieceY - 1);
+                bool c = (posID[0] == pieceX + 1) && (posID[1] == pieceY + 1);
+                bool e = (posID[0] == pieceX - 1) && (posID[1] == pieceY + 1);
                 if (w || a || s || d)
                 {
                     gridSystemComp.HighLightGrid(posID, tf);
                 }
-                break;
+                if (GameObject
+                .FindGameObjectWithTag("GameManager")
+                .GetComponent<ManageCard>()
+                .card == ManageCard.Card.Naname){
+                    if(q || z || c || e){
+                        gridSystemComp.HighLightGrid(posID, tf);
+                    }
+                }
+                    break;
             case PlayerState.SelectMode.NoMyTurn:
                 break;
             default:

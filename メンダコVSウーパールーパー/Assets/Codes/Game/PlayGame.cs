@@ -112,14 +112,13 @@ public class PlayGame : NetworkBehaviour
     // selectMode変更で同期実行されるイベントで発火。
     void ChangeToMyTurn()
     {
-        //Debug.Log("ターン遷移！");
         PlayerState.SelectMode mymode = myplayer.GetComponent<PlayerState>().selectMode;
         PlayerState.SelectMode partnermode = partnerplayer.GetComponent<PlayerState>().selectMode;
         WaitLoading(0.5f);
 
         Debug.Log("mymode " + mymode + " : " + "partnermode " + partnermode);
         Debug.Log(myplayer.GetComponent<PlayerState>().canChangeTurn + "ならチェンジターン可能");
-        Debug.Log(playerState.team+"のisDespawnは "+playerState.isDespawn);
+        Debug.Log(playerState.team + "のisDespawnは " + playerState.isDespawn);
 
         // ターン遷移 相手ターンかつ両者がターン終了状態なら自分のターン開始
         if (
@@ -210,6 +209,7 @@ public class PlayGame : NetworkBehaviour
         Debug.Log(playerState.team + "の駒は残り:" + myplayer.GetComponent<ManagePiece>().syncDic.Count);
     }
 
+
     public void SearchRealFromPartner()
     {
         foreach (var dic in partnerplayer.GetComponent<ManagePiece>().syncDic)
@@ -236,6 +236,7 @@ public class PlayGame : NetworkBehaviour
 
     public void SearchPieceObj()
     {
+        Debug.Log(myplayer +" realPosID: " +realPosID);
         foreach (var dic in myplayer.GetComponent<ManagePiece>().pieceDic)
         {
             if (dic.Key == realPosID)

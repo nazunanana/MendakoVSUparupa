@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardState : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class CardState : MonoBehaviour
     }
 
 
-    void OnMouseDown() // カードがクリックされたとき
+    public void OnImageClick() // カードがクリックされたとき
     {
         // 自分の行動中でないときはクリックできない
         if ((playerComp.selectMode != PlayerState.SelectMode.MovePiece)
@@ -36,7 +37,7 @@ public class CardState : MonoBehaviour
             return;
         }
         canUse = false;
-
+        Debug.Log("カードクリック");
         manageComp.ActiveCard(cardNum);
 
     }

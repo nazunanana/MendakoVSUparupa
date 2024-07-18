@@ -88,15 +88,9 @@ public class BoardGrid : NetworkBehaviour
                     EnableGridCollider(false);
                     ChangeHighLight(false);
                 }
-                //EnableOpponentColliders(true); //コライダー有効に
                 break;
             case PlayerState.SelectMode.MovePosition: //ゲーム中
                 player.GetComponent<ManagePiece>().EnableOpponentColliders(true);
-                // GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-                // foreach (GameObject player in players)
-                // {
-                //     player.GetComponent<ManagePiece>().
-                // }
                 state = GameObject.FindWithTag("GameManager").GetComponent<PlayGame>();
 
                 // 移動先が自分の駒の時は移動できない
@@ -134,12 +128,6 @@ public class BoardGrid : NetworkBehaviour
                     playerComp.toMovePiece(posID);
                 }
                 break;
-
-            // case PlayerState.SelectMode.MovePosition:
-            //     nowPlayerComp.toMovePiece(posID);
-            //     Debug.Log("移動した");
-            //     ChangeHighLight(false);
-            //     break;
             case PlayerState.SelectMode.NoMyTurn:
                 break;
             default:

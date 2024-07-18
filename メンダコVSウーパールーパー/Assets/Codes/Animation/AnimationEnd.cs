@@ -20,7 +20,6 @@ public class AnimationEnd : MonoBehaviour
         if(!playerState.isDespawn){
             manager.GetComponent<PlayGame>().ChangeTurnUI();
         }
-        playerState.isDespawn=true;
 
 
         // リザルト遷移許可

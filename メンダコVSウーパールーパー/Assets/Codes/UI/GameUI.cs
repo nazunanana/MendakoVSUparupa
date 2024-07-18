@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+/// <summary>
+/// attach to GameManager
+/// </summary>
 public class GameUI : MonoBehaviour
 {
     public GameObject uparupaIcon;
@@ -12,20 +14,19 @@ public class GameUI : MonoBehaviour
     public GameObject fakePieceNum;
     public GameObject myturn;
     public GameObject noturn;
-    public GameObject getPiece;
+    public GameObject getCard;
 
     private bool imUparupa;
     public static bool endGame;
     private Animator animator_myturn;
     private Animator animator_noturn;
-    private Animator animator_getPiece;
+    private Animator animator_getCard;
 
     void Awake()
     {
         animator_myturn = myturn.GetComponent<Animator>();
         animator_noturn = noturn.GetComponent<Animator>();
-        if (animator_myturn == null) Debug.LogError("animator_myturn is null!");
-        if (animator_noturn == null) Debug.LogError("animator_noturn is null!"); if (animator_myturn == null) Debug.Log("null!!");
+        animator_getCard = getCard.GetComponent<Animator>();
     }
 
     public void SetUIPosition(bool imUparupa)
@@ -68,5 +69,8 @@ public class GameUI : MonoBehaviour
             Debug.Log("4駒獲得済みです");
         }
 
+    }
+    public void GetPieceUI(){
+        animator_getCard.SetTrigger("Anim");
     }
 }

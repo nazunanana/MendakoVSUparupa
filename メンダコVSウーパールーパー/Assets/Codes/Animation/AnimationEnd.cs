@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// attach to アニメーション用のモデルオブジェクト
+/// </summary>
 public class AnimationEnd : MonoBehaviour
 {
     public static event Action OnAnimationComplete;

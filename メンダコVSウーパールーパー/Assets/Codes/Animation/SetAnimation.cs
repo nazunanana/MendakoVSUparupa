@@ -5,6 +5,9 @@ using UnityEngine.Timeline;
 using UnityEngine.Assertions;
 using System.Collections;
 using System.Collections.Generic;
+/// <summary>
+/// attach to GameManager
+/// </summary>
 public class SetAnimation : MonoBehaviour
 {
     [SerializeField] private RuntimeAnimatorController ac_Uparupa;

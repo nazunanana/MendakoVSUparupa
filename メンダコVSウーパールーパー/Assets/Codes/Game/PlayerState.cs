@@ -199,6 +199,7 @@ public class PlayerState : NetworkBehaviour
     /// </summary>
     public void toStartMyTurn()
     {
+        Debug.Log(team+"がtoStartMyTurnを実行しました  desCount:"+desCount);
         if (desCount != 0)// 駒を取られた直後ならカード獲得
         {
             for (int i = 0; i < desCount; i++)

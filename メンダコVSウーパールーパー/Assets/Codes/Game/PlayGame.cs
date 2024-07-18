@@ -129,6 +129,7 @@ public class PlayGame : NetworkBehaviour
             this.gameObject.GetComponent<GameUI>()
                 .ChangeTurn(myplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, true); //自分を大きく
             nowPlayer = myplayer;
+            Debug.Log("nowPlayer:team."+nowPlayer.GetComponent<PlayerState>().team);
         }
         else if (
             mymode == PlayerState.SelectMode.NoMyTurn
@@ -139,6 +140,7 @@ public class PlayGame : NetworkBehaviour
             this.gameObject.GetComponent<GameUI>()
                 .ChangeTurn(
                     partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, false); //相手を大きく
+            Debug.Log("nowPlayer:team."+nowPlayer.GetComponent<PlayerState>().team);
         }
     }
 

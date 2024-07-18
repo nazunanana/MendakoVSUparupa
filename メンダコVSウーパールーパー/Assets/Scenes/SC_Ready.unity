@@ -494,7 +494,7 @@ MonoBehaviour:
   AutoClients: 1
   ClientStartDelay: 0.1
   ServerPort: 0
-  DefaultRoomName: uyu
+  DefaultRoomName: Nazu
   InitialScenePath: 
   _currentStage: 0
   AutoConnectVirtualInstances: 1
@@ -789,6 +789,7 @@ GameObject:
   - component: {fileID: 860390728}
   - component: {fileID: 860390727}
   - component: {fileID: 860390729}
+  - component: {fileID: 860390730}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -889,6 +890,26 @@ MonoBehaviour:
   Components:
   - {fileID: 860390727}
   _guid: a302feae-8e7d-44c8-
+--- !u!114 &860390730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860390726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &934542293
 GameObject:
   m_ObjectHideFlags: 0

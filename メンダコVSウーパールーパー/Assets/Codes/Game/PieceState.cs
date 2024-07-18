@@ -63,7 +63,6 @@ public class PieceState : NetworkBehaviour
     void Start()
     {
         gridmanager = GameObject.FindGameObjectWithTag("GridSystem");
-        // WaitLoading(1.0f);
         // wait = true;
     }
 
@@ -83,7 +82,7 @@ public class PieceState : NetworkBehaviour
         Debug.Log("Shining実行");
         // 光らせたい
         HighLightPiece(true);
-        Wait(3);
+        StartCoroutine(Wait(3));
         // 光を消す
         HighLightPiece(false);
         Debug.Log("Shining切れた");

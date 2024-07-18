@@ -323,10 +323,11 @@ public class PlayerState : NetworkBehaviour
 
     public void SearchPieceObj()
     {
-        Debug.Log("SearchPieceObj実行 count:"+GetComponent<ManagePiece>().pieceDic.Count);
+        Debug.Log("SearchPieceObj実行 count:"+this.gameObject.GetComponent<ManagePiece>().pieceDic.Count);
+        Debug.Log("ManagePieceNull?"+this.gameObject.GetComponent<ManagePiece>());
 
         // ↓このforeach文が２人目プレイヤーが実行されない
-        foreach (var dic in GetComponent<ManagePiece>().pieceDic)
+        foreach (var dic in this.gameObject.GetComponent<ManagePiece>().pieceDic)
         {
             Debug.Log("dic.Key:"+dic.Key+" realPosID:"+realPosID);
             if (dic.Key == realPosID)

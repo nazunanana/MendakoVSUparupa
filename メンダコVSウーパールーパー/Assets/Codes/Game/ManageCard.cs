@@ -36,10 +36,6 @@ public class ManageCard : MonoBehaviour
     {
         cardPrefabs = new GameObject[] { card1phb, card2phb, card3phb };
         myCards = new List<GameObject>();
-        // foreach (GameObject cardObj in cardPrefabs)
-        // {
-            //cardObj.GetComponent<CardState>().SetPlayer = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayGame>().myplayer; 
-        // }
         OnUI = false;
     }
     /// <summary>
@@ -144,12 +140,15 @@ public class ManageCard : MonoBehaviour
             case 2:
                 card = Card.Forecast;
                 Debug.Log("相手の駒の中から１つ、本物を見破りました");
-                GetComponent<PlayGame>().SearchRealFromPartner();
+                this.gameObject.GetComponent<PlayGame>().SearchRealFromPartner();
                 break;
         }
-        foreach(var card in myCards){
-            Debug.Log(card == cardPrefabs[num]);
-            if(card == cardPrefabs[num]){
+        foreach (var card in myCards)
+        {
+            if (card.name.StartsWith(cardPrefabs[num].name))
+            {
+                ViewUI(false);
+                OnUI = false;
                 myCards.Remove(card);
                 return;
             }
@@ -159,13 +158,15 @@ public class ManageCard : MonoBehaviour
     }
 
     // 全カードの使用可能状況を切り替える
-    public void SwitchCanUse(bool canUse){
-        Debug.Log("カード使用可否:"+canUse);
+    public void SwitchCanUse(bool canUse)
+    {
         foreach (GameObject cardObj in cardPrefabs)
         {
             cardObj.GetComponent<CardState>().canUse = canUse;
+            Debug.Log("canUse:"+cardObj.GetComponent<CardState>().canUse);
         }
-        if(canUse){ // 使える状態(カードの効果が切れた状態)
+        if (canUse)
+        { // 使える状態(カードの効果が切れた状態)
             card = Card.Default;
         }
     }

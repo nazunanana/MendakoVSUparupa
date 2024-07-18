@@ -13,14 +13,7 @@ public class CardState : MonoBehaviour
     //  このターンにカードを使ったかどうか
     public bool canUse { get; set; }
 
-    // public GameObject SetPlayer
-    // {
-    //     set
-    //     {
-    //         player = value;
-    //         playerComp = player.GetComponent<PlayerState>();
-    //     }
-    // }
+
     void Start()
     {
         manageComp = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ManageCard>();
@@ -32,7 +25,7 @@ public class CardState : MonoBehaviour
     public void OnImageClick() // カードがクリックされたとき
     {
         // 自分の行動中でないときはクリックできない
-        Debug.Log("CardState playerComp "+playerComp.selectMode);
+        Debug.Log("CardState "+manageComp.card);
         if ((playerComp.selectMode != PlayerState.SelectMode.MovePiece)
             || canUse == false)
         {

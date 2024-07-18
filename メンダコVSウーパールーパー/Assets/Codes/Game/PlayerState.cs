@@ -40,8 +40,11 @@ public class PlayerState : NetworkBehaviour
     [Networked, OnChangedRender(nameof(DespawnPiece))]
     public Vector2Int desPosID { get; set; }
 
+    [Networked, OnChangedRender(nameof(SearchPieceObj))]
+    public Vector2Int realPosID { get; set; }
+
     // 駒を取られた側かどうか
-    public bool isDespawn { get; set; }
+    public bool isDespawn;
 
     // １ターンに駒を取られた回数
     private int desCount;
@@ -189,6 +192,7 @@ public class PlayerState : NetworkBehaviour
     /// </summary>
     public void toStartMyTurn()
     {
+        isDespawn = true;
         selectMode = SelectMode.MovePiece;
     }
 
@@ -313,6 +317,22 @@ public class PlayerState : NetworkBehaviour
                     GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().RemovePieceOfDictionary(desPosID);
                     return;
                 }
+            }
+        }
+    }
+
+    public void SearchPieceObj()
+    {
+        Debug.Log("SearchPieceObj実行 count:"+GetComponent<ManagePiece>().pieceDic.Count);
+
+        // ↓このforeach文が２人目プレイヤーが実行されない
+        foreach (var dic in GetComponent<ManagePiece>().pieceDic)
+        {
+            Debug.Log("dic.Key:"+dic.Key+" realPosID:"+realPosID);
+            if (dic.Key == realPosID)
+            {
+                Debug.Log("Shining実行");
+                dic.Value.GetComponent<PieceState>().Shining();
             }
         }
     }

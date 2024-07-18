@@ -121,7 +121,6 @@ public class PlayGame : NetworkBehaviour
         Debug.Log(playerState.team + "のisDespawnは " + playerState.isDespawn);
 
         // ターン遷移 相手ターンかつ両者がターン終了状態なら自分のターン開始
-        // TODO:条件分岐おかしい
         if (
             nowPlayer == partnerplayer
             && mymode == PlayerState.SelectMode.NoMyTurn
@@ -129,14 +128,12 @@ public class PlayGame : NetworkBehaviour
         )
         { //次は自分ターン
           //アニメーション終了後なら
-          // if (myplayer.GetComponent<PlayerState>().canChangeTurn)
-          // {
-            Debug.Log("このあとtoStartMyTurn");
+            Debug.Log("→自分のターン");
             myplayer.GetComponent<PlayerState>().toStartMyTurn();
+            // ターン遷移UI
             this.gameObject.GetComponent<GameUI>()
                 .ChangeTurn(myplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, true); //自分を大きく
             nowPlayer = myplayer;
-            //}
         }
         else if (
             nowPlayer == myplayer
@@ -146,17 +143,16 @@ public class PlayGame : NetworkBehaviour
         { //次は相手ターン
             // if (myplayer.GetComponent<PlayerState>().canChangeTurn)
             // {
-            Debug.Log("相手ターンに");
-            nowPlayer = partnerplayer;
+            Debug.Log("→相手ターン");
+                nowPlayer = partnerplayer;
             if (playerState.isDespawn)
             {
                 this.gameObject.GetComponent<GameUI>()
                     .ChangeTurn(
                         partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, false); //相手を大きく
             }
-            //}
         }
-        else { Debug.Log("elseになっちゃってる"); }
+        else { Debug.Log("ターン遷移しない"); }
     }
 
     public void ChangeTurnUI()

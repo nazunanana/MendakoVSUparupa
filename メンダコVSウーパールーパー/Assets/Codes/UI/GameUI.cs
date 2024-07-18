@@ -12,11 +12,13 @@ public class GameUI : MonoBehaviour
     public GameObject fakePieceNum;
     public GameObject myturn;
     public GameObject noturn;
+    public GameObject getPiece;
 
     private bool imUparupa;
     public static bool endGame;
     private Animator animator_myturn;
     private Animator animator_noturn;
+    private Animator animator_getPiece;
 
     void Awake()
     {

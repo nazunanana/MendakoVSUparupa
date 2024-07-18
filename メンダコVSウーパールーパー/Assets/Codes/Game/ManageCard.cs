@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ManageCard : MonoBehaviour
 {
+    [SerializeField] private Transform canvas;
     [SerializeField] private GameObject card1phb;
     [SerializeField] private GameObject card2phb;
     [SerializeField] private GameObject card3phb;
@@ -32,6 +33,7 @@ public class ManageCard : MonoBehaviour
     public void Start()
     {
         cardPrefabs = new GameObject[] { card1phb, card2phb, card3phb };
+        myCards = new List<GameObject>();
         foreach (GameObject cardObj in cardPrefabs)
         {
             cardObj.GetComponent<CardState>().SetPlayer = GetComponent<PlayGame>().myplayer;
@@ -76,23 +78,24 @@ public class ManageCard : MonoBehaviour
             // 表示
             foreach (var card in myCards)
             {
+                RectTransform cadeTransform = card.GetComponent<RectTransform>();
                 if (myCards.Count == 1)
                 {
                     // posX=0
-                    card.transform.position = new Vector3(0, posY, 0);
+                    cadeTransform.anchoredPosition = new Vector2(0, posY);
                 }
                 else if (myCards.Count == 2)
                 {
                     // posX=-350,350
-                    if (id == 0) card.transform.position = new Vector3(-350, posY, 0);
-                    else if (id == 1) card.transform.position = new Vector3(350, posY, 0);
+                    if (id == 0) cadeTransform.anchoredPosition = new Vector2(-350, posY);
+                    else if (id == 1) cadeTransform.anchoredPosition = new Vector2(350, posY);
                 }
                 else if (myCards.Count == 3)
                 {
                     // posX=-500,0,500
-                    if (id == 0) card.transform.position = new Vector3(-500, posY, 0);
-                    else if (id == 1) card.transform.position = new Vector3(0, posY, 0);
-                    else if (id == 2) card.transform.position = new Vector3(500, posY, 0);
+                    if (id == 0) cadeTransform.anchoredPosition = new Vector2(-500, posY);
+                    else if (id == 1) cadeTransform.anchoredPosition = new Vector2(0, posY);
+                    else if (id == 2) cadeTransform.anchoredPosition = new Vector2(500, posY);
                 }
                 card.SetActive(tf);
                 id++;
@@ -104,7 +107,8 @@ public class ManageCard : MonoBehaviour
     /// </summary>
     private void AddCardUI(int cardnum)
     {
-        GameObject newCard = Instantiate(cardPrefabs[cardnum], new Vector3(0, 0, 0), cardPrefabs[cardnum].transform.rotation);
+        GameObject newCard = Instantiate(
+            cardPrefabs[cardnum], new Vector3(0, 0, 0), cardPrefabs[cardnum].transform.rotation, canvas);
         myCards.Add(newCard);
         // TODO:アニメーション？くるくる
         WaitLoading(3.0f);

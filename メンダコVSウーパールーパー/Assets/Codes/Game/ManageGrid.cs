@@ -99,7 +99,9 @@ public class ManageGrid : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// マスコライダーオブジェクトを全て削除
+    /// </summary>
     public void DestroyGrids()
     {
         for (int i = 0; i < GRID_NUM; ++i)
@@ -194,7 +196,7 @@ public class ManageGrid : MonoBehaviour
         }
     }
     /// <summary>
-    /// マスのコライダー操作  有効にするならtrue
+    /// マスのコライダーを一括で有効/無効にする  有効にするならtrue
     /// </summary>
     public void EnableGridColliders(bool tf)
     {
@@ -203,6 +205,9 @@ public class ManageGrid : MonoBehaviour
             grid.EnableGridCollider(tf);
         }
     }
+    /// <summary>
+    /// 前後左右のマスに自分の駒が無いところだけコライダーを有効に
+    /// </summary>
     public void EnableWASDColliders(Vector2Int posID)
     {
         foreach (var grid in FindObjectsOfType<BoardGrid>())
@@ -242,6 +247,9 @@ public class ManageGrid : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// そのマスに自分の駒があるか
+    /// </summary>
     private bool SearchPieceHere(Vector2Int posID)
     {
         //Debug.Log(player.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID));

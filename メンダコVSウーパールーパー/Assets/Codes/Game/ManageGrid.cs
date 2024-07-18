@@ -252,7 +252,7 @@ public class ManageGrid : MonoBehaviour
     /// </summary>
     private bool SearchPieceHere(Vector2Int posID)
     {
-        //Debug.Log(player.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID));
-        return player.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID);
+        Debug.Log("ここに自分の駒がある"+player.GetComponent<ManagePiece>().syncDic.ContainsKey(posID));
+        return player.GetComponent<ManagePiece>().syncDic.ContainsKey(posID);
     }
 }

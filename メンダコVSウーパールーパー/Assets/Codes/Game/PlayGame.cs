@@ -111,7 +111,7 @@ public class PlayGame : NetworkBehaviour
     {
         PlayerState.SelectMode mymode = myplayer.GetComponent<PlayerState>().selectMode;
         PlayerState.SelectMode partnermode = partnerplayer.GetComponent<PlayerState>().selectMode;
-        WaitLoading(0.5f);
+        //StartCoroutine(WaitLoading(0.5f));
 
         Debug.Log("mymode " + mymode + " : " + "partnermode " + partnermode);
         Debug.Log(myplayer.GetComponent<PlayerState>().canChangeTurn + "ならチェンジターン可能");
@@ -141,8 +141,8 @@ public class PlayGame : NetworkBehaviour
             // if (myplayer.GetComponent<PlayerState>().canChangeTurn)
             // {
             Debug.Log("→相手ターン");
-                nowPlayer = partnerplayer;
-            if (playerState.isDespawn)
+            nowPlayer = partnerplayer;
+            if (playerState.isLateAnim)
             {
                 this.gameObject.GetComponent<GameUI>()
                     .ChangeTurn(
@@ -157,7 +157,7 @@ public class PlayGame : NetworkBehaviour
         this.gameObject.GetComponent<GameUI>()
                     .ChangeTurn(
                         partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, false); //相手を大きく
-        playerState.isDespawn = true;
+        playerState.isLateAnim = false;
     }
 
     /// <summary>
@@ -317,6 +317,7 @@ public class PlayGame : NetworkBehaviour
     //     Debug.Log("シーン遷移");
     //     SceneManager.LoadScene("SC_Result");
     // }
+    
     /// <summary>
     /// 駒獲得時、相手のそのマスの駒チームで分岐
     /// 獲得数増やす→Animation

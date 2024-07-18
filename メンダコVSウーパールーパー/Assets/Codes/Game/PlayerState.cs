@@ -67,12 +67,7 @@ public class PlayerState : NetworkBehaviour
     // グリッドマネージャー
     public GameObject manageGrid;
 
-    // private List<GameObject> myPieces;
-    // // 場に出ている自陣営の駒 <位置のID, 駒オブジェクト>
-    // private Dictionary<Vector2Int, GameObject> activePieces;
-    // // 獲得した相手陣営の駒
-    // private List<GameObject> getPieces;
-    Dictionary<Vector2Int, PieceState> pieceDic;
+    //Dictionary<Vector2Int, PieceState> pieceDic;
 
     // 選択した駒位置
     private Vector2Int piecePos;
@@ -85,6 +80,7 @@ public class PlayerState : NetworkBehaviour
 
     // ネットワークオブジェクト(スポーンしたプレイヤーオブジェクト)
     private NetworkObject playerObj;
+    public bool isLateAnim = false;
 
     /// <summary>
     /// SC_SetPieces開始時
@@ -217,9 +213,9 @@ public class PlayerState : NetworkBehaviour
     {
         moveToPos = posID;
         // 入れる配列取得
-        pieceDic = this.gameObject.GetComponent<ManagePiece>().pieceDic;
-        pieceDic.Remove(piecePos); //現在位置の登録解除
-        pieceDic.Add(moveToPos, piece); //移動先で登録
+        //pieceDic = this.gameObject.GetComponent<ManagePiece>().pieceDic;
+        this.gameObject.GetComponent<ManagePiece>().pieceDic.Remove(piecePos); //現在位置の登録解除
+        this.gameObject.GetComponent<ManagePiece>().pieceDic.Add(moveToPos, piece); //移動先で登録
         // ID伝えて移動させる
         piece.GetComponent<PieceState>().MovePiecePos(posID);
 
@@ -248,8 +244,9 @@ public class PlayerState : NetworkBehaviour
     /// </summary>
     public void ClearAllHighLight()
     {
-        pieceDic = this.gameObject.GetComponent<ManagePiece>().pieceDic;
-        foreach (PieceState piece in pieceDic.Values)
+        //pieceDic = this.gameObject.GetComponent<ManagePiece>().pieceDic; //TODO:
+        //Debug.Log("PlayerState/ClearHighLightのpieceDicnum"+GetComponent<ManagePiece>().pieceDic.Count);
+        foreach (PieceState piece in GetComponent<ManagePiece>().pieceDic.Values)
         {
             if (piece != null)
                 piece.HighLightPiece(false);
@@ -282,6 +279,8 @@ public class PlayerState : NetworkBehaviour
         Debug.Log("isDes:" + isDespawn);
         if (!isDespawn)
         {
+            isDespawn = true;
+            isLateAnim = true;
             return;
         }
         // runner検出
@@ -307,7 +306,8 @@ public class PlayerState : NetworkBehaviour
                     desCount++;
                     runner.Despawn(pieceNet);
                     // 本物が取られたらカードを引く
-                    if (GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().IsRealPiece(desPosID)){
+                    if (GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().IsRealPiece(desPosID))
+                    {
                         GameObject
                         .FindGameObjectWithTag("GameManager")
                         .GetComponent<ManageCard>()
@@ -323,19 +323,20 @@ public class PlayerState : NetworkBehaviour
 
     public void SearchPieceObj()
     {
-        Debug.Log("SearchPieceObj実行 count:"+this.gameObject.GetComponent<ManagePiece>().pieceDic.Count);
-        Debug.Log("ManagePieceNull?"+this.gameObject.GetComponent<ManagePiece>());
+        Debug.Log("SearchPieceObj実行 count:" + this.gameObject.GetComponent<ManagePiece>().pieceDic.Count);
+        Debug.Log("ManagePieceNull?" + this.gameObject.GetComponent<ManagePiece>());
 
+        foreach(manageGrid.GetComponent<ManagePiece>().pieceDic)
         // ↓このforeach文が２人目プレイヤーが実行されない
-        foreach (var dic in this.gameObject.GetComponent<ManagePiece>().pieceDic)
-        {
-            Debug.Log("dic.Key:"+dic.Key+" realPosID:"+realPosID);
-            if (dic.Key == realPosID)
-            {
-                Debug.Log("Shining実行");
-                dic.Value.GetComponent<PieceState>().Shining();
-            }
-        }
+        // foreach (var dic in this.gameObject.GetComponent<ManagePiece>().pieceDic)
+        // {
+        //     Debug.Log("dic.Key:" + dic.Key + " realPosID:" + realPosID);
+        //     if (dic.Key == realPosID)
+        //     {
+        //         Debug.Log("Shining実行");
+        //         dic.Value.GetComponent<PieceState>().Shining();
+        //     }
+        // }
     }
 
     IEnumerator WaitLoading(float time)

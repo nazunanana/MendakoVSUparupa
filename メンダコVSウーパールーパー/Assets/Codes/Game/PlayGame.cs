@@ -17,6 +17,7 @@ public class PlayGame : NetworkBehaviour
     private PlayerState playerState;
     public NetworkRunner runner { get; set; }
     private const int GRID_NUM = 6;
+    // リザルト遷移許可
     public static bool destroyProcess { get; set; }
     private static bool isAnimationComplete = false;
 
@@ -108,6 +109,7 @@ public class PlayGame : NetworkBehaviour
         this.gameObject.GetComponent<GameUI>().ChangeTurn(true, myplayer == nowPlayer);
     }
 
+    // selectMode変更で同期実行されるイベントで発火。
     void ChangeToMyTurn()
     {
         //Debug.Log("ターン遷移！");
@@ -118,28 +120,53 @@ public class PlayGame : NetworkBehaviour
         //Debug.Log("自分がnoturn" + (mymode == PlayerState.SelectMode.NoMyTurn));
         //Debug.Log("相手がnoturn" + (partnermode == PlayerState.SelectMode.NoMyTurn));
 
+        Debug.Log("mymode " + mymode + " : " + "partnermode " + partnermode);
+        Debug.Log(myplayer.GetComponent<PlayerState>().canChangeTurn + "ならチェンジターン可能");
+
         // ターン遷移 相手ターンかつ両者がターン終了状態なら自分のターン開始
+        // TODO:条件分岐おかしい
         if (
             nowPlayer == partnerplayer
             && mymode == PlayerState.SelectMode.NoMyTurn
             && partnermode == PlayerState.SelectMode.NoMyTurn
         )
-        {
+        { //次は自分ターン
+          //アニメーション終了後なら
+          // if (myplayer.GetComponent<PlayerState>().canChangeTurn)
+          // {
+            Debug.Log("このあとtoStartMyTurn");
             myplayer.GetComponent<PlayerState>().toStartMyTurn();
             this.gameObject.GetComponent<GameUI>()
                 .ChangeTurn(myplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, true); //自分を大きく
             nowPlayer = myplayer;
+            //}
         }
         else if (
-            mymode == PlayerState.SelectMode.NoMyTurn
+            nowPlayer == myplayer
+            && mymode == PlayerState.SelectMode.NoMyTurn
             && partnermode == PlayerState.SelectMode.NoMyTurn
         )
-        {
-            nowPlayer = partnerplayer;
-            this.gameObject.GetComponent<GameUI>()
-                .ChangeTurn(
-                    partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, false); //相手を大きく
+        { //次は相手ターン
+            // if (myplayer.GetComponent<PlayerState>().canChangeTurn)
+            // {
+            if (playerState.isDespawn)
+            {
+                Debug.Log("相手ターンに");
+                nowPlayer = partnerplayer;
+                this.gameObject.GetComponent<GameUI>()
+                    .ChangeTurn(
+                        partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, false); //相手を大きく
+            }
+            //}
         }
+        else { Debug.Log("elseになっちゃってる"); }
+    }
+
+    public void ChangeTurnUI()
+    {
+        this.gameObject.GetComponent<GameUI>()
+                    .ChangeTurn(
+                        partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, false); //相手を大きく
     }
 
     /// <summary>
@@ -190,18 +217,34 @@ public class PlayGame : NetworkBehaviour
 
     public void SearchRealFromPartner()
     {
-        foreach(var dic in partnerplayer.GetComponent<ManagePiece>().syncDic){
-            if(dic.Value == true){
+        foreach (var dic in partnerplayer.GetComponent<ManagePiece>().syncDic)
+        {
+            if (dic.Value == true)
+            {
                 realPosID = dic.Key;
                 break;
             }
         }
     }
 
-    public void SearchPieceObj(){
-        foreach(var dic in myplayer.GetComponent<ManagePiece>().pieceDic)
+    public bool IsRealPiece(Vector2Int posID)
+    {
+        foreach (var dic in myplayer.GetComponent<ManagePiece>().pieceDic)
         {
-            if(dic.Key == realPosID){
+            if (dic.Key == posID)
+            {
+                return dic.Value.isReal;
+            }
+        }
+        return false;
+    }
+
+    public void SearchPieceObj()
+    {
+        foreach (var dic in myplayer.GetComponent<ManagePiece>().pieceDic)
+        {
+            if (dic.Key == realPosID)
+            {
                 dic.Value.GetComponent<PieceState>().Shining();
             }
         }

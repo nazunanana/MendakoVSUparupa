@@ -32,6 +32,7 @@ public class PieceState : NetworkBehaviour
     [Networked, OnChangedRender(nameof(SyncPos))]
     public Vector3 absPos { get; set; }
 
+
     // グローバル位置換算
     private const float FIRST_X = -6.48f; //ウパルパ陣営側
     private const float FIRST_Z = -6.48f;
@@ -79,12 +80,13 @@ public class PieceState : NetworkBehaviour
 
     public void Shining()
     {
-
+        Debug.Log("Shining実行");
         // 光らせたい
         HighLightPiece(true);
         Wait(3);
         // 光を消す
         HighLightPiece(false);
+        Debug.Log("Shining切れた");
 
     }
 
@@ -144,8 +146,8 @@ public class PieceState : NetworkBehaviour
 
     void OnMouseDown()
     {
-        if (player.GetComponent<PlayerState>() != null)
-        {
+        // if (player.GetComponent<PlayerState>() != null)
+        // {
             if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
             {
                 switch (player.GetComponent<PlayerState>().selectMode)
@@ -170,11 +172,11 @@ public class PieceState : NetworkBehaviour
                     default:
                         break;
                 }
-            }
-            else
-            {
-                Debug.Log("not my team's piece");
-            }
+            // }
+            // else
+            // {
+            //     Debug.Log("not my team's piece");
+            // }
         }
         else
             return;

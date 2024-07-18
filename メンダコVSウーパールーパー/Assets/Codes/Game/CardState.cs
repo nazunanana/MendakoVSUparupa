@@ -13,27 +13,23 @@ public class CardState : MonoBehaviour
     //  このターンにカードを使ったかどうか
     public bool canUse { get; set; }
 
-    public GameObject SetPlayer
-    {
-        set
-        {
-            player = value;
-            playerComp = player.GetComponent<PlayerState>();
-        }
-    }
+
     void Start()
     {
         manageComp = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ManageCard>();
         canUse = true;
+        playerComp = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayGame>().myplayer.GetComponent<PlayerState>();
     }
 
 
     public void OnImageClick() // カードがクリックされたとき
     {
         // 自分の行動中でないときはクリックできない
+        Debug.Log("CardState "+manageComp.card);
         if ((playerComp.selectMode != PlayerState.SelectMode.MovePiece)
             || canUse == false)
         {
+            Debug.Log("現在はカードを使用できません");
             return;
         }
         canUse = false;

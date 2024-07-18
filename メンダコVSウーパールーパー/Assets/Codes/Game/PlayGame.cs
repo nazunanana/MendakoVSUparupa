@@ -21,9 +21,6 @@ public class PlayGame : NetworkBehaviour
     public static bool destroyProcess { get; set; }
     private static bool isAnimationComplete = false;
 
-    [Networked, OnChangedRender(nameof(SearchPieceObj))]
-    public Vector2Int realPosID { get; set; }
-
     void Awake()
     {
         Debug.Log("Awake SC_Game");
@@ -112,14 +109,13 @@ public class PlayGame : NetworkBehaviour
     // selectMode変更で同期実行されるイベントで発火。
     void ChangeToMyTurn()
     {
-        //Debug.Log("ターン遷移！");
         PlayerState.SelectMode mymode = myplayer.GetComponent<PlayerState>().selectMode;
         PlayerState.SelectMode partnermode = partnerplayer.GetComponent<PlayerState>().selectMode;
         WaitLoading(0.5f);
 
         Debug.Log("mymode " + mymode + " : " + "partnermode " + partnermode);
         Debug.Log(myplayer.GetComponent<PlayerState>().canChangeTurn + "ならチェンジターン可能");
-        Debug.Log(playerState.team+"のisDespawnは "+playerState.isDespawn);
+        Debug.Log(playerState.team + "のisDespawnは " + playerState.isDespawn);
 
         // ターン遷移 相手ターンかつ両者がターン終了状態なら自分のターン開始
         if (
@@ -200,6 +196,18 @@ public class PlayGame : NetworkBehaviour
             return 0;
     }
 
+    public void SearchRealFromPartner()
+    {
+        foreach (var dic in partnerplayer.GetComponent<ManagePiece>().syncDic)
+        {
+            if (dic.Value == true)
+            {
+                playerState.realPosID = dic.Key;
+                break;
+            }
+        }
+    }
+
     /// <summary>
     /// 指定位置にある駒のDictionaryを削除(取られた側のみ)
     /// </summary>
@@ -208,18 +216,6 @@ public class PlayGame : NetworkBehaviour
         myplayer.GetComponent<ManagePiece>().pieceDic.Remove(posID);
         myplayer.GetComponent<ManagePiece>().syncDic.Remove(posID);
         Debug.Log(playerState.team + "の駒は残り:" + myplayer.GetComponent<ManagePiece>().syncDic.Count);
-    }
-
-    public void SearchRealFromPartner()
-    {
-        foreach (var dic in partnerplayer.GetComponent<ManagePiece>().syncDic)
-        {
-            if (dic.Value == true)
-            {
-                realPosID = dic.Key;
-                break;
-            }
-        }
     }
 
     public bool IsRealPiece(Vector2Int posID)
@@ -233,19 +229,6 @@ public class PlayGame : NetworkBehaviour
         }
         return false;
     }
-
-    public void SearchPieceObj()
-    {
-        foreach (var dic in myplayer.GetComponent<ManagePiece>().pieceDic)
-        {
-            if (dic.Key == realPosID)
-            {
-                dic.Value.GetComponent<PieceState>().Shining();
-            }
-        }
-    }
-
-
 
     public void EndGameChecker()
     {

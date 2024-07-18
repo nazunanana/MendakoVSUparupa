@@ -209,6 +209,7 @@ public class PlayGame : NetworkBehaviour
         Debug.Log(playerState.team + "の駒は残り:" + myplayer.GetComponent<ManagePiece>().syncDic.Count);
     }
 
+
     public void SearchRealFromPartner()
     {
         foreach (var dic in partnerplayer.GetComponent<ManagePiece>().syncDic)
@@ -235,6 +236,7 @@ public class PlayGame : NetworkBehaviour
 
     public void SearchPieceObj()
     {
+        Debug.Log(myplayer +" realPosID: " +realPosID);
         foreach (var dic in myplayer.GetComponent<ManagePiece>().pieceDic)
         {
             if (dic.Key == realPosID)

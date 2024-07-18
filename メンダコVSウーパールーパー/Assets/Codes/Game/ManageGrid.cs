@@ -154,19 +154,19 @@ public class ManageGrid : MonoBehaviour
             .GetComponent<ManageCard>()
             .card == ManageCard.Card.Naname)
         {
-            if (0 <= id_x - 1 && !SearchPieceHere(new Vector2Int(id_x - 1, id_z - 1)))
+            if (0 <= id_x - 1 && 0 <= id_z-1 && !SearchPieceHere(new Vector2Int(id_x - 1, id_z - 1)))
             {
                 EnableUnEnableGrid(new Vector2Int(id_x - 1, id_z - 1), highlight); // 左上マス
             }
-            if (id_x + 1 < GRID_NUM && !SearchPieceHere(new Vector2Int(id_x + 1, id_z - 1)))
+            if (id_x + 1 < GRID_NUM && 0 <= id_z-1 && !SearchPieceHere(new Vector2Int(id_x + 1, id_z - 1)))
             {
                 EnableUnEnableGrid(new Vector2Int(id_x + 1, id_z - 1), highlight); // 左下マス
             }
-            if (0 <= id_z - 1 && !SearchPieceHere(new Vector2Int(id_x - 1, id_z + 1)))
+            if (0 <= id_z - 1 && id_z+1 < GRID_NUM && !SearchPieceHere(new Vector2Int(id_x - 1, id_z + 1)))
             {
                 EnableUnEnableGrid(new Vector2Int(id_x - 1, id_z + 1), highlight); // 右上マス
             }
-            if (id_z + 1 < GRID_NUM && !SearchPieceHere(new Vector2Int(id_x + 1, id_z + 1)))
+            if (id_z + 1 < GRID_NUM && id_z+1 < GRID_NUM && !SearchPieceHere(new Vector2Int(id_x + 1, id_z + 1)))
             {
                 EnableUnEnableGrid(new Vector2Int(id_x + 1, id_z + 1), highlight); // 右下マス
             }

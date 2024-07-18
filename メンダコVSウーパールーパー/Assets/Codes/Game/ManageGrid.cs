@@ -244,7 +244,7 @@ public class ManageGrid : MonoBehaviour
     }
     private bool SearchPieceHere(Vector2Int posID)
     {
-        Debug.Log(player.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID));
+        //Debug.Log(player.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID));
         return player.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID);
     }
 }

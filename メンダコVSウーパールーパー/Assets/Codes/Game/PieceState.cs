@@ -79,9 +79,12 @@ public class PieceState : NetworkBehaviour
 
     public void Shining()
     {
+
         // 光らせたい
+        HighLightPiece(true);
         Wait(3);
         // 光を消す
+        HighLightPiece(false);
 
     }
 

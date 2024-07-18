@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.09684387, g: 0.39219317, b: 0.97292084, a: 1}
+  m_IndirectSpecularColor: {r: 0.09684387, g: 0.392194, b: 0.97292084, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,6 +123,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &150438840
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4411942505538184676, guid: 382577db3af23934fa587ab999b866ee, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411942505538184676, guid: 382577db3af23934fa587ab999b866ee, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.8784375
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411942505538184676, guid: 382577db3af23934fa587ab999b866ee, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4.036482
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411942505538184676, guid: 382577db3af23934fa587ab999b866ee, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.2296095
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411942505538184676, guid: 382577db3af23934fa587ab999b866ee, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411942505538184676, guid: 382577db3af23934fa587ab999b866ee, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411942505538184676, guid: 382577db3af23934fa587ab999b866ee, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411942505538184676, guid: 382577db3af23934fa587ab999b866ee, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411942505538184676, guid: 382577db3af23934fa587ab999b866ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411942505538184676, guid: 382577db3af23934fa587ab999b866ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411942505538184676, guid: 382577db3af23934fa587ab999b866ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7495010805042719297, guid: 382577db3af23934fa587ab999b866ee, type: 3}
+      propertyPath: m_Name
+      value: awaParticle
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 382577db3af23934fa587ab999b866ee, type: 3}
 --- !u!1001 &347762837
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -217,6 +274,10 @@ PrefabInstance:
     - target: {fileID: 5597040119480174472, guid: 314b9059132d2ed459f07887e9df4818, type: 3}
       propertyPath: m_Name
       value: Debug_drawcard
+      objectReference: {fileID: 0}
+    - target: {fileID: 5597040119480174472, guid: 314b9059132d2ed459f07887e9df4818, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8725151541647117951, guid: 314b9059132d2ed459f07887e9df4818, type: 3}
       propertyPath: m_text
@@ -469,6 +530,10 @@ PrefabInstance:
     - target: {fileID: 5597040119480174472, guid: 314b9059132d2ed459f07887e9df4818, type: 3}
       propertyPath: m_Name
       value: Debug_result
+      objectReference: {fileID: 0}
+    - target: {fileID: 5597040119480174472, guid: 314b9059132d2ed459f07887e9df4818, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8725151541647117951, guid: 314b9059132d2ed459f07887e9df4818, type: 3}
       propertyPath: m_text
@@ -1964,6 +2029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab14e119a82a9fd4ebd96a17280ea823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _realPosID: {x: 0, y: 0}
 --- !u!4 &1936323809
 Transform:
   m_ObjectHideFlags: 0

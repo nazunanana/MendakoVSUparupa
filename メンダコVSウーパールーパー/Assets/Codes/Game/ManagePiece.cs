@@ -30,18 +30,26 @@ public class ManagePiece : NetworkBehaviour
     {
         return (real ? getRealPieceNum : getFakePieceNum) >= 4;
     }
+    //getRealPieceNumが変更で発火
     public void AnimReal()
     {
         GameObject manager = GameObject.FindGameObjectWithTag("GameManager");
         SetAnimation anim = manager.GetComponent<SetAnimation>();
         PlayerState.Team myteam = player.GetComponent<PlayerState>().team;
+        // ターン遷移を待機
+        Debug.Log("canchangeturnをfalseにしたよ");
+        player.GetComponent<PlayerState>().canChangeTurn = false;
         anim.StartPlay(true, myteam == PlayerState.Team.mendako);
     }
+    //getFakePieceNumが変更で発火
     public void AnimFake()
     {
         GameObject manager = GameObject.FindGameObjectWithTag("GameManager");
         SetAnimation anim = manager.GetComponent<SetAnimation>();
         PlayerState.Team myteam = player.GetComponent<PlayerState>().team;
+        // ターン遷移を待機
+        Debug.Log("canchangeturnをfalseにしたよ");
+        player.GetComponent<PlayerState>().canChangeTurn = false;
         anim.StartPlay(false, myteam == PlayerState.Team.mendako);
     }
     /// <summary>

@@ -46,6 +46,8 @@ public class PlayerState : NetworkBehaviour
 
     // １ターンに駒を取られた回数
     private int desCount;
+    // アニメーション終了までターン遷移を待つ
+    public bool canChangeTurn = true;
 
     // モード遷移イベント
     public static event Action OnChangeMode;
@@ -105,18 +107,6 @@ public class PlayerState : NetworkBehaviour
         set { manager = value; }
     }
 
-    // public void InitArray()
-    // {
-    //     myPieces = new List<GameObject>();
-    //     activePieces = new Dictionary<Vector2Int, GameObject>();
-    // }
-
-    // public List<GameObject> getsetMyPieces
-    // {
-    //     get { return myPieces; }
-    //     set { myPieces = value; }
-    // }
-
     public Vector2Int getPiecePosition
     {
         get { return piecePos; }
@@ -133,6 +123,7 @@ public class PlayerState : NetworkBehaviour
     //     set { playerObj = value; }
     // }
 
+    // canDestroyが変更で発火
     void OnCanDestroyChanged()
     {
         GameObject
@@ -199,19 +190,28 @@ public class PlayerState : NetworkBehaviour
     /// </summary>
     public void toStartMyTurn()
     {
-        if (desCount != 0)// 駒を取られた直後ならカード獲得
+        // if (desCount != 0)// 駒を取られた直後ならカード獲得
+        // {
+        //     for (int i = 0; i < desCount; i++)
+        //     { // 前の相手ターンにとられた数だけ
+        //         GameObject
+        //         .FindGameObjectWithTag("GameManager")
+        //         .GetComponent<ManageCard>()
+        //         .DrawCard();
+        //         WaitLoading(0.5f);
+        //     }
+        //     // カードを獲得し終わったら
+        //     desCount = 0;
+        // }
+        Debug.Log(isDespawn+"isDespawn?");
+        if (isDespawn)
         {
-            for (int i = 0; i < desCount; i++)
-            { // 前の相手ターンにとられた数だけ
-                GameObject
-                .FindGameObjectWithTag("GameManager")
-                .GetComponent<ManageCard>()
-                .DrawCard();
-                WaitLoading(0.5f);
-            }
-            // カードを獲得し終わったら
-            desCount = 0;
+            GameObject
+            .FindGameObjectWithTag("GameManager")
+            .GetComponent<ManageCard>()
+            .DrawCard();
         }
+        isDespawn = false;
 
         selectMode = SelectMode.MovePiece;
     }
@@ -226,6 +226,7 @@ public class PlayerState : NetworkBehaviour
         manageGrid.GetComponent<ManageGrid>().HighLightWASDGrid(piecePos, true);
         Debug.Log("playerState:駒選択中");
         selectMode = SelectMode.MovePosition;
+        canChangeTurn = true;
         // Debug.Log("select piece on "+piecePos[0]+","+piecePos[1]);
     }
 
@@ -246,12 +247,14 @@ public class PlayerState : NetworkBehaviour
 
         // カードの効果を消す
         ManageCard manageCard = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ManageCard>();
-        
+
         if (manageCard.card == ManageCard.Card.Default) // カード効果がないとき
         {
             selectMode = SelectMode.NoMyTurn;
             return;
-        }else if(manageCard.card == ManageCard.Card.OneMore1){
+        }
+        else if (manageCard.card == ManageCard.Card.OneMore1)
+        {
             manageCard.card = ManageCard.Card.OneMore2;
             selectMode = SelectMode.MovePiece;
             return;

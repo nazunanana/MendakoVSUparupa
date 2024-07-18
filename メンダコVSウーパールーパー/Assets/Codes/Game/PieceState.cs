@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// 駒の状態
+/// 駒の状態 attach to 駒オブジェクト
 /// </summary>
 public class PieceState : NetworkBehaviour
 {

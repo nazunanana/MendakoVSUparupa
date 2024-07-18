@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2038740929488737633}
   - component: {fileID: 2038740929488737632}
   - component: {fileID: 7594688359725735581}
-  - component: {fileID: -5816809252138485600}
+  - component: {fileID: 4853472976897851890}
   m_Layer: 5
   m_Name: card2
   m_TagString: Untagged
@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardNum: 1
---- !u!114 &-5816809252138485600
+--- !u!114 &4853472976897851890
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

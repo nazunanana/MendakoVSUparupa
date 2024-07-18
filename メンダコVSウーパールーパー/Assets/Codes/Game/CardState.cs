@@ -40,8 +40,7 @@ public class CardState : MonoBehaviour
             return;
         }
         canUse = false;
-        Debug.Log("カードをクリックしました");
-
+        Debug.Log("カードクリック");
         manageComp.ActiveCard(cardNum);
 
     }

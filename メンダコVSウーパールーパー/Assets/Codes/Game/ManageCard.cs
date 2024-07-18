@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// attach to GameManager
+/// </summary>
 public class ManageCard : MonoBehaviour
 {
     [SerializeField] private Transform canvas;
@@ -61,7 +63,6 @@ public class ManageCard : MonoBehaviour
     /// <summary>
     /// UI位置調整して表示、非表示
     /// </summary>
-    /// <param name="tf"></param>
     private void ViewUI(bool tf)
     {
 
@@ -110,6 +111,8 @@ public class ManageCard : MonoBehaviour
         GameObject newCard = Instantiate(
             cardPrefabs[cardnum], new Vector3(0, 0, 0), cardPrefabs[cardnum].transform.rotation, canvas);
         myCards.Add(newCard);
+        newCard.SetActive(true);
+        newCard.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, posY);
         // TODO:アニメーション？くるくる
         WaitLoading(3.0f);
         // 非表示に
@@ -123,6 +126,7 @@ public class ManageCard : MonoBehaviour
         int cardnum = Random.Range(0, cardPrefabs.Length);
         Debug.Log("カード" + cardnum + "を引く");
         AddCardUI(cardnum);
+        GetComponent<GameUI>().GetPieceUI();
     }
 
     public void ActiveCard(int num)

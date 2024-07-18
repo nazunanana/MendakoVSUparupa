@@ -37,8 +37,11 @@ public class ManagePiece : NetworkBehaviour
         SetAnimation anim = manager.GetComponent<SetAnimation>();
         PlayerState.Team myteam = player.GetComponent<PlayerState>().team;
         // ターン遷移を待機
-        Debug.Log("canchangeturnをfalseにしたよ");
-        player.GetComponent<PlayerState>().canChangeTurn = false;
+        if (!player.GetComponent<PlayerState>().isDespawn)
+        {
+            Debug.Log("canchangeturnをfalseにしたよ");
+            player.GetComponent<PlayerState>().canChangeTurn = false;
+        }
         anim.StartPlay(true, myteam == PlayerState.Team.mendako);
     }
     //getFakePieceNumが変更で発火
@@ -48,8 +51,11 @@ public class ManagePiece : NetworkBehaviour
         SetAnimation anim = manager.GetComponent<SetAnimation>();
         PlayerState.Team myteam = player.GetComponent<PlayerState>().team;
         // ターン遷移を待機
-        Debug.Log("canchangeturnをfalseにしたよ");
-        player.GetComponent<PlayerState>().canChangeTurn = false;
+        if (!player.GetComponent<PlayerState>().isDespawn)
+        {
+            Debug.Log("canchangeturnをfalseにしたよ");
+            player.GetComponent<PlayerState>().canChangeTurn = false;
+        }
         anim.StartPlay(false, myteam == PlayerState.Team.mendako);
     }
     /// <summary>

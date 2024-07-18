@@ -14,13 +14,20 @@ public class AnimationEnd : MonoBehaviour
         // ターン遷移許可
         GameObject manager = GameObject.FindGameObjectWithTag("GameManager");
         GameObject player = manager.GetComponent<PlayGame>().myplayer;
-        player.GetComponent<PlayerState>().canChangeTurn = true;
+        PlayerState playerState = player.GetComponent<PlayerState>();
+        playerState.canChangeTurn = true;
+
+        if(!playerState.isDespawn){
+            manager.GetComponent<PlayGame>().ChangeTurnUI();
+        }
+        playerState.isDespawn=true;
+
 
         // リザルト遷移許可
         if (PlayGame.destroyProcess)
         {
             //Debug.Log("リザルト遷移処理開始");
-            player.GetComponent<PlayerState>().canDestroy = true;
+            playerState.canDestroy = true;
         }
         //OnAnimationComplete?.Invoke();
     }

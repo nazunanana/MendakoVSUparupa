@@ -131,14 +131,14 @@ public class PlayGame : NetworkBehaviour
             && partnermode == PlayerState.SelectMode.NoMyTurn
         )
         { //次は自分ターン
-            //アニメーション終了後なら
-            // if (myplayer.GetComponent<PlayerState>().canChangeTurn)
-            // {
-                Debug.Log("このあとtoStartMyTurn");
-                myplayer.GetComponent<PlayerState>().toStartMyTurn();
-                this.gameObject.GetComponent<GameUI>()
-                    .ChangeTurn(myplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, true); //自分を大きく
-                nowPlayer = myplayer;
+          //アニメーション終了後なら
+          // if (myplayer.GetComponent<PlayerState>().canChangeTurn)
+          // {
+            Debug.Log("このあとtoStartMyTurn");
+            myplayer.GetComponent<PlayerState>().toStartMyTurn();
+            this.gameObject.GetComponent<GameUI>()
+                .ChangeTurn(myplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, true); //自分を大きく
+            nowPlayer = myplayer;
             //}
         }
         else if (
@@ -149,14 +149,24 @@ public class PlayGame : NetworkBehaviour
         { //次は相手ターン
             // if (myplayer.GetComponent<PlayerState>().canChangeTurn)
             // {
+            if (playerState.isDespawn)
+            {
                 Debug.Log("相手ターンに");
                 nowPlayer = partnerplayer;
                 this.gameObject.GetComponent<GameUI>()
                     .ChangeTurn(
                         partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, false); //相手を大きく
+            }
             //}
         }
         else { Debug.Log("elseになっちゃってる"); }
+    }
+
+    public void ChangeTurnUI()
+    {
+        this.gameObject.GetComponent<GameUI>()
+                    .ChangeTurn(
+                        partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, false); //相手を大きく
     }
 
     /// <summary>
@@ -215,6 +225,18 @@ public class PlayGame : NetworkBehaviour
                 break;
             }
         }
+    }
+
+    public bool IsRealPiece(Vector2Int posID)
+    {
+        foreach (var dic in myplayer.GetComponent<ManagePiece>().pieceDic)
+        {
+            if (dic.Key == posID)
+            {
+                return dic.Value.isReal;
+            }
+        }
+        return false;
     }
 
     public void SearchPieceObj()

@@ -41,7 +41,6 @@ public class PlayerState : NetworkBehaviour
     public Vector2Int desPosID { get; set; }
 
     // 駒を取られた側かどうか
-    [Networked]
     public bool isDespawn { get; set; }
 
     // １ターンに駒を取られた回数
@@ -94,7 +93,7 @@ public class PlayerState : NetworkBehaviour
         // Debug.Log("親オブジェクトは"+this.gameObject.transform.parent.gameObject.name);
         canDestroy = false;
         DontDestroyOnLoad(this.gameObject);
-        isDespawn = false;
+        isDespawn = true;
         desCount = 0;
     }
 
@@ -190,29 +189,6 @@ public class PlayerState : NetworkBehaviour
     /// </summary>
     public void toStartMyTurn()
     {
-        // if (desCount != 0)// 駒を取られた直後ならカード獲得
-        // {
-        //     for (int i = 0; i < desCount; i++)
-        //     { // 前の相手ターンにとられた数だけ
-        //         GameObject
-        //         .FindGameObjectWithTag("GameManager")
-        //         .GetComponent<ManageCard>()
-        //         .DrawCard();
-        //         WaitLoading(0.5f);
-        //     }
-        //     // カードを獲得し終わったら
-        //     desCount = 0;
-        // }
-        Debug.Log(isDespawn+"isDespawn?");
-        if (isDespawn)
-        {
-            GameObject
-            .FindGameObjectWithTag("GameManager")
-            .GetComponent<ManageCard>()
-            .DrawCard();
-        }
-        isDespawn = false;
-
         selectMode = SelectMode.MovePiece;
     }
 
@@ -302,7 +278,6 @@ public class PlayerState : NetworkBehaviour
         Debug.Log("isDes:" + isDespawn);
         if (!isDespawn)
         {
-            isDespawn = true;
             return;
         }
         // runner検出
@@ -327,6 +302,13 @@ public class PlayerState : NetworkBehaviour
                 {
                     desCount++;
                     runner.Despawn(pieceNet);
+                    // 本物が取られたらカードを引く
+                    if (GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().IsRealPiece(desPosID)){
+                        GameObject
+                        .FindGameObjectWithTag("GameManager")
+                        .GetComponent<ManageCard>()
+                        .DrawCard();
+                    }
                     // 配列からも削除
                     GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().RemovePieceOfDictionary(desPosID);
                     return;

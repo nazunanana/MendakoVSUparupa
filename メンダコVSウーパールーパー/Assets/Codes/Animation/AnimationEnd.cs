@@ -19,7 +19,7 @@ public class AnimationEnd : MonoBehaviour
         PlayerState playerState = player.GetComponent<PlayerState>();
         playerState.canChangeTurn = true;
 
-        if(player.GetComponent<PlayerState>().isLateAnim=true){
+        if(player.GetComponent<PlayerState>().isLateAnim){
             manager.GetComponent<PlayGame>().ChangeTurnUI();
         }
 

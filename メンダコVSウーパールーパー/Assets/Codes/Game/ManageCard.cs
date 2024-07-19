@@ -111,9 +111,9 @@ public class ManageCard : MonoBehaviour
         newCard.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, posY);
         // TODO:アニメーション？くるくる
         // 2s待って非表示
-        StartCoroutine(WaitLoading(2.0f, newCard));
+        StartCoroutine(WaitLoadingSetActive(2.0f, newCard));
     }
-    IEnumerator WaitLoading(float time, GameObject newCard)
+    IEnumerator WaitLoadingSetActive(float time, GameObject newCard)
     {
         // 待つ
         yield return new WaitForSeconds(time);
@@ -124,7 +124,7 @@ public class ManageCard : MonoBehaviour
     /// </summary>
     public void DrawCard()
     {
-        int cardnum = Random.Range(0, cardPrefabs.Length-1); //TODO:コミット前に戻す
+        int cardnum = Random.Range(0, cardPrefabs.Length);
         Debug.Log("カード" + cardnum + "を引く");
         AddCardUI(cardnum);
         GetComponent<GameUI>().GetPieceUI();

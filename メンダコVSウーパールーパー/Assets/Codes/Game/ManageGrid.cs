@@ -99,7 +99,9 @@ public class ManageGrid : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// マスコライダーオブジェクトを全て削除
+    /// </summary>
     public void DestroyGrids()
     {
         for (int i = 0; i < GRID_NUM; ++i)
@@ -152,19 +154,19 @@ public class ManageGrid : MonoBehaviour
             .GetComponent<ManageCard>()
             .card == ManageCard.Card.Naname)
         {
-            if (0 <= id_x - 1 && !SearchPieceHere(new Vector2Int(id_x - 1, id_z - 1)))
+            if (0 <= id_x - 1 && 0 <= id_z-1 && !SearchPieceHere(new Vector2Int(id_x - 1, id_z - 1)))
             {
                 EnableUnEnableGrid(new Vector2Int(id_x - 1, id_z - 1), highlight); // 左上マス
             }
-            if (id_x + 1 < GRID_NUM && !SearchPieceHere(new Vector2Int(id_x + 1, id_z - 1)))
+            if (id_x + 1 < GRID_NUM && 0 <= id_z-1 && !SearchPieceHere(new Vector2Int(id_x + 1, id_z - 1)))
             {
                 EnableUnEnableGrid(new Vector2Int(id_x + 1, id_z - 1), highlight); // 左下マス
             }
-            if (0 <= id_z - 1 && !SearchPieceHere(new Vector2Int(id_x - 1, id_z + 1)))
+            if (0 <= id_z - 1 && id_z+1 < GRID_NUM && !SearchPieceHere(new Vector2Int(id_x - 1, id_z + 1)))
             {
                 EnableUnEnableGrid(new Vector2Int(id_x - 1, id_z + 1), highlight); // 右上マス
             }
-            if (id_z + 1 < GRID_NUM && !SearchPieceHere(new Vector2Int(id_x + 1, id_z + 1)))
+            if (id_z + 1 < GRID_NUM && id_z+1 < GRID_NUM && !SearchPieceHere(new Vector2Int(id_x + 1, id_z + 1)))
             {
                 EnableUnEnableGrid(new Vector2Int(id_x + 1, id_z + 1), highlight); // 右下マス
             }
@@ -194,7 +196,7 @@ public class ManageGrid : MonoBehaviour
         }
     }
     /// <summary>
-    /// マスのコライダー操作  有効にするならtrue
+    /// マスのコライダーを一括で有効/無効にする  有効にするならtrue
     /// </summary>
     public void EnableGridColliders(bool tf)
     {
@@ -203,6 +205,9 @@ public class ManageGrid : MonoBehaviour
             grid.EnableGridCollider(tf);
         }
     }
+    /// <summary>
+    /// 前後左右のマスに自分の駒が無いところだけコライダーを有効に
+    /// </summary>
     public void EnableWASDColliders(Vector2Int posID)
     {
         foreach (var grid in FindObjectsOfType<BoardGrid>())
@@ -242,9 +247,12 @@ public class ManageGrid : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// そのマスに自分の駒があるか
+    /// </summary>
     private bool SearchPieceHere(Vector2Int posID)
     {
-        Debug.Log(player.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID));
-        return player.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID);
+        Debug.Log("ここに自分の駒がある"+player.GetComponent<ManagePiece>().syncDic.ContainsKey(posID));
+        return player.GetComponent<ManagePiece>().syncDic.ContainsKey(posID);
     }
 }

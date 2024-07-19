@@ -17,11 +17,9 @@ public class PlayGame : NetworkBehaviour
     private PlayerState playerState;
     public NetworkRunner runner { get; set; }
     private const int GRID_NUM = 6;
+    // リザルト遷移許可
     public static bool destroyProcess { get; set; }
     private static bool isAnimationComplete = false;
-
-    [Networked, OnChangedRender(nameof(SearchPieceObj))]
-    public Vector2Int realPosID { get; set; }
 
     void Awake()
     {
@@ -108,15 +106,16 @@ public class PlayGame : NetworkBehaviour
         this.gameObject.GetComponent<GameUI>().ChangeTurn(true, myplayer == nowPlayer);
     }
 
+    // selectMode変更で同期実行されるイベントで発火。
     void ChangeToMyTurn()
     {
-        //Debug.Log("ターン遷移！");
         PlayerState.SelectMode mymode = myplayer.GetComponent<PlayerState>().selectMode;
         PlayerState.SelectMode partnermode = partnerplayer.GetComponent<PlayerState>().selectMode;
-        WaitLoading(0.5f);
-        //Debug.Log("nowname:相手name" + (nowPlayer.name) +":"+ partnerplayer.name);
-        //Debug.Log("自分がnoturn" + (mymode == PlayerState.SelectMode.NoMyTurn));
-        //Debug.Log("相手がnoturn" + (partnermode == PlayerState.SelectMode.NoMyTurn));
+        //StartCoroutine(WaitLoading(0.5f));
+
+        Debug.Log("mymode " + mymode + " : " + "partnermode " + partnermode);
+        Debug.Log(myplayer.GetComponent<PlayerState>().canChangeTurn + "ならチェンジターン可能");
+        Debug.Log(playerState.team + "のisDespawnは " + playerState.isDespawn);
 
         // ターン遷移 相手ターンかつ両者がターン終了状態なら自分のターン開始
         if (
@@ -124,24 +123,42 @@ public class PlayGame : NetworkBehaviour
             && mymode == PlayerState.SelectMode.NoMyTurn
             && partnermode == PlayerState.SelectMode.NoMyTurn
         )
-        {
+        { //次は自分ターン
+          //アニメーション終了後なら
+            Debug.Log("→自分のターン");
             myplayer.GetComponent<PlayerState>().toStartMyTurn();
+            // ターン遷移UI
             this.gameObject.GetComponent<GameUI>()
                 .ChangeTurn(myplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, true); //自分を大きく
             nowPlayer = myplayer;
             Debug.Log("nowPlayer:team."+nowPlayer.GetComponent<PlayerState>().team);
         }
         else if (
-            mymode == PlayerState.SelectMode.NoMyTurn
+            nowPlayer == myplayer
+            && mymode == PlayerState.SelectMode.NoMyTurn
             && partnermode == PlayerState.SelectMode.NoMyTurn
         )
-        {
+        { //次は相手ターン
+            // if (myplayer.GetComponent<PlayerState>().canChangeTurn)
+            // {
+            Debug.Log("→相手ターン");
             nowPlayer = partnerplayer;
-            this.gameObject.GetComponent<GameUI>()
-                .ChangeTurn(
-                    partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, false); //相手を大きく
-            Debug.Log("nowPlayer:team."+nowPlayer.GetComponent<PlayerState>().team);
+            if (playerState.isLateAnim)
+            {
+                this.gameObject.GetComponent<GameUI>()
+                    .ChangeTurn(
+                        partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, false); //相手を大きく
+            }
         }
+        else { Debug.Log("ターン遷移しない"); }
+    }
+
+    public void ChangeTurnUI()
+    {
+        this.gameObject.GetComponent<GameUI>()
+                    .ChangeTurn(
+                        partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, false); //相手を大きく
+        playerState.isLateAnim = false;
     }
 
     /// <summary>
@@ -180,6 +197,18 @@ public class PlayGame : NetworkBehaviour
             return 0;
     }
 
+    public void SearchRealFromPartner()
+    {
+        foreach (var dic in partnerplayer.GetComponent<ManagePiece>().syncDic)
+        {
+            if (dic.Value == true)
+            {
+                playerState.realPosID = dic.Key;
+                break;
+            }
+        }
+    }
+
     /// <summary>
     /// 指定位置にある駒のDictionaryを削除(取られた側のみ)
     /// </summary>
@@ -190,26 +219,17 @@ public class PlayGame : NetworkBehaviour
         Debug.Log(playerState.team + "の駒は残り:" + myplayer.GetComponent<ManagePiece>().syncDic.Count);
     }
 
-    public void SearchRealFromPartner()
+    public bool IsRealPiece(Vector2Int posID)
     {
-        foreach(var dic in partnerplayer.GetComponent<ManagePiece>().syncDic){
-            if(dic.Value == true){
-                realPosID = dic.Key;
-                break;
-            }
-        }
-    }
-
-    public void SearchPieceObj(){
-        foreach(var dic in myplayer.GetComponent<ManagePiece>().pieceDic)
+        foreach (var dic in myplayer.GetComponent<ManagePiece>().pieceDic)
         {
-            if(dic.Key == realPosID){
-                dic.Value.GetComponent<PieceState>().Shining();
+            if (dic.Key == posID)
+            {
+                return dic.Value.isReal;
             }
         }
+        return false;
     }
-
-
 
     public void EndGameChecker()
     {
@@ -298,6 +318,7 @@ public class PlayGame : NetworkBehaviour
     //     Debug.Log("シーン遷移");
     //     SceneManager.LoadScene("SC_Result");
     // }
+    
     /// <summary>
     /// 駒獲得時、相手のそのマスの駒チームで分岐
     /// 獲得数増やす→Animation

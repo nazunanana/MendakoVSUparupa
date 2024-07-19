@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// 駒の状態
+/// 駒の状態 attach to 駒オブジェクト
 /// </summary>
 public class PieceState : NetworkBehaviour
 {
@@ -31,6 +31,7 @@ public class PieceState : NetworkBehaviour
 
     [Networked, OnChangedRender(nameof(SyncPos))]
     public Vector3 absPos { get; set; }
+
 
     // グローバル位置換算
     private const float FIRST_X = -6.48f; //ウパルパ陣営側
@@ -62,7 +63,6 @@ public class PieceState : NetworkBehaviour
     void Start()
     {
         gridmanager = GameObject.FindGameObjectWithTag("GridSystem");
-        // WaitLoading(1.0f);
         // wait = true;
     }
 
@@ -79,9 +79,13 @@ public class PieceState : NetworkBehaviour
 
     public void Shining()
     {
+        Debug.Log("Shining実行");
         // 光らせたい
-        Wait(3);
+        HighLightPiece(true);
+        StartCoroutine(Wait(3.0f));
         // 光を消す
+        //HighLightPiece(false);
+        Debug.Log("Shining切れた");
 
     }
 
@@ -89,10 +93,6 @@ public class PieceState : NetworkBehaviour
     {
         if (player != null && player.GetComponent<PlayerState>() != null)
         {
-            // Debug.Log("piece over");
-            // Debug.Log("team" + team);
-            // Debug.Log("player" + player);
-            // Debug.Log("comp" + player.GetComponent<PlayerState>());
             // マテリアルをハイライト
             if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
             {
@@ -145,8 +145,8 @@ public class PieceState : NetworkBehaviour
 
     void OnMouseDown()
     {
-        if (player.GetComponent<PlayerState>() != null)
-        {
+        // if (player.GetComponent<PlayerState>() != null)
+        // {
             if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
             {
                 switch (player.GetComponent<PlayerState>().selectMode)
@@ -171,11 +171,11 @@ public class PieceState : NetworkBehaviour
                     default:
                         break;
                 }
-            }
-            else
-            {
-                Debug.Log("not my team's piece");
-            }
+            // }
+            // else
+            // {
+            //     Debug.Log("not my team's piece");
+            // }
         }
         else
             return;

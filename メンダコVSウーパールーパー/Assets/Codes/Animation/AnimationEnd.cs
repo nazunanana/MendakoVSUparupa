@@ -2,22 +2,33 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// attach to アニメーション用のモデルオブジェクト
+/// </summary>
 public class AnimationEnd : MonoBehaviour
 {
     public static event Action OnAnimationComplete;
     void OnAnimationEnd()
     {
+        Debug.Log("アニメーションが終了");
+        // アニメーションオブジェクトを廃棄
         Destroy(this.gameObject);
+        // ターン遷移許可
+        GameObject manager = GameObject.FindGameObjectWithTag("GameManager");
+        GameObject player = manager.GetComponent<PlayGame>().myplayer;
+        PlayerState playerState = player.GetComponent<PlayerState>();
+        playerState.canChangeTurn = true;
+
+        if(player.GetComponent<PlayerState>().isLateAnim=true){
+            manager.GetComponent<PlayGame>().ChangeTurnUI();
+        }
+
+
+        // リザルト遷移許可
         if (PlayGame.destroyProcess)
         {
-            //PlayGame.canDestroy = true;
-            //Debug.Log("終了処理開始&アニメーションが終了");
-            GameObject manager = GameObject.FindGameObjectWithTag("GameManager");
-            GameObject player = manager.GetComponent<PlayGame>().myplayer;
-            //Debug.Log("コンポネントnull確認"+player.GetComponent<PlayerState>());
-            //Debug.Log(player.GetComponent<PlayerState>().canDestroy+"はfalse?");
-            player.GetComponent<PlayerState>().canDestroy = true;
+            //Debug.Log("リザルト遷移処理開始");
+            playerState.canDestroy = true;
         }
         //OnAnimationComplete?.Invoke();
     }

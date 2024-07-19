@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -296,8 +296,16 @@ PrefabInstance:
       objectReference: {fileID: -2212388736182605804, guid: 5f03d4b705d65e2439b7a3b7d63d68f2, type: 2}
     - target: {fileID: 873548769, guid: 994d2ab1614442b4f9c950b3dc0203bb, type: 3}
       propertyPath: m_text
-      value: "\u97F3\u91CF\n\u30D5\u30EB\u30B9\u30AF\u30EA\u30FC\u30F3"
+      value: "\u5236\u4F5C\u4E2D"
       objectReference: {fileID: 0}
+    - target: {fileID: 873548769, guid: 994d2ab1614442b4f9c950b3dc0203bb, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: c475b07d7e53bc94cb59e3306c5d4211, type: 2}
+    - target: {fileID: 873548769, guid: 994d2ab1614442b4f9c950b3dc0203bb, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 5563237301191005975, guid: c475b07d7e53bc94cb59e3306c5d4211, type: 2}
     - target: {fileID: 4116939114411946458, guid: 994d2ab1614442b4f9c950b3dc0203bb, type: 3}
       propertyPath: m_Name
       value: "StartCanvas_\u767D\u67A0Variant"
@@ -398,6 +406,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1423965486}
   - component: {fileID: 1423965485}
+  - component: {fileID: 1423965487}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -482,3 +491,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1423965487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423965484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}

@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// attach to GameManager
+/// </summary>
 public class ManageCard : MonoBehaviour
 {
+    [SerializeField] private Transform cardfolder;
     [SerializeField] private GameObject card1phb;
     [SerializeField] private GameObject card2phb;
     [SerializeField] private GameObject card3phb;
@@ -21,8 +24,8 @@ public class ManageCard : MonoBehaviour
     }
     public Card card { get; set; }
 
-    // カードオブジェクト、カード番号？
-    private List<GameObject> myCards = new List<GameObject>();
+    // カードオブジェクト、カード番号
+    private List<GameObject> myCards;
     private bool OnUI;
     private const int posY = 70;
     private GameObject[] cardPrefabs;
@@ -32,10 +35,7 @@ public class ManageCard : MonoBehaviour
     public void Start()
     {
         cardPrefabs = new GameObject[] { card1phb, card2phb, card3phb };
-        foreach (GameObject cardObj in cardPrefabs)
-        {
-            cardObj.GetComponent<CardState>().SetPlayer = GetComponent<PlayGame>().myplayer;
-        }
+        myCards = new List<GameObject>();
         OnUI = false;
     }
     /// <summary>
@@ -59,7 +59,6 @@ public class ManageCard : MonoBehaviour
     /// <summary>
     /// UI位置調整して表示、非表示
     /// </summary>
-    /// <param name="tf"></param>
     private void ViewUI(bool tf)
     {
 
@@ -76,23 +75,24 @@ public class ManageCard : MonoBehaviour
             // 表示
             foreach (var card in myCards)
             {
+                RectTransform cadeTransform = card.GetComponent<RectTransform>();
                 if (myCards.Count == 1)
                 {
                     // posX=0
-                    card.transform.position = new Vector3(0, posY, 0);
+                    cadeTransform.anchoredPosition = new Vector2(0, posY);
                 }
                 else if (myCards.Count == 2)
                 {
                     // posX=-350,350
-                    if (id == 0) card.transform.position = new Vector3(-350, posY, 0);
-                    else if (id == 1) card.transform.position = new Vector3(350, posY, 0);
+                    if (id == 0) cadeTransform.anchoredPosition = new Vector2(-350, posY);
+                    else if (id == 1) cadeTransform.anchoredPosition = new Vector2(350, posY);
                 }
                 else if (myCards.Count == 3)
                 {
                     // posX=-500,0,500
-                    if (id == 0) card.transform.position = new Vector3(-500, posY, 0);
-                    else if (id == 1) card.transform.position = new Vector3(0, posY, 0);
-                    else if (id == 2) card.transform.position = new Vector3(500, posY, 0);
+                    if (id == 0) cadeTransform.anchoredPosition = new Vector2(-500, posY);
+                    else if (id == 1) cadeTransform.anchoredPosition = new Vector2(0, posY);
+                    else if (id == 2) cadeTransform.anchoredPosition = new Vector2(500, posY);
                 }
                 card.SetActive(tf);
                 id++;
@@ -104,11 +104,19 @@ public class ManageCard : MonoBehaviour
     /// </summary>
     private void AddCardUI(int cardnum)
     {
-        GameObject newCard = Instantiate(cardPrefabs[cardnum], new Vector3(0, 0, 0), cardPrefabs[cardnum].transform.rotation);
+        GameObject newCard = Instantiate(
+            cardPrefabs[cardnum], new Vector3(0, 0, -1), cardPrefabs[cardnum].transform.rotation, cardfolder);
         myCards.Add(newCard);
+        newCard.SetActive(true);
+        newCard.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, posY);
         // TODO:アニメーション？くるくる
-        WaitLoading(3.0f);
-        // 非表示に
+        // 2s待って非表示
+        StartCoroutine(WaitLoading(2.0f, newCard));
+    }
+    IEnumerator WaitLoading(float time, GameObject newCard)
+    {
+        // 待つ
+        yield return new WaitForSeconds(time);
         newCard.SetActive(false);
     }
     /// <summary>
@@ -116,9 +124,10 @@ public class ManageCard : MonoBehaviour
     /// </summary>
     public void DrawCard()
     {
-        int cardnum = Random.Range(0, cardPrefabs.Length);
+        int cardnum = 2;//Random.Range(0, cardPrefabs.Length); //TODO:コミット前に戻す
         Debug.Log("カード" + cardnum + "を引く");
         AddCardUI(cardnum);
+        GetComponent<GameUI>().GetPieceUI();
     }
 
     public void ActiveCard(int num)
@@ -136,30 +145,36 @@ public class ManageCard : MonoBehaviour
             case 2:
                 card = Card.Forecast;
                 Debug.Log("相手の駒の中から１つ、本物を見破りました");
-                GetComponent<PlayGame>().SearchRealFromPartner();
+                this.gameObject.GetComponent<PlayGame>().SearchRealFromPartner();
                 break;
         }
-        
-        ViewUI(true);
-        OnUI = true;
+        foreach (var card in myCards)
+        {
+            if (card.name.StartsWith(cardPrefabs[num].name)) //クリックした名前のカードを
+            {
+                ViewUI(false); //UI非表示
+                OnUI = false;
+                myCards.Remove(card); //配列から削除
+                Destroy(card);
+                return;
+            }
+        }
+        ViewUI(false);
+        OnUI = false;
     }
 
     // 全カードの使用可能状況を切り替える
-    public void SwitchCanUse(bool canUse){
-        Debug.Log("カード使用可否:"+canUse);
+    public void SwitchCanUse(bool canUse)
+    {
         foreach (GameObject cardObj in cardPrefabs)
         {
             cardObj.GetComponent<CardState>().canUse = canUse;
+            Debug.Log("canUse:"+cardObj.GetComponent<CardState>().canUse);
         }
-        if(canUse){ // 使える状態(カードの効果が切れた状態)
+        if (canUse)
+        { // 使える状態(カードの効果が切れた状態)
             card = Card.Default;
         }
-    }
-
-    IEnumerator WaitLoading(float time)
-    {
-        // 待つ
-        yield return new WaitForSeconds(time);
     }
 
 }

@@ -41,7 +41,7 @@ public class PlayerState : NetworkBehaviour
     public Vector2Int desPosID { get; set; }
 
     [Networked, OnChangedRender(nameof(SearchPieceObj))]
-    public Vector2Int realPosID { get; set; }
+    public Vector2Int fakePosID { get; set; }
 
     // 駒を取られた側かどうか
     public bool isDespawn;
@@ -310,7 +310,7 @@ public class PlayerState : NetworkBehaviour
 
     public void SearchPieceObj()
     {
-        FindObjectOfType<ManageGrid>().gridArray[realPosID[0], realPosID[1]]
+        FindObjectOfType<ManageGrid>().gridArray[fakePosID[0], fakePosID[1]]
             .GetComponent<BoardGrid>().EnableUnEnebleMyGrid(true);
         // 3s待つ
         StartCoroutine(WaitLoadingCardSkill(3.0f));
@@ -318,7 +318,7 @@ public class PlayerState : NetworkBehaviour
         // GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
         // foreach (var piece in pieces)
         // {
-        //     if (piece.GetComponent<PieceState>().posID == realPosID)
+        //     if (piece.GetComponent<PieceState>().posID == fakePosID)
         //     {
         //         piece.GetComponent<PieceState>().Shining();
         //         return;
@@ -331,7 +331,7 @@ public class PlayerState : NetworkBehaviour
             // 待つ
             yield return new WaitForSeconds(time);
             // ハイライトを消す
-            FindObjectOfType<ManageGrid>().gridArray[realPosID[0], realPosID[1]]
+            FindObjectOfType<ManageGrid>().gridArray[fakePosID[0], fakePosID[1]]
                 .GetComponent<BoardGrid>().EnableUnEnebleMyGrid(false);
         }
     }

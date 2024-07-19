@@ -207,15 +207,15 @@ public class PlayGame : NetworkBehaviour
     }
 
     /// <summary>
-    /// 相手の駒の本物を探す
+    /// 相手の駒の偽物を探す
     /// </summary>
     public void SearchRealFromPartner()
     {
         foreach (var dic in partnerplayer.GetComponent<ManagePiece>().syncDic)
         {
-            if (dic.Value == true)
+            if (dic.Value == false)
             {
-                playerState.realPosID = dic.Key;
+                playerState.fakePosID = dic.Key;
                 break;
             }
         }

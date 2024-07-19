@@ -326,7 +326,18 @@ public class PlayerState : NetworkBehaviour
         Debug.Log("SearchPieceObj実行 count:" + this.gameObject.GetComponent<ManagePiece>().pieceDic.Count);
         Debug.Log("ManagePieceNull?" + this.gameObject.GetComponent<ManagePiece>());
 
-        foreach(manageGrid.GetComponent<ManagePiece>().pieceDic)
+        //foreach(manageGrid.GetComponent<ManagePiece>().pieceDic)
+
+        GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
+        foreach (var piece in pieces)
+        {
+            if (piece.GetComponent<PieceState>().posID == realPosID)
+            {
+                piece.GetComponent<PieceState>().Shining();
+                return;
+            }
+        }
+
         // ↓このforeach文が２人目プレイヤーが実行されない
         // foreach (var dic in this.gameObject.GetComponent<ManagePiece>().pieceDic)
         // {
@@ -339,10 +350,10 @@ public class PlayerState : NetworkBehaviour
         // }
     }
 
-    IEnumerator WaitLoading(float time)
-    {
-        // 待つ
-        yield return new WaitForSeconds(time);
-    }
+        IEnumerator WaitLoading(float time)
+        {
+            // 待つ
+            yield return new WaitForSeconds(time);
+        }
 
-}
+    }

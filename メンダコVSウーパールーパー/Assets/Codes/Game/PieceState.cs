@@ -82,9 +82,9 @@ public class PieceState : NetworkBehaviour
         Debug.Log("Shining実行");
         // 光らせたい
         HighLightPiece(true);
-        StartCoroutine(Wait(3));
+        StartCoroutine(Wait(3.0f));
         // 光を消す
-        HighLightPiece(false);
+        //HighLightPiece(false);
         Debug.Log("Shining切れた");
 
     }

@@ -335,6 +335,8 @@ public class PlayerState : NetworkBehaviour
         StartCoroutine(WaitLoading(3.0f));
         FindObjectOfType<ManageGrid>().gridArray[realPosID[0], realPosID[1]]
                     .GetComponent<BoardGrid>().EnableUnEnebleMyGrid(false);
+
+
         // for (int i = 0; i < 6; ++i)
         // {
         //     for (int j = 0; j < 6; ++j)

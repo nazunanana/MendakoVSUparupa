@@ -207,15 +207,16 @@ public class PieceState : NetworkBehaviour
     {
         // 前後左右どこかに動けるなら
         PlayGame pg = GameObject.FindWithTag("GameManager").GetComponent<PlayGame>();
-        bool w = pg.SearchPieceByPos(new Vector2Int(posID[0] - 1, posID[1])) != 1;
-        bool a = pg.SearchPieceByPos(new Vector2Int(posID[0], posID[1] - 1)) != 1;
-        bool s = pg.SearchPieceByPos(new Vector2Int(posID[0] + 1, posID[1])) != 1;
-        bool d = pg.SearchPieceByPos(new Vector2Int(posID[0], posID[1] + 1)) != 1;
-        bool q = pg.SearchPieceByPos(new Vector2Int(posID[0] - 1, posID[1] - 1)) != 1;
-        bool z = pg.SearchPieceByPos(new Vector2Int(posID[0] + 1, posID[1] - 1)) != 1;
-        bool c = pg.SearchPieceByPos(new Vector2Int(posID[0] + 1, posID[1] + 1)) != 1;
-        bool e = pg.SearchPieceByPos(new Vector2Int(posID[0] - 1, posID[1] + 1)) != 1;
-        Debug.Log("wasd"+w+","+a+","+s+","+d);
+        bool w = (0 <= posID[1] - 1) ? pg.SearchPieceByPos(new Vector2Int(posID[0], posID[1] - 1)) != 1 : false;
+        bool a = (0 <= posID[0] - 1) ? pg.SearchPieceByPos(new Vector2Int(posID[0] - 1, posID[1])) != 1 : false;
+        bool s = (posID[1] + 1 < GRID_NUM) ? pg.SearchPieceByPos(new Vector2Int(posID[0], posID[1] + 1)) != 1 : false;
+        bool d = (posID[0] + 1 < GRID_NUM) ? pg.SearchPieceByPos(new Vector2Int(posID[0] + 1, posID[1])) != 1 : false;
+
+        bool q = (0 <= posID[0] - 1 && 0 <= posID[1] - 1) ? pg.SearchPieceByPos(new Vector2Int(posID[0] - 1, posID[1] - 1)) != 1 : false;
+        bool z = (0 <= posID[1] - 1 && posID[1] + 1 < GRID_NUM) ? pg.SearchPieceByPos(new Vector2Int(posID[0] - 1, posID[1] + 1)) != 1 : false;
+        bool c = (posID[0] + 1 < GRID_NUM && posID[1] + 1 < GRID_NUM) ? pg.SearchPieceByPos(new Vector2Int(posID[0] + 1, posID[1] + 1)) != 1 : false;
+        bool e = (posID[0] + 1 < GRID_NUM && 0 <= posID[1] - 1) ? pg.SearchPieceByPos(new Vector2Int(posID[0] + 1, posID[1] - 1)) != 1 : false;
+        Debug.Log("wasd " + w + "," + a + "," + s + "," + d + " useCard? " + useCard);
         // 縦横
         bool canSelect = useCard ? (q || a || s || d || q || z || c || e) : (w || a || s || d);
         return canSelect;

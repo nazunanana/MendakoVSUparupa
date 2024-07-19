@@ -37,9 +37,9 @@ public class GameIconClick : MonoBehaviour
 
         switch (spriteName)
         {
-            case "設定アイコン":
-                SceneManager.LoadScene("SC_Start");
-                break;
+            // case "設定アイコン":
+            //     SceneManager.LoadScene("SC_Start");
+            //     break;
             case "カードアイコン":
                 GameObject
                 .FindGameObjectWithTag("GameManager")

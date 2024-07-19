@@ -154,10 +154,19 @@ public class PlayGame : NetworkBehaviour
 
     public void ChangeTurnUI()
     {
-        this.gameObject.GetComponent<GameUI>()
-                    .ChangeTurn(
-                        partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, false); //相手を大きく
-        playerState.isLateAnim = false;
+        if(this.gameObject!=null&&partnerplayer!=null){
+            this.gameObject.GetComponent<GameUI>()
+                        .ChangeTurn(
+                            partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, false); //相手を大きく
+            playerState.isLateAnim = false;
+        }else{
+            GameUI.endGame = true;
+            // 相手が勝利
+            ResultUI.win = false;
+            destroyProcess = true;
+            Debug.Log("存在しないので終了処理へ");
+        }
+        
     }
 
     /// <summary>

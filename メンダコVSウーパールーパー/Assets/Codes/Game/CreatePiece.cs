@@ -41,6 +41,7 @@ public class CreatePiece : NetworkBehaviour
             myFakePrehab = fakeUparupaPrehab;
             for (int i = 0; i < PIECE_NUM; i++)
             {
+                // 本物の駒
                 var realPieceNet = Runner.Spawn(myRealPrehab, new Vector3(4f, 0.15f, 9.3f), myRealPrehab.transform.rotation);
                 Debug.Log("Spawn");
                 DontDestroyOnLoad(realPieceNet.gameObject);
@@ -49,6 +50,7 @@ public class CreatePiece : NetworkBehaviour
                 realPieceNet.gameObject.GetComponent<PieceState>().team = PlayerState.Team.uparupa;
                 realPieceNet.gameObject.GetComponent<PieceState>().isReal = true;
                 myPieces.Add(realPieceNet.gameObject);
+                // 偽物の駒
                 var fakePieceNet = Runner.Spawn(myFakePrehab, new Vector3(-4f, 0.15f, 9.3f), myFakePrehab.transform.rotation);
                 DontDestroyOnLoad(fakePieceNet.gameObject);
                 fakePieceNet.gameObject.GetComponent<PieceState>().SetAbsPos(new Vector3(-4f, 0.15f, 9.3f));
@@ -57,14 +59,14 @@ public class CreatePiece : NetworkBehaviour
                 fakePieceNet.gameObject.GetComponent<PieceState>().isReal = false;
                 myPieces.Add(fakePieceNet.gameObject);
             }
-            // メンダコ
         }
-        else
+        else //メンダコ
         {
             myRealPrehab = realMendakoPrehab;
             myFakePrehab = fakeMendakoPrehab;
             for (int i = 0; i < PIECE_NUM; i++)
             {
+                // 本物の駒
                 var realPieceNet = Runner.Spawn(myRealPrehab, new Vector3(-4f, 0.15f, -9.3f), myRealPrehab.transform.rotation);
                 DontDestroyOnLoad(realPieceNet.gameObject);
                 realPieceNet.gameObject.GetComponent<PieceState>().SetAbsPos(new Vector3(-4f, 0.15f, -9.3f));
@@ -72,6 +74,7 @@ public class CreatePiece : NetworkBehaviour
                 realPieceNet.gameObject.GetComponent<PieceState>().team = PlayerState.Team.mendako;
                 realPieceNet.gameObject.GetComponent<PieceState>().isReal = true;
                 myPieces.Add(realPieceNet.gameObject);
+                // 偽物の駒
                 var fakePieceNet = Runner.Spawn(myFakePrehab, new Vector3(4f, 0.15f, -9.3f), myFakePrehab.transform.rotation);
                 DontDestroyOnLoad(fakePieceNet.gameObject);
                 fakePieceNet.gameObject.GetComponent<PieceState>().SetAbsPos(new Vector3(4f, 0.15f, -9.3f));
@@ -81,7 +84,7 @@ public class CreatePiece : NetworkBehaviour
                 myPieces.Add(fakePieceNet.gameObject);
             }
         }
-        //player.GetComponent<PlayerState>().getsetMyPieces = myPieces;
+        // 配置数初期化
         SetRealPiece = 0;
         SetFakePiece = 0;
         player.GetComponent<PlayerState>().toStartSetPieces();
@@ -103,7 +106,6 @@ public class CreatePiece : NetworkBehaviour
             piecePosID[2 * SetFakePiece + 1] = posID;
             SetFakePiece++;
         }
-        //Debug.Log(SetRealPiece+" : "+SetFakePiece);
     }
     // 駒を選択
     public void StartSelect()
@@ -129,8 +131,7 @@ public class CreatePiece : NetworkBehaviour
         {
             // 駒の位置IDを変更して移動
             myPieces[id].GetComponent<PieceState>().MovePiecePos(posID); //移動
-                                                                         // 配置済み数を増加
-            setPiecePosID(posID, pieceType);
+            setPiecePosID(posID, pieceType); // 配置済み数を増加
             // 登録
             player.GetComponent<ManagePiece>().pieceDic.Add(piecePosID[id], myPieces[id].GetComponent<PieceState>());
             player.GetComponent<ManagePiece>().syncDic.Add(piecePosID[id], pieceType);
@@ -143,8 +144,6 @@ public class CreatePiece : NetworkBehaviour
         // ぜんぶ配置完了したら
         if (SetRealPiece == PIECE_NUM && SetFakePiece == PIECE_NUM && pieceDic.Count == 8)
         {
-            // // IDリストを作成しておく
-            //player.GetComponent<ManagePiece>().GetNetworkId();
             player.GetComponent<PlayerState>().toFinishSet();
         }
     }

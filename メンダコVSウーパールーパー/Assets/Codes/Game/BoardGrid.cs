@@ -165,14 +165,17 @@ public class BoardGrid : NetworkBehaviour
                 bool z = (posID[0] == pieceX + 1) && (posID[1] == pieceY - 1);
                 bool c = (posID[0] == pieceX + 1) && (posID[1] == pieceY + 1);
                 bool e = (posID[0] == pieceX - 1) && (posID[1] == pieceY + 1);
+                // 上下左右をハイライト
                 if (w || a || s || d)
                 {
                     gridSystemComp.HighLightGrid(posID, tf);
                 }
+                // 斜め可能カードが有るときは斜めをハイライト
                 if (GameObject
-                .FindGameObjectWithTag("GameManager")
-                .GetComponent<ManageCard>()
-                .card == ManageCard.Card.Naname){
+                    .FindGameObjectWithTag("GameManager")
+                    .GetComponent<ManageCard>()
+                    .card == ManageCard.Card.Naname)
+                {
                     if(q || z || c || e){
                         gridSystemComp.HighLightGrid(posID, tf);
                     }
@@ -204,7 +207,7 @@ public class BoardGrid : NetworkBehaviour
         Collider collider = GetComponent<Collider>();
         if (collider != null)
         {
-            Debug.Log("マスのコライダー無効");
+            // Debug.Log("マスのコライダー無効");
             collider.enabled = tf;
         }
     }

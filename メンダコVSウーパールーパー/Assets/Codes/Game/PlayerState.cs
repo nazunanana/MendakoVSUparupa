@@ -334,5 +334,4 @@ public class PlayerState : NetworkBehaviour
             FindObjectOfType<ManageGrid>().gridArray[realPosID[0], realPosID[1]]
                 .GetComponent<BoardGrid>().EnableUnEnebleMyGrid(false);
         }
-
     }

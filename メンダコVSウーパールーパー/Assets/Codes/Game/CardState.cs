@@ -7,7 +7,6 @@ public class CardState : MonoBehaviour
 {
     // カード番号
     [SerializeField] private int cardNum;
-    private GameObject player;
     private PlayerState playerComp;
     private ManageCard manageComp;
     //  このターンにカードを使ったかどうか

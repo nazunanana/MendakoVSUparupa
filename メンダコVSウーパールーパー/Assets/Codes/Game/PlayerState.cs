@@ -326,17 +326,35 @@ public class PlayerState : NetworkBehaviour
         Debug.Log("SearchPieceObj実行 count:" + this.gameObject.GetComponent<ManagePiece>().pieceDic.Count);
         Debug.Log("ManagePieceNull?" + this.gameObject.GetComponent<ManagePiece>());
 
-        //foreach(manageGrid.GetComponent<ManagePiece>().pieceDic)
-
-        GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
-        foreach (var piece in pieces)
-        {
-            if (piece.GetComponent<PieceState>().posID == realPosID)
-            {
-                piece.GetComponent<PieceState>().Shining();
-                return;
-            }
+        Debug.Log("!!!!!"+FindObjectOfType<ManageGrid>().gridArray[realPosID[0], realPosID[1]]);
+        //foreach(GameObject p in manageGrid.GetComponent<ManageGrid>().gridArray){
+        if(true){
+        FindObjectOfType<ManageGrid>().gridArray[realPosID[0], realPosID[1]]
+                    .GetComponent<BoardGrid>().EnableUnEnebleMyGrid(true);
         }
+        StartCoroutine(WaitLoading(3.0f));
+        FindObjectOfType<ManageGrid>().gridArray[realPosID[0], realPosID[1]]
+                    .GetComponent<BoardGrid>().EnableUnEnebleMyGrid(false);
+        // for (int i = 0; i < 6; ++i)
+        // {
+        //     for (int j = 0; j < 6; ++j)
+        //     {
+
+        //         manageGrid.GetComponent<ManageGrid>().gridArray[realPosID[0], realPosID[1]]
+        //             .GetComponent<BoardGrid>().EnableUnEnebleMyGrid(true);
+        //     }
+        // }
+        // }
+
+        // GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
+        // foreach (var piece in pieces)
+        // {
+        //     if (piece.GetComponent<PieceState>().posID == realPosID)
+        //     {
+        //         piece.GetComponent<PieceState>().Shining();
+        //         return;
+        //     }
+        // }
 
         // ↓このforeach文が２人目プレイヤーが実行されない
         // foreach (var dic in this.gameObject.GetComponent<ManagePiece>().pieceDic)

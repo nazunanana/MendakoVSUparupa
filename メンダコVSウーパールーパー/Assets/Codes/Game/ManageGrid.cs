@@ -7,7 +7,7 @@ using UnityEngine;
 public class ManageGrid : MonoBehaviour
 {
     public GameObject oneGridPrehab = null;
-    private GameObject[,] gridArray;
+    public GameObject[,] gridArray;
     private GameObject[] players;
     public GameObject player;
     public bool ImUparupa;

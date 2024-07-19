@@ -7,8 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayGame : NetworkBehaviour
 {
-    // private GameObject PL_uparupa;
-    // private GameObject PL_mendako;
     public static event Action OnCreateDicComplete;
     private ManageGrid manageGrid;
     public GameObject myplayer { get; set; }
@@ -29,7 +27,6 @@ public class PlayGame : NetworkBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         PlayerState.OnChangeMode += ChangeToMyTurn;
         PlayerState.OnChangeMode += EndGameChecker;
-        //AnimationEnd.OnAnimationComplete += OnAnimationComplete;
     }
 
     void OnDestroy()
@@ -37,7 +34,6 @@ public class PlayGame : NetworkBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
         PlayerState.OnChangeMode -= ChangeToMyTurn; // イベントから登録解除
         PlayerState.OnChangeMode -= EndGameChecker;
-        //AnimationEnd.OnAnimationComplete -= DestroyAll;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -74,6 +70,7 @@ public class PlayGame : NetworkBehaviour
             Debug.LogError("NetworkRunnerが初期化されていません");
             return;
         }
+
         // コンポネント取得
         playerState = myplayer.GetComponent<PlayerState>();
 
@@ -83,6 +80,7 @@ public class PlayGame : NetworkBehaviour
         // 管理オブジェクト検索
         manageGrid = GameObject.FindGameObjectWithTag("GridSystem").GetComponent<ManageGrid>();
         manageGrid.EnableGridColliders(true);
+
         if (playerState.team == PlayerState.Team.uparupa)
         {
             //カメラ設定
@@ -102,7 +100,7 @@ public class PlayGame : NetworkBehaviour
             nowPlayer = partnerplayer;
         }
         OnCreateDicComplete?.Invoke();
-        // ウパターン
+        // ウパルパターン
         this.gameObject.GetComponent<GameUI>().ChangeTurn(true, myplayer == nowPlayer);
     }
 
@@ -111,7 +109,6 @@ public class PlayGame : NetworkBehaviour
     {
         PlayerState.SelectMode mymode = myplayer.GetComponent<PlayerState>().selectMode;
         PlayerState.SelectMode partnermode = partnerplayer.GetComponent<PlayerState>().selectMode;
-        //StartCoroutine(WaitLoading(0.5f));
 
         Debug.Log("mymode " + mymode + " : " + "partnermode " + partnermode);
         Debug.Log(myplayer.GetComponent<PlayerState>().canChangeTurn + "ならチェンジターン可能");
@@ -124,7 +121,7 @@ public class PlayGame : NetworkBehaviour
             && partnermode == PlayerState.SelectMode.NoMyTurn
         )
         { //次は自分ターン
-          //アニメーション終了後なら
+            //アニメーション終了後なら
             Debug.Log("→自分のターン");
             myplayer.GetComponent<PlayerState>().toStartMyTurn();
             // ターン遷移UI
@@ -138,8 +135,6 @@ public class PlayGame : NetworkBehaviour
             && partnermode == PlayerState.SelectMode.NoMyTurn
         )
         { //次は相手ターン
-            // if (myplayer.GetComponent<PlayerState>().canChangeTurn)
-            // {
             Debug.Log("→相手ターン");
             nowPlayer = partnerplayer;
             if (playerState.isLateAnim)
@@ -154,19 +149,22 @@ public class PlayGame : NetworkBehaviour
 
     public void ChangeTurnUI()
     {
-        if(this.gameObject!=null&&partnerplayer!=null){
+        if (this.gameObject != null && partnerplayer != null)
+        {
             this.gameObject.GetComponent<GameUI>()
                         .ChangeTurn(
                             partnerplayer.GetComponent<PlayerState>().team == PlayerState.Team.uparupa, false); //相手を大きく
             playerState.isLateAnim = false;
-        }else{
+        }
+        else
+        {
             GameUI.endGame = true;
             // 相手が勝利
             ResultUI.win = false;
             destroyProcess = true;
             Debug.Log("存在しないので終了処理へ");
         }
-        
+
     }
 
     /// <summary>
@@ -193,10 +191,13 @@ public class PlayGame : NetworkBehaviour
     }
 
     /// <summary>
-    /// 指定位置の駒を検索
+    /// 指定位置の駒を検索 自分の駒:1 相手の駒:2 なし:0
     /// </summary>
     public int SearchPieceByPos(Vector2Int posID)
     {
+        Debug.Log(myplayer.GetComponent<ManagePiece>().pieceDic.Count+" 自分駒数");
+        Debug.Log(partnerplayer.GetComponent<ManagePiece>().pieceDic.Count+" 相手駒数");
+
         if (myplayer.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID))
             return 1;
         else if (partnerplayer.GetComponent<ManagePiece>().syncDic.ContainsKey(posID))
@@ -205,13 +206,16 @@ public class PlayGame : NetworkBehaviour
             return 0;
     }
 
+    /// <summary>
+    /// 相手の駒の偽物を探す
+    /// </summary>
     public void SearchRealFromPartner()
     {
         foreach (var dic in partnerplayer.GetComponent<ManagePiece>().syncDic)
         {
-            if (dic.Value == true)
+            if (dic.Value == false)
             {
-                playerState.realPosID = dic.Key;
+                playerState.fakePosID = dic.Key;
                 break;
             }
         }
@@ -264,12 +268,6 @@ public class PlayGame : NetworkBehaviour
         }
     }
 
-    // private void OnAnimationComplete() //Anim終了時毎回
-    // {
-    //     isAnimationComplete = true;
-    //     CheckAndDestroy();
-    // }
-
     // canDestroyが変更されたらプレイヤーから同期実行()
     public void OnCanDestroyChanged()
     {
@@ -284,7 +282,6 @@ public class PlayGame : NetworkBehaviour
     {
         if (destroyProcess && isAnimationComplete)
         {
-            Debug.Log("全部削除");
             runner.Shutdown();
             foreach (PieceState p in myplayer.GetComponent<ManagePiece>().pieceDic.Values)
             {
@@ -297,9 +294,7 @@ public class PlayGame : NetworkBehaviour
             Destroy(myplayer.GetComponent<PlayerState>().manageGrid);
             Destroy(myplayer);
 
-            // WaitLoading(1.0f);
-            // runner.Shutdown();
-            Debug.Log("シーン遷移");
+            Debug.Log("リザルトシーンへ");
             isAnimationComplete = false;
             SceneManager.LoadScene("SC_Result");
         }
@@ -310,23 +305,6 @@ public class PlayGame : NetworkBehaviour
         }
     }
 
-    /// <summary>
-    /// シーン遷移時にデストロイ
-    /// </summary>
-    // private void OnAnimationComplete()
-    // {
-    //     Debug.Log("全部削除");
-    //     foreach (PieceState p in myplayer.GetComponent<ManagePiece>().pieceDic.Values)
-    //     {
-    //         Destroy(p.gameObject);
-    //     }
-    //     Destroy(myplayer);
-    //     runner.Shutdown();
-    //     // シーン遷移
-    //     Debug.Log("シーン遷移");
-    //     SceneManager.LoadScene("SC_Result");
-    // }
-    
     /// <summary>
     /// 駒獲得時、相手のそのマスの駒チームで分岐
     /// 獲得数増やす→Animation
@@ -349,11 +327,4 @@ public class PlayGame : NetworkBehaviour
             this.gameObject.GetComponent<GameUI>().ChangeGetPieceNum(real, true);
         }
     }
-
-    IEnumerator WaitLoading(float time)
-    {
-        // 待つ
-        yield return new WaitForSeconds(time);
-    }
-
 }

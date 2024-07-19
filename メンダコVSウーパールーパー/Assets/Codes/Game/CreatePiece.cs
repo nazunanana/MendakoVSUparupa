@@ -132,8 +132,8 @@ public class CreatePiece : NetworkBehaviour
                                                                          // 配置済み数を増加
             setPiecePosID(posID, pieceType);
             // 登録
-            pieceDic.Add(piecePosID[id], myPieces[id].GetComponent<PieceState>());
-            syncDic.Add(piecePosID[id], pieceType);
+            player.GetComponent<ManagePiece>().pieceDic.Add(piecePosID[id], myPieces[id].GetComponent<PieceState>());
+            player.GetComponent<ManagePiece>().syncDic.Add(piecePosID[id], pieceType);
             // 残り駒数のUI変化
             player.GetComponent<SettingUI>().DecreasePieceNum(pieceType);
             // 状態遷移

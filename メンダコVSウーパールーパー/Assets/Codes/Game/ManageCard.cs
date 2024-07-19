@@ -124,7 +124,7 @@ public class ManageCard : MonoBehaviour
     /// </summary>
     public void DrawCard()
     {
-        int cardnum = 2;//Random.Range(0, cardPrefabs.Length); //TODO:コミット前に戻す
+        int cardnum = Random.Range(0, cardPrefabs.Length-1); //TODO:コミット前に戻す
         Debug.Log("カード" + cardnum + "を引く");
         AddCardUI(cardnum);
         GetComponent<GameUI>().GetPieceUI();

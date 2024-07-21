@@ -64,6 +64,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
                 Debug.Log("マッチ成功！");
                 string team = setPlayerState(playerObj, player);
                 Debug.Log("あなたは" + team + "チームです");
+                Debug.Log("session: "+Runner.SessionInfo.Name);
 
                 OnSpawnComplete?.Invoke();
 

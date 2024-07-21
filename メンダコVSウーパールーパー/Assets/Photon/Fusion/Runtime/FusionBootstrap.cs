@@ -23,6 +23,7 @@ namespace Fusion {
   [ScriptHelp(BackColor = ScriptHeaderBackColor.Steel)]
   public class FusionBootstrap : Fusion.Behaviour {
 
+
     /// <summary>
     /// Selection for how <see cref="FusionBootstrap"/> will behave at startup.
     /// </summary>
@@ -541,7 +542,7 @@ namespace Fusion {
           yield return new WaitForSecondsRealtime(VirtualInstanceConnectDelay);
         }
         FusionMppm.Broadcast(new StartCommand {
-          RoomName = DefaultRoomName,
+          RoomName = StaticData.roomName,
           InitialScene = sceneRef,
           ClientCount =  1
         });
@@ -556,7 +557,7 @@ namespace Fusion {
       var command = StartCommand.Instance;
       StartCommand.Instance = null;
       
-      DefaultRoomName = command.RoomName;
+      DefaultRoomName = StaticData.roomName;
       yield return StartClients(command.ClientCount, GameMode.Client, command.InitialScene);
     }
 
@@ -651,7 +652,7 @@ namespace Fusion {
         Address        = address,
         PlayerCount    = 2,
         Scene          = sceneInfo,
-        SessionName    = DefaultRoomName,
+        SessionName    = StaticData.roomName,
         OnGameStarted    = onGameStarted,
         SceneManager   = sceneManager,
         Updater        = updater,

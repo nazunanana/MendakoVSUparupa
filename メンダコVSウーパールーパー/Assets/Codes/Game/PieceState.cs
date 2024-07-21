@@ -19,7 +19,6 @@ public class PieceState : NetworkBehaviour
     public PlayerState.Team team { get; set; }
 
     // ロード待機
-    private bool wait;
     private bool dicflag;
 
     // 駒ID
@@ -63,7 +62,6 @@ public class PieceState : NetworkBehaviour
     void Start()
     {
         gridmanager = GameObject.FindGameObjectWithTag("GridSystem");
-        // wait = true;
     }
 
     IEnumerator WaitLoading(float time)
@@ -77,17 +75,22 @@ public class PieceState : NetworkBehaviour
         dicflag = true;
     }
 
-    public void Shining()
-    {
-        Debug.Log("Shining実行");
-        // 光らせたい
-        HighLightPiece(true);
-        StartCoroutine(Wait(3.0f));
-        // 光を消す
-        HighLightPiece(false);
-        Debug.Log("Shining切れた");
+    // public void Shining()
+    // {
+    //     Debug.Log("Shining実行");
+    //     // 光らせたい
+    //     HighLightPiece(true);
+    //     StartCoroutine(WaitUntilHL(3.0f));
+    // }
 
-    }
+    // IEnumerator WaitUntilHL(float time)
+    // {
+    //     // 待つ
+    //     yield return new WaitForSeconds(time);
+    //     // 光を消す
+    //     HighLightPiece(false);
+    //     Debug.Log("Shining切れた");
+    // }
 
     void OnMouseOver()
     {
@@ -102,8 +105,15 @@ public class PieceState : NetworkBehaviour
                         HighLightPiece(true);
                         break;
                     case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
-                        HighLightPiece(true);
-                        gridmanager.GetComponent<ManageGrid>().HighLightWASDGrid(posID, true);
+                        // カード使用状態なら斜め可能
+                        bool naname = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ManageCard>().card == ManageCard.Card.Naname;
+                        // 置けるなら
+                        if (canSelectPiece(posID, naname))
+                        {
+                            Debug.Log("置ける");
+                            HighLightPiece(true);
+                            gridmanager.GetComponent<ManageGrid>().HighLightWASDGrid(posID, true);
+                        }
                         break;
                     default:
                         break;
@@ -131,8 +141,14 @@ public class PieceState : NetworkBehaviour
                         HighLightPiece(false);
                         break;
                     case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
-                        HighLightPiece(false);
-                        gridmanager.GetComponent<ManageGrid>().HighLightWASDGrid(posID, false);
+                        // カード使用状態なら斜め可能
+                        bool naname = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ManageCard>().card == ManageCard.Card.Naname;
+                        // 置けるなら
+                        if (canSelectPiece(posID, naname))
+                        {
+                            HighLightPiece(false);
+                            gridmanager.GetComponent<ManageGrid>().HighLightWASDGrid(posID, false);
+                        }
                         break;
                     default:
                         break;
@@ -145,8 +161,8 @@ public class PieceState : NetworkBehaviour
 
     void OnMouseDown()
     {
-        // if (player.GetComponent<PlayerState>() != null)
-        // {
+        if (player.GetComponent<PlayerState>() != null)
+        {
             if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
             {
                 switch (player.GetComponent<PlayerState>().selectMode)
@@ -158,27 +174,52 @@ public class PieceState : NetworkBehaviour
                         //Debug.Log("設置する駒を選択");
                         break;
                     case PlayerState.SelectMode.MovePiece: //ゲーム中 動かす駒選択中なら
-                        gridmanager.GetComponent<ManageGrid>().pieceID = posID;
-                        player.GetComponent<PlayerState>().toSelectPiece(posID); // 状態遷移
-                        HighLightPiece(false);
-                        gridmanager.GetComponent<ManageGrid>().HighLightWASDGrid(posID, false);
-                        player.GetComponent<ManagePiece>().EnableOpponentColliders(false);
-                        // マスのコライダー前後左右
-                        gridmanager.GetComponent<ManageGrid>().EnableWASDColliders(posID);
-                        //Debug.Log("PieceState : " + posID[0] + ", " + posID[1] + "の駒を選択しています");
-
+                        // カード使用状態なら斜め可能
+                        bool naname = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ManageCard>().card == ManageCard.Card.Naname;
+                        // 置けるなら
+                        if (canSelectPiece(posID, naname))
+                        {
+                            Debug.Log("canSelectだから選択したよ");
+                            gridmanager.GetComponent<ManageGrid>().pieceID = posID;
+                            player.GetComponent<PlayerState>().toSelectPiece(posID); // 状態遷移
+                            HighLightPiece(false);
+                            gridmanager.GetComponent<ManageGrid>().HighLightWASDGrid(posID, false);
+                            player.GetComponent<ManagePiece>().EnableOpponentColliders(false);
+                            // マスのコライダー前後左右
+                            gridmanager.GetComponent<ManageGrid>().EnableWASDColliders(posID);
+                            //Debug.Log("PieceState : " + posID[0] + ", " + posID[1] + "の駒を選択しています");
+                        }
                         break;
                     default:
                         break;
                 }
-            // }
-            // else
-            // {
-            //     Debug.Log("not my team's piece");
-            // }
+            }
+            else
+            {
+                Debug.Log("not my team's piece");
+            }
         }
         else
             return;
+    }
+
+    private bool canSelectPiece(Vector2Int posID, bool useCard)
+    {
+        // 前後左右どこかに動けるなら
+        PlayGame pg = GameObject.FindWithTag("GameManager").GetComponent<PlayGame>();
+        bool w = (0 <= posID[1] - 1) ? pg.SearchPieceByPos(new Vector2Int(posID[0], posID[1] - 1)) != 1 : false;
+        bool a = (0 <= posID[0] - 1) ? pg.SearchPieceByPos(new Vector2Int(posID[0] - 1, posID[1])) != 1 : false;
+        bool s = (posID[1] + 1 < GRID_NUM) ? pg.SearchPieceByPos(new Vector2Int(posID[0], posID[1] + 1)) != 1 : false;
+        bool d = (posID[0] + 1 < GRID_NUM) ? pg.SearchPieceByPos(new Vector2Int(posID[0] + 1, posID[1])) != 1 : false;
+
+        bool q = (0 <= posID[0] - 1 && 0 <= posID[1] - 1) ? pg.SearchPieceByPos(new Vector2Int(posID[0] - 1, posID[1] - 1)) != 1 : false;
+        bool z = (0 <= posID[1] - 1 && posID[1] + 1 < GRID_NUM) ? pg.SearchPieceByPos(new Vector2Int(posID[0] - 1, posID[1] + 1)) != 1 : false;
+        bool c = (posID[0] + 1 < GRID_NUM && posID[1] + 1 < GRID_NUM) ? pg.SearchPieceByPos(new Vector2Int(posID[0] + 1, posID[1] + 1)) != 1 : false;
+        bool e = (posID[0] + 1 < GRID_NUM && 0 <= posID[1] - 1) ? pg.SearchPieceByPos(new Vector2Int(posID[0] + 1, posID[1] - 1)) != 1 : false;
+        Debug.Log("wasd " + w + "," + a + "," + s + "," + d + " useCard? " + useCard);
+        // 縦横
+        bool canSelect = useCard ? (q || a || s || d || q || z || c || e) : (w || a || s || d);
+        return canSelect;
     }
 
     // マテリアルを強調
@@ -219,8 +260,9 @@ public class PieceState : NetworkBehaviour
         if (dicflag)
         {
             // 共有dicの登録を変える
-            //リセット
+            // リセット
             player.GetComponent<ManagePiece>().syncDic.Clear();
+            // 登録しなおし
             foreach (var dic in player.GetComponent<ManagePiece>().pieceDic)
             {
                 //更新
@@ -241,11 +283,5 @@ public class PieceState : NetworkBehaviour
     {
         absPos = new Vector3(FIRST_X + posID[0] * gridSize, Y_POS, FIRST_Z + posID[1] * gridSize);
         return absPos;
-    }
-
-    IEnumerator Wait(float time)
-    {
-        // 待つ
-        yield return new WaitForSeconds(time);
     }
 }

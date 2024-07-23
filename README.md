@@ -58,7 +58,7 @@ Photon fusion2.0.1
 ![スキルカード](./img/pic_10.png)
 
 ## 動作例動画
-<div><video controls src="https://drive.google.com/file/d/1AM2C2TA3CRL0S4l8SOmQv6y9sXNO4xEb/view?usp=sharing" muted="false"></video></div>
+[プレイ動画(無音)](https://drive.google.com/file/d/1AM2C2TA3CRL0S4l8SOmQv6y9sXNO4xEb/view?usp=sharing)
 
 ## 分担詳細
 協力

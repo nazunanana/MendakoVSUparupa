@@ -93,6 +93,7 @@ public class BoardGrid : NetworkBehaviour
                 player.GetComponent<ManagePiece>().EnableOpponentColliders(true);
                 state = GameObject.FindWithTag("GameManager").GetComponent<PlayGame>();
 
+                Debug.Log(state.SearchPieceByPos(posID));
                 // 移動先が自分の駒の時は移動できない
                 if (state.SearchPieceByPos(posID) == 1)
                 {

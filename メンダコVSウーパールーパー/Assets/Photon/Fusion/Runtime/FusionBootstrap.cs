@@ -114,7 +114,7 @@ namespace Fusion {
     /// The default room name to use when connecting to photon cloud.
     /// </summary>
     [InlineHelp]
-    public string DefaultRoomName = string.Empty; // empty/null means Random Room Name
+    public string DefaultRoomName = StaticData.roomName; // empty/null means Random Room Name
 
     [NonSerialized]
     NetworkRunner _server;
@@ -646,6 +646,8 @@ namespace Fusion {
       if (scene.IsValid) {
         sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
       }
+
+      Debug.Log("RoomName:"+StaticData.roomName);
 
       return runner.StartGame(new StartGameArgs {
         GameMode       = gameMode,

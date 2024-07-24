@@ -187,6 +187,7 @@ public class PlayerState : NetworkBehaviour
     /// </summary>
     public void toSelectPiece(Vector2Int posID)
     {
+        isDespawn = true;
         piecePos = posID;
         piece = this.gameObject.GetComponent<ManagePiece>().pieceDic[piecePos];
         manageGrid.GetComponent<ManageGrid>().HighLightWASDGrid(piecePos, true);
@@ -202,6 +203,7 @@ public class PlayerState : NetworkBehaviour
     public void toMovePiece(Vector2Int posID)
     {
         moveToPos = posID;
+        Debug.Log(team+":"+piecePos+" → "+moveToPos);
         // piece入れ替え
         this.gameObject.GetComponent<ManagePiece>().pieceDic.Remove(piecePos); //現在位置の登録解除
         this.gameObject.GetComponent<ManagePiece>().pieceDic.Add(moveToPos, piece); //移動先で登録
@@ -245,7 +247,6 @@ public class PlayerState : NetworkBehaviour
     {
         // イベント通知
         OnChangeMode?.Invoke(); // ターン切り替えするかどうか
-        Debug.Log("現在" + team + "は" + selectMode + "です。");
         // 位置同期
         GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
         foreach (GameObject p in pieces)
@@ -257,19 +258,20 @@ public class PlayerState : NetworkBehaviour
     public void CallDespawn(Vector2Int desID)
     {
         isDespawn = false;
+        Debug.Log(team+"のisDespawnは"+isDespawn+" "+desID);
         desPosID = desID; // DespawnPiece()を呼び出す
     }
 
     // 駒がゲットされたときのデスポーン処理
     public void DespawnPiece()
     {
-        Debug.Log("isDes:" + isDespawn);
         if (!isDespawn)
         {
             isDespawn = true;
             isLateAnim = true;
             return;
         }
+        Debug.Log(team+"のisDespawnはtrueです。駒をデストロイさせます");
         // runner検出
         GameObject[] runners = GameObject.FindGameObjectsWithTag("Runner");
         NetworkRunner runner = runners[0].GetComponent<NetworkRunner>();
@@ -286,7 +288,6 @@ public class PlayerState : NetworkBehaviour
         {
             if (desPiece.GetComponent<PieceState>().posID == desPosID)
             {
-                Debug.Log("Piece取得できました");
                 NetworkObject pieceNet = desPiece.GetComponent<NetworkObject>();
                 if (pieceNet != null)
                 {

@@ -102,6 +102,8 @@ public class BoardGrid : NetworkBehaviour
                 // 移動先が相手の駒だったら倒す
                 else if (state.SearchPieceByPos(posID) == 2)
                 {
+                    // デスポーン処理呼び出し(PlayerStateのDespawnPiece())
+                    playerComp.CallDespawn(posID);
                     // コライダー
                     GameObject.FindWithTag("GridSystem").GetComponent<ManageGrid>().EnableGridColliders(true);
                     // true/falseによって点数変化→(更新を検知してアニメーション)
@@ -110,8 +112,6 @@ public class BoardGrid : NetworkBehaviour
                     // ハイライト消去
                     ChangeHighLight(false);
 
-                    // デスポーン処理呼び出し(PlayerStateのDespawnPiece())
-                    playerComp.CallDespawn(posID);
                     playerComp.toMovePiece(posID);
                 }
                 //  移動先が脱出マスの時

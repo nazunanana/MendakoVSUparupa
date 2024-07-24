@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.09665319, g: 0.39220592, b: 0.972938, a: 1}
+  m_IndirectSpecularColor: {r: 0.09684387, g: 0.392194, b: 0.97292084, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2281,7 +2281,7 @@ MonoBehaviour:
   realUparupaPhb: {fileID: 5538709557641451423, guid: 261261003d349b144be3d776c22ca7f6, type: 3}
   fakeUparupaPhb: {fileID: 2227620648359408402, guid: 67e5d0fc9fc17e547bb0fedb2e59d375, type: 3}
   realMendakoPhb: {fileID: 1644011147557011213, guid: f4323c9ff27dbb3438dbd2e42893190f, type: 3}
-  fakeMendakoPhb: {fileID: 2813001013815344755, guid: ee54f0446a33f8d4992525eab424b0e5, type: 3}
+  fakeMendakoPhb: {fileID: 3697866409125152892, guid: 7c69071007787034ba58cafe0b7bc719, type: 3}
 --- !u!114 &1936323812
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -110,7 +110,6 @@ public class PieceState : NetworkBehaviour
                         // 置けるなら
                         if (canSelectPiece(posID, naname))
                         {
-                            Debug.Log("置ける");
                             HighLightPiece(true);
                             gridmanager.GetComponent<ManageGrid>().HighLightWASDGrid(posID, true);
                         }
@@ -179,7 +178,6 @@ public class PieceState : NetworkBehaviour
                         // 置けるなら
                         if (canSelectPiece(posID, naname))
                         {
-                            Debug.Log("canSelectだから選択したよ");
                             gridmanager.GetComponent<ManageGrid>().pieceID = posID;
                             player.GetComponent<PlayerState>().toSelectPiece(posID); // 状態遷移
                             HighLightPiece(false);
@@ -216,9 +214,8 @@ public class PieceState : NetworkBehaviour
         bool z = (0 <= posID[1] - 1 && posID[1] + 1 < GRID_NUM) ? pg.SearchPieceByPos(new Vector2Int(posID[0] - 1, posID[1] + 1)) != 1 : false;
         bool c = (posID[0] + 1 < GRID_NUM && posID[1] + 1 < GRID_NUM) ? pg.SearchPieceByPos(new Vector2Int(posID[0] + 1, posID[1] + 1)) != 1 : false;
         bool e = (posID[0] + 1 < GRID_NUM && 0 <= posID[1] - 1) ? pg.SearchPieceByPos(new Vector2Int(posID[0] + 1, posID[1] - 1)) != 1 : false;
-        Debug.Log("wasd " + w + "," + a + "," + s + "," + d + " useCard? " + useCard);
         // 縦横
-        bool canSelect = useCard ? (q || a || s || d || q || z || c || e) : (w || a || s || d);
+        bool canSelect = useCard ? (w || a || s || d || q || z || c || e) : (w || a || s || d);
         return canSelect;
     }
 

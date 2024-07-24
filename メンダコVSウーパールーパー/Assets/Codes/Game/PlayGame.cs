@@ -110,8 +110,8 @@ public class PlayGame : NetworkBehaviour
         PlayerState.SelectMode mymode = myplayer.GetComponent<PlayerState>().selectMode;
         PlayerState.SelectMode partnermode = partnerplayer.GetComponent<PlayerState>().selectMode;
 
-        Debug.Log("mymode " + mymode + " : " + "partnermode " + partnermode);
-        Debug.Log(myplayer.GetComponent<PlayerState>().canChangeTurn + "ならチェンジターン可能");
+        // Debug.Log("mymode " + mymode + " : " + "partnermode " + partnermode);
+        // Debug.Log(myplayer.GetComponent<PlayerState>().canChangeTurn + "ならチェンジターン可能");
 
         // ターン遷移 相手ターンかつ両者がターン終了状態なら自分のターン開始
         if (
@@ -121,7 +121,7 @@ public class PlayGame : NetworkBehaviour
         )
         { //次は自分ターン
             //アニメーション終了後なら
-            Debug.Log("→自分のターン");
+            // Debug.Log("→自分のターン");
             myplayer.GetComponent<PlayerState>().toStartMyTurn();
             // ターン遷移UI
             this.gameObject.GetComponent<GameUI>()
@@ -134,7 +134,7 @@ public class PlayGame : NetworkBehaviour
             && partnermode == PlayerState.SelectMode.NoMyTurn
         )
         { //次は相手ターン
-            Debug.Log("→相手ターン");
+            // Debug.Log("→相手ターン");
             nowPlayer = partnerplayer;
             if (playerState.isLateAnim)
             {
@@ -171,8 +171,6 @@ public class PlayGame : NetworkBehaviour
     /// </summary>
     public int SearchPieceByPos(Vector2Int posID)
     {
-        Debug.Log(myplayer.GetComponent<ManagePiece>().pieceDic.Count+" 自分駒数");
-        Debug.Log(partnerplayer.GetComponent<ManagePiece>().pieceDic.Count+" 相手駒数");
 
         if (myplayer.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID))
             return 1;

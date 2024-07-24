@@ -247,7 +247,6 @@ public class PlayerState : NetworkBehaviour
     {
         // イベント通知
         OnChangeMode?.Invoke(); // ターン切り替えするかどうか
-        Debug.Log("現在" + team + "は" + selectMode + "です。");
         // 位置同期
         GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
         foreach (GameObject p in pieces)
@@ -259,6 +258,7 @@ public class PlayerState : NetworkBehaviour
     public void CallDespawn(Vector2Int desID)
     {
         isDespawn = false;
+        Debug.Log(team+"のisDespawnは"+isDespawn+" "+desID);
         desPosID = desID; // DespawnPiece()を呼び出す
     }
 

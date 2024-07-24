@@ -222,7 +222,7 @@ public class ManageGrid : MonoBehaviour
                 !SearchPieceHere(new Vector2Int(posID[0], posID[1] - 1)))
             { grid.EnableGridCollider(true); }
             else if (grid.posID[0] == posID[0] && grid.posID[1] == posID[1] + 1 &&
-                !SearchPieceHere(new Vector2Int(posID[0] - 1, posID[1] + 1)))
+                !SearchPieceHere(new Vector2Int(posID[0], posID[1] + 1)))
             { grid.EnableGridCollider(true); }
             else { grid.EnableGridCollider(false); }
 

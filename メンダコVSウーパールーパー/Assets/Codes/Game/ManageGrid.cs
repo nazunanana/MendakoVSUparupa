@@ -7,7 +7,7 @@ using UnityEngine;
 public class ManageGrid : MonoBehaviour
 {
     public GameObject oneGridPrehab = null;
-    private GameObject[,] gridArray;
+    public GameObject[,] gridArray;
     private GameObject[] players;
     public GameObject player;
     public bool ImUparupa;
@@ -222,7 +222,7 @@ public class ManageGrid : MonoBehaviour
                 !SearchPieceHere(new Vector2Int(posID[0], posID[1] - 1)))
             { grid.EnableGridCollider(true); }
             else if (grid.posID[0] == posID[0] && grid.posID[1] == posID[1] + 1 &&
-                !SearchPieceHere(new Vector2Int(posID[0] - 1, posID[1] + 1)))
+                !SearchPieceHere(new Vector2Int(posID[0], posID[1] + 1)))
             { grid.EnableGridCollider(true); }
             else { grid.EnableGridCollider(false); }
 
@@ -252,7 +252,6 @@ public class ManageGrid : MonoBehaviour
     /// </summary>
     private bool SearchPieceHere(Vector2Int posID)
     {
-        //Debug.Log(player.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID));
-        return player.GetComponent<ManagePiece>().pieceDic.ContainsKey(posID);
+        return player.GetComponent<ManagePiece>().syncDic.ContainsKey(posID);
     }
 }

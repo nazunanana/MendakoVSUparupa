@@ -23,6 +23,7 @@ namespace Fusion {
   [ScriptHelp(BackColor = ScriptHeaderBackColor.Steel)]
   public class FusionBootstrap : Fusion.Behaviour {
 
+
     /// <summary>
     /// Selection for how <see cref="FusionBootstrap"/> will behave at startup.
     /// </summary>
@@ -113,7 +114,7 @@ namespace Fusion {
     /// The default room name to use when connecting to photon cloud.
     /// </summary>
     [InlineHelp]
-    public string DefaultRoomName = string.Empty; // empty/null means Random Room Name
+    public string DefaultRoomName = StaticData.roomName; // empty/null means Random Room Name
 
     [NonSerialized]
     NetworkRunner _server;
@@ -541,7 +542,7 @@ namespace Fusion {
           yield return new WaitForSecondsRealtime(VirtualInstanceConnectDelay);
         }
         FusionMppm.Broadcast(new StartCommand {
-          RoomName = DefaultRoomName,
+          RoomName = StaticData.roomName,
           InitialScene = sceneRef,
           ClientCount =  1
         });
@@ -556,7 +557,7 @@ namespace Fusion {
       var command = StartCommand.Instance;
       StartCommand.Instance = null;
       
-      DefaultRoomName = command.RoomName;
+      DefaultRoomName = StaticData.roomName;
       yield return StartClients(command.ClientCount, GameMode.Client, command.InitialScene);
     }
 
@@ -646,12 +647,14 @@ namespace Fusion {
         sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
       }
 
+      Debug.Log("RoomName:"+StaticData.roomName);
+
       return runner.StartGame(new StartGameArgs {
         GameMode       = gameMode,
         Address        = address,
         PlayerCount    = 2,
         Scene          = sceneInfo,
-        SessionName    = DefaultRoomName,
+        SessionName    = StaticData.roomName,
         OnGameStarted    = onGameStarted,
         SceneManager   = sceneManager,
         Updater        = updater,

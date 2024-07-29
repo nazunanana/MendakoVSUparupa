@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class ManageCard : MonoBehaviour
 {
-    [SerializeField] private Transform canvas;
+    [SerializeField] private Transform cardfolder;
     [SerializeField] private GameObject card1phb;
     [SerializeField] private GameObject card2phb;
     [SerializeField] private GameObject card3phb;
@@ -105,13 +105,18 @@ public class ManageCard : MonoBehaviour
     private void AddCardUI(int cardnum)
     {
         GameObject newCard = Instantiate(
-            cardPrefabs[cardnum], new Vector3(0, 0, 0), cardPrefabs[cardnum].transform.rotation, canvas);
+            cardPrefabs[cardnum], new Vector3(0, 0, -1), cardPrefabs[cardnum].transform.rotation, cardfolder);
         myCards.Add(newCard);
         newCard.SetActive(true);
         newCard.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, posY);
         // TODO:アニメーション？くるくる
-        WaitLoading(3.0f);
-        // 非表示に
+        // 2s待って非表示
+        StartCoroutine(WaitLoadingSetActive(2.0f, newCard));
+    }
+    IEnumerator WaitLoadingSetActive(float time, GameObject newCard)
+    {
+        // 待つ
+        yield return new WaitForSeconds(time);
         newCard.SetActive(false);
     }
     /// <summary>
@@ -145,11 +150,12 @@ public class ManageCard : MonoBehaviour
         }
         foreach (var card in myCards)
         {
-            if (card.name.StartsWith(cardPrefabs[num].name))
+            if (card.name.StartsWith(cardPrefabs[num].name)) //クリックした名前のカードを
             {
-                ViewUI(false);
+                ViewUI(false); //UI非表示
                 OnUI = false;
-                myCards.Remove(card);
+                myCards.Remove(card); //配列から削除
+                Destroy(card);
                 return;
             }
         }
@@ -169,12 +175,6 @@ public class ManageCard : MonoBehaviour
         { // 使える状態(カードの効果が切れた状態)
             card = Card.Default;
         }
-    }
-
-    IEnumerator WaitLoading(float time)
-    {
-        // 待つ
-        yield return new WaitForSeconds(time);
     }
 
 }

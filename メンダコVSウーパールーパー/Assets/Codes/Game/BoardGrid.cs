@@ -102,6 +102,8 @@ public class BoardGrid : NetworkBehaviour
                 // 移動先が相手の駒だったら倒す
                 else if (state.SearchPieceByPos(posID) == 2)
                 {
+                    // デスポーン処理呼び出し(PlayerStateのDespawnPiece())
+                    playerComp.CallDespawn(posID);
                     // コライダー
                     GameObject.FindWithTag("GridSystem").GetComponent<ManageGrid>().EnableGridColliders(true);
                     // true/falseによって点数変化→(更新を検知してアニメーション)
@@ -110,8 +112,6 @@ public class BoardGrid : NetworkBehaviour
                     // ハイライト消去
                     ChangeHighLight(false);
 
-                    // デスポーン処理呼び出し(PlayerStateのDespawnPiece())
-                    playerComp.CallDespawn(posID);
                     playerComp.toMovePiece(posID);
                 }
                 //  移動先が脱出マスの時
@@ -165,14 +165,17 @@ public class BoardGrid : NetworkBehaviour
                 bool z = (posID[0] == pieceX + 1) && (posID[1] == pieceY - 1);
                 bool c = (posID[0] == pieceX + 1) && (posID[1] == pieceY + 1);
                 bool e = (posID[0] == pieceX - 1) && (posID[1] == pieceY + 1);
+                // 上下左右をハイライト
                 if (w || a || s || d)
                 {
                     gridSystemComp.HighLightGrid(posID, tf);
                 }
+                // 斜め可能カードが有るときは斜めをハイライト
                 if (GameObject
-                .FindGameObjectWithTag("GameManager")
-                .GetComponent<ManageCard>()
-                .card == ManageCard.Card.Naname){
+                    .FindGameObjectWithTag("GameManager")
+                    .GetComponent<ManageCard>()
+                    .card == ManageCard.Card.Naname)
+                {
                     if(q || z || c || e){
                         gridSystemComp.HighLightGrid(posID, tf);
                     }
@@ -204,7 +207,7 @@ public class BoardGrid : NetworkBehaviour
         Collider collider = GetComponent<Collider>();
         if (collider != null)
         {
-            Debug.Log("マスのコライダー無効");
+            // Debug.Log("マスのコライダー無効");
             collider.enabled = tf;
         }
     }

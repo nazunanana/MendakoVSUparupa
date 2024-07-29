@@ -41,7 +41,7 @@ public class PlayerState : NetworkBehaviour
     public Vector2Int desPosID { get; set; }
 
     [Networked, OnChangedRender(nameof(SearchPieceObj))]
-    public Vector2Int realPosID { get; set; }
+    public Vector2Int fakePosID { get; set; }
 
     // 駒を取られた側かどうか
     public bool isDespawn;
@@ -67,12 +67,7 @@ public class PlayerState : NetworkBehaviour
     // グリッドマネージャー
     public GameObject manageGrid;
 
-    // private List<GameObject> myPieces;
-    // // 場に出ている自陣営の駒 <位置のID, 駒オブジェクト>
-    // private Dictionary<Vector2Int, GameObject> activePieces;
-    // // 獲得した相手陣営の駒
-    // private List<GameObject> getPieces;
-    Dictionary<Vector2Int, PieceState> pieceDic;
+    //Dictionary<Vector2Int, PieceState> pieceDic;
 
     // 選択した駒位置
     private Vector2Int piecePos;
@@ -85,15 +80,13 @@ public class PlayerState : NetworkBehaviour
 
     // ネットワークオブジェクト(スポーンしたプレイヤーオブジェクト)
     private NetworkObject playerObj;
+    public bool isLateAnim = false;
 
     /// <summary>
     /// SC_SetPieces開始時
     /// </summary>
     public void Start()
     {
-        // マルチピアモードのとき親がある
-        // Debug.Log("このシーンは"+SceneManager.GetActiveScene().name);
-        // Debug.Log("親オブジェクトは"+this.gameObject.transform.parent.gameObject.name);
         canDestroy = false;
         DontDestroyOnLoad(this.gameObject);
         isDespawn = true;
@@ -119,12 +112,6 @@ public class PlayerState : NetworkBehaviour
         get { return moveToPos; }
     }
 
-    // public NetworkObject getsetObject
-    // {
-    //     get { return playerObj; }
-    //     set { playerObj = value; }
-    // }
-
     // canDestroyが変更で発火
     void OnCanDestroyChanged()
     {
@@ -135,7 +122,7 @@ public class PlayerState : NetworkBehaviour
     }
 
     /// <summary>
-    /// 状態遷移メソッド
+    /// 以下状態遷移メソッド
     /// </summary>
 
     /// <summary>
@@ -162,7 +149,6 @@ public class PlayerState : NetworkBehaviour
     {
         moveToPos = posID;
         // 配列の登録変更
-        //activePieces.Add(moveToPos, piece); //選択位置で登録 //pieceを設定してないからおかしいはず
         ClearAllHighLight(); //ハイライト解除
         toStartSetPieces(); //状態遷移
     }
@@ -201,6 +187,7 @@ public class PlayerState : NetworkBehaviour
     /// </summary>
     public void toSelectPiece(Vector2Int posID)
     {
+        isDespawn = true;
         piecePos = posID;
         piece = this.gameObject.GetComponent<ManagePiece>().pieceDic[piecePos];
         manageGrid.GetComponent<ManageGrid>().HighLightWASDGrid(piecePos, true);
@@ -216,14 +203,14 @@ public class PlayerState : NetworkBehaviour
     public void toMovePiece(Vector2Int posID)
     {
         moveToPos = posID;
-        // 入れる配列取得
-        pieceDic = this.gameObject.GetComponent<ManagePiece>().pieceDic;
-        pieceDic.Remove(piecePos); //現在位置の登録解除
-        pieceDic.Add(moveToPos, piece); //移動先で登録
+        Debug.Log(team+":"+piecePos+" → "+moveToPos);
+        // piece入れ替え
+        this.gameObject.GetComponent<ManagePiece>().pieceDic.Remove(piecePos); //現在位置の登録解除
+        this.gameObject.GetComponent<ManagePiece>().pieceDic.Add(moveToPos, piece); //移動先で登録
         // ID伝えて移動させる
         piece.GetComponent<PieceState>().MovePiecePos(posID);
 
-        Debug.Log("move to " + moveToPos[0] + "," + moveToPos[1]);
+        // Debug.Log("move to " + moveToPos[0] + "," + moveToPos[1]);
 
         // カードの効果を消す
         ManageCard manageCard = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ManageCard>();
@@ -248,8 +235,7 @@ public class PlayerState : NetworkBehaviour
     /// </summary>
     public void ClearAllHighLight()
     {
-        pieceDic = this.gameObject.GetComponent<ManagePiece>().pieceDic;
-        foreach (PieceState piece in pieceDic.Values)
+        foreach (PieceState piece in GetComponent<ManagePiece>().pieceDic.Values)
         {
             if (piece != null)
                 piece.HighLightPiece(false);
@@ -261,7 +247,6 @@ public class PlayerState : NetworkBehaviour
     {
         // イベント通知
         OnChangeMode?.Invoke(); // ターン切り替えするかどうか
-        Debug.Log("現在" + team + "は" + selectMode + "です。");
         // 位置同期
         GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
         foreach (GameObject p in pieces)
@@ -273,17 +258,20 @@ public class PlayerState : NetworkBehaviour
     public void CallDespawn(Vector2Int desID)
     {
         isDespawn = false;
+        Debug.Log(team+"のisDespawnは"+isDespawn+" "+desID);
         desPosID = desID; // DespawnPiece()を呼び出す
     }
 
     // 駒がゲットされたときのデスポーン処理
     public void DespawnPiece()
     {
-        Debug.Log("isDes:" + isDespawn);
         if (!isDespawn)
         {
+            isDespawn = true;
+            isLateAnim = true;
             return;
         }
+        Debug.Log(team+"のisDespawnはtrueです。駒をデストロイさせます");
         // runner検出
         GameObject[] runners = GameObject.FindGameObjectsWithTag("Runner");
         NetworkRunner runner = runners[0].GetComponent<NetworkRunner>();
@@ -300,14 +288,14 @@ public class PlayerState : NetworkBehaviour
         {
             if (desPiece.GetComponent<PieceState>().posID == desPosID)
             {
-                Debug.Log("Piece取得できました");
                 NetworkObject pieceNet = desPiece.GetComponent<NetworkObject>();
                 if (pieceNet != null)
                 {
                     desCount++;
                     runner.Despawn(pieceNet);
                     // 本物が取られたらカードを引く
-                    if (GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().IsRealPiece(desPosID)){
+                    if (GameObject.FindWithTag("GameManager").GetComponent<PlayGame>().IsRealPiece(desPosID))
+                    {
                         GameObject
                         .FindGameObjectWithTag("GameManager")
                         .GetComponent<ManageCard>()
@@ -323,24 +311,28 @@ public class PlayerState : NetworkBehaviour
 
     public void SearchPieceObj()
     {
-        Debug.Log("SearchPieceObj実行 count:"+GetComponent<ManagePiece>().pieceDic.Count);
+        FindObjectOfType<ManageGrid>().gridArray[fakePosID[0], fakePosID[1]]
+            .GetComponent<BoardGrid>().EnableUnEnebleMyGrid(true);
+        // 3s待つ
+        StartCoroutine(WaitLoadingCardSkill(3.0f));
 
-        // ↓このforeach文が２人目プレイヤーが実行されない
-        foreach (var dic in GetComponent<ManagePiece>().pieceDic)
+        // GameObject[] pieces = GameObject.FindGameObjectsWithTag("Piece");
+        // foreach (var piece in pieces)
+        // {
+        //     if (piece.GetComponent<PieceState>().posID == fakePosID)
+        //     {
+        //         piece.GetComponent<PieceState>().Shining();
+        //         return;
+        //     }
+        // }
+    }
+
+        IEnumerator WaitLoadingCardSkill(float time)
         {
-            Debug.Log("dic.Key:"+dic.Key+" realPosID:"+realPosID);
-            if (dic.Key == realPosID)
-            {
-                Debug.Log("Shining実行");
-                dic.Value.GetComponent<PieceState>().Shining();
-            }
+            // 待つ
+            yield return new WaitForSeconds(time);
+            // ハイライトを消す
+            FindObjectOfType<ManageGrid>().gridArray[fakePosID[0], fakePosID[1]]
+                .GetComponent<BoardGrid>().EnableUnEnebleMyGrid(false);
         }
     }
-
-    IEnumerator WaitLoading(float time)
-    {
-        // 待つ
-        yield return new WaitForSeconds(time);
-    }
-
-}

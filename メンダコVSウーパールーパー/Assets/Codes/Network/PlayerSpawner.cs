@@ -5,17 +5,21 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using TMPro;
 
 public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
 {
     public static event Action OnSpawnComplete;
     public GameObject PlayerPrefab;
-    private Button readyBtn;
     private Dictionary<PlayerRef, bool> playerReadyStates = new Dictionary<PlayerRef, bool>();
-
+    private TextMeshProUGUI backButton
     public NetworkRunner getRunner
     {
         get { return Runner; }
+    }
+    void Start(){
+        backButton = GetComponentInChildren<TextMeshProUGUI>();
     }
     public void PlayerJoined(PlayerRef player)
     {

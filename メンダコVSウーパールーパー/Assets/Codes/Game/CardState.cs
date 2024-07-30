@@ -25,7 +25,7 @@ public class CardState : MonoBehaviour
     {
         // 自分の行動中でないときはクリックできない
         Debug.Log("CardState "+manageComp.card);
-        if ((playerComp.selectMode != PlayerState.SelectMode.MovePiece)
+        if ((playerComp.selectMode != PlayerState.SelectMode.SelectCard)
             || canUse == false)
         {
             Debug.Log("現在はカードを使用できません");
@@ -33,6 +33,8 @@ public class CardState : MonoBehaviour
         }
         canUse = false;
         Debug.Log("カードクリック");
+        Debug.Log("SelectCardからMovePieceに切り替えます");
+        playerComp.selectMode = PlayerState.SelectMode.MovePiece;
         manageComp.ActiveCard(cardNum);
 
     }

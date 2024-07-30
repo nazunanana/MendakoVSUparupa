@@ -10,9 +10,9 @@ public class ManagePiece : NetworkBehaviour
 {
     private GameObject player; // 自分のプレイヤーオブジェクト
     [Networked, OnChangedRender(nameof(AnimReal))]
-    public int getRealPieceNum { get; set; } // 獲得した本物駒数
+    public int getRealPieceNum { get; set; } = 0; // 獲得した本物駒数
     [Networked, OnChangedRender(nameof(AnimFake))]
-    public int getFakePieceNum { get; set; } // 獲得した偽物駒数
+    public int getFakePieceNum { get; set; } = 0; // 獲得した偽物駒数
     private const int GRID_NUM = 6;
     public Dictionary<Vector2Int, PieceState> pieceDic { get; set; } // 位置ID, 自陣営の駒comp
 

@@ -50,7 +50,9 @@ public class ChangeSceneByButton : MonoBehaviour, IPointerEnterHandler, IPointer
         }
         else if (textValue == "戻る")
         {
-            SceneManager.LoadScene("SC_Start");
+            if(SceneManager.GetActiveScene().name.Equals("SC_EnterRoom")){
+                SceneManager.LoadScene("SC_Start");
+            }
         }
         else if (textValue == "入室")
         {

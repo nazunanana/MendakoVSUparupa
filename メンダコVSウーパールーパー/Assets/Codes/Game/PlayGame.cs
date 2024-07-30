@@ -256,17 +256,18 @@ public class PlayGame : NetworkBehaviour
     {
         if (destroyProcess && isAnimationComplete)
         {
-            runner.Shutdown();
             foreach (PieceState p in myplayer.GetComponent<ManagePiece>().pieceDic.Values)
             {
-                Destroy(p.gameObject);
+                var pieceObj = p.gameObject.GetComponent<NetworkObject>();
+                runner.Despawn(pieceObj);
             }
             myplayer
                 .GetComponent<PlayerState>()
                 .manageGrid.GetComponent<ManageGrid>()
                 .DestroyGrids();
             Destroy(myplayer.GetComponent<PlayerState>().manageGrid);
-            Destroy(myplayer);
+            runner.Despawn(myplayer.GetComponent<NetworkObject>());
+            runner.Shutdown(shutdownReason: ShutdownReason.Ok);
 
             Debug.Log("リザルトシーンへ");
             isAnimationComplete = false;

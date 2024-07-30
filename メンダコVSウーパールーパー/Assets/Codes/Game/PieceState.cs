@@ -160,7 +160,7 @@ public class PieceState : NetworkBehaviour
 
     void OnMouseDown()
     {
-        if (player.GetComponent<PlayerState>() != null)
+        if (player != null && player.GetComponent<PlayerState>() != null)
         {
             if (team == player.GetComponent<PlayerState>().team) //自陣の駒なら
             {

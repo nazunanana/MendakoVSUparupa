@@ -27,6 +27,7 @@ public class GameUI : MonoBehaviour
         animator_myturn = myturn.GetComponent<Animator>();
         animator_noturn = noturn.GetComponent<Animator>();
         animator_getCard = getCard.GetComponent<Animator>();
+        endGame = false;
     }
 
     public void SetUIPosition(bool imUparupa)

@@ -30,6 +30,7 @@ public class ManageCard : MonoBehaviour
     private const int posY = 70;
     private GameObject[] cardPrefabs;
     private CardState cardState;
+    private PlayGame playGameComp;
 
 
     public void Start()
@@ -37,6 +38,7 @@ public class ManageCard : MonoBehaviour
         cardPrefabs = new GameObject[] { card1phb, card2phb, card3phb };
         myCards = new List<GameObject>();
         OnUI = false;
+        playGameComp = this.gameObject.GetComponent<PlayGame>();
     }
     /// <summary>
     /// アイコンクリックしたら
@@ -46,11 +48,19 @@ public class ManageCard : MonoBehaviour
         // カード一覧を表示
         if (!OnUI)
         {
-            ViewUI(true);
-            OnUI = true;
+            if (playGameComp.myplayer.GetComponent<PlayerState>().selectMode == PlayerState.SelectMode.MovePiece)
+            {
+                ViewUI(true);
+                OnUI = true;
+            }
         }
         else
         {
+            if (playGameComp.myplayer.GetComponent<PlayerState>().selectMode == PlayerState.SelectMode.SelectCard)
+            {
+                playGameComp.myplayer.GetComponent<PlayerState>().selectMode = PlayerState.SelectMode.MovePiece;
+
+            }
             ViewUI(false);
             OnUI = false;
         }
@@ -61,7 +71,7 @@ public class ManageCard : MonoBehaviour
     /// </summary>
     private void ViewUI(bool tf)
     {
-
+        playGameComp.myplayer.GetComponent<PlayerState>().selectMode = PlayerState.SelectMode.SelectCard;
         if (myCards.Count == 0)
         {
             // 所持カードがない
@@ -145,7 +155,7 @@ public class ManageCard : MonoBehaviour
             case 2:
                 card = Card.Forecast;
                 Debug.Log("相手の駒の中から１つ、本物を見破りました");
-                this.gameObject.GetComponent<PlayGame>().SearchRealFromPartner();
+                playGameComp.SearchRealFromPartner();
                 break;
         }
         foreach (var card in myCards)
@@ -156,6 +166,7 @@ public class ManageCard : MonoBehaviour
                 OnUI = false;
                 myCards.Remove(card); //配列から削除
                 Destroy(card);
+                playGameComp.myplayer.GetComponent<PlayerState>().selectMode = PlayerState.SelectMode.MovePiece;
                 return;
             }
         }
@@ -169,7 +180,7 @@ public class ManageCard : MonoBehaviour
         foreach (GameObject cardObj in cardPrefabs)
         {
             cardObj.GetComponent<CardState>().canUse = canUse;
-            Debug.Log("canUse:"+cardObj.GetComponent<CardState>().canUse);
+            Debug.Log("canUse:" + cardObj.GetComponent<CardState>().canUse);
         }
         if (canUse)
         { // 使える状態(カードの効果が切れた状態)

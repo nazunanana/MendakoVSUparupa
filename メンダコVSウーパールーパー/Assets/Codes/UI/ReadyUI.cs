@@ -11,11 +11,16 @@ public class ReadyUI : MonoBehaviour
     {
         // SceneManager.sceneLoaded += OnSceneLoaded;
         PlayerSpawner.OnSpawnComplete += CompleteSpawn;
+        PlayerSpawner.OnShutDown += ShutDown;
+        PlayerSpawner.OnFull += Full;
     }
     void OnDestroy()
     {
         // SceneManager.sceneLoaded -= OnSceneLoaded;
         PlayerSpawner.OnSpawnComplete -= CompleteSpawn; // イベントから登録解除
+        PlayerSpawner.OnShutDown -= ShutDown;
+        PlayerSpawner.OnFull -= Full;
+
     }
 
     // void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -47,6 +52,17 @@ public class ReadyUI : MonoBehaviour
         }, 0f));
         // Observable.Timer(TimeSpan.FromMilliseconds(100))
         //     .Subscribe(_ => Debug.Log(player.GetComponent<PlayerState>().team));
+
+    }
+
+    void ShutDown()
+    {
+        this.gameObject.GetComponent<TextMeshProUGUI>().text = "通信が切断されました";
+    }
+
+    void Full()
+    {
+        this.gameObject.GetComponent<TextMeshProUGUI>().text = "この部屋は満員です";
 
     }
 

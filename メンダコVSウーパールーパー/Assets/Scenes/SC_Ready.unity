@@ -353,10 +353,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u901A\u4FE1\u4E2D..."
+  m_text: "\u901A\u4FE1\u4E2D\u2026"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5f03d4b705d65e2439b7a3b7d63d68f2, type: 2}
-  m_sharedMaterial: {fileID: -2212388736182605804, guid: 5f03d4b705d65e2439b7a3b7d63d68f2, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 95968d0a9f169254fb0ad8b1382a3df1, type: 2}
+  m_sharedMaterial: {fileID: 2147771763096319388, guid: 95968d0a9f169254fb0ad8b1382a3df1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

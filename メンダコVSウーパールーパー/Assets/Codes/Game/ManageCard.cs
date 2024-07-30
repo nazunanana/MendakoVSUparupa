@@ -50,6 +50,7 @@ public class ManageCard : MonoBehaviour
         {
             if (playGameComp.myplayer.GetComponent<PlayerState>().selectMode == PlayerState.SelectMode.MovePiece)
             {
+                playGameComp.myplayer.GetComponent<PlayerState>().selectMode = PlayerState.SelectMode.SelectCard;
                 ViewUI(true);
                 OnUI = true;
             }
@@ -58,11 +59,11 @@ public class ManageCard : MonoBehaviour
         {
             if (playGameComp.myplayer.GetComponent<PlayerState>().selectMode == PlayerState.SelectMode.SelectCard)
             {
+                Debug.Log("SelectCardからMovePieceに切り替えます");
                 playGameComp.myplayer.GetComponent<PlayerState>().selectMode = PlayerState.SelectMode.MovePiece;
-
-            }
             ViewUI(false);
             OnUI = false;
+            }
         }
 
     }
@@ -71,7 +72,6 @@ public class ManageCard : MonoBehaviour
     /// </summary>
     private void ViewUI(bool tf)
     {
-        playGameComp.myplayer.GetComponent<PlayerState>().selectMode = PlayerState.SelectMode.SelectCard;
         if (myCards.Count == 0)
         {
             // 所持カードがない
@@ -166,7 +166,6 @@ public class ManageCard : MonoBehaviour
                 OnUI = false;
                 myCards.Remove(card); //配列から削除
                 Destroy(card);
-                playGameComp.myplayer.GetComponent<PlayerState>().selectMode = PlayerState.SelectMode.MovePiece;
                 return;
             }
         }

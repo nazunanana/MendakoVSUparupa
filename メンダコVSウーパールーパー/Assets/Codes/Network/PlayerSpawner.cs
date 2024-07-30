@@ -103,6 +103,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
                     OnShutDown?.Invoke();
                     getRunner.Despawn(getPlayerObj);
                     getRunner.Shutdown(shutdownReason: ShutdownReason.Ok);
+                    backButton.interactable = true;
                 }
                 else
                 {
